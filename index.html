@@ -1,0 +1,1784 @@
+﻿<!DOCTYPE html>
+<html lang="es" translate="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diego Soto García | Full Stack Developer · PHP · CDMX</title>
+
+  <!-- SEO -->
+  <meta name="description"
+        content="Portafolio de evidencias de Diego Soto García — Desarrollador Full Stack Jr. e Ingeniero en Sistemas Computacionales egresado del TESCI (2026). Especialista en PHP, MySQL, JavaScript y desarrollo web. Disponible en Edo. Méx / CDMX." />
+  <meta name="keywords"
+        content="Diego Soto García, Full Stack Developer, PHP Developer, Backend Developer, Ingeniero en Sistemas Computacionales, TESCI, CDMX, Estado de México, JavaScript, MySQL, MongoDB, desarrollo web, portafolio, freelance" />
+  <meta name="author"      content="Diego Soto García" />
+  <meta name="robots"      content="index, follow" />
+  <meta name="theme-color" content="#05050F" />
+
+  <!-- Open Graph (LinkedIn, Facebook, WhatsApp) -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:title"       content="Diego Soto García | Full Stack Developer" />
+  <meta property="og:description" content="Desarrollador Full Stack Jr. con 3 proyectos en producción. PHP · MySQL · JavaScript · CDMX. Disponibilidad inmediata." />
+  <!-- og:image — agrega la URL de tu imagen de preview cuando la tengas -->
+  <meta property="og:locale"      content="es_MX" />
+  <meta property="og:site_name"   content="Portfolio DSG" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Diego Soto García | Full Stack Developer" />
+  <meta name="twitter:description" content="PHP Developer · 3 proyectos en producción · CDMX. Disponibilidad inmediata." />
+
+  <!-- Google Fonts: Orbitron + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=JetBrains+Mono:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <!-- Estilos externos -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <!-- ─── SCROLL PROGRESS ────────────────────────────────────── -->
+  <div class="scroll-progress" id="js-scroll-progress" role="progressbar"
+       aria-label="Progreso de lectura" data-i18n-aria-label="aria.progress"
+       aria-valuemin="0" aria-valuemax="100"></div>
+
+  <!-- ─── CURSOR ──────────────────────────────────────────────── -->
+  <div class="cursor"      id="js-cursor"      aria-hidden="true"></div>
+  <div class="cursor-halo" id="js-cursor-halo" aria-hidden="true"></div>
+
+  <!-- ─── PARTÍCULAS ─────────────────────────────────────────── -->
+  <canvas id="canvas-particles" aria-hidden="true"></canvas>
+
+  <!-- ─── SUELO 3D ────────────────────────────────────────────── -->
+  <div class="scene-floor" aria-hidden="true">
+    <div class="scene-floor__plane"></div>
+    <div class="scene-floor__fade"></div>
+  </div>
+
+  <!-- ─── NAVEGACIÓN ──────────────────────────────────────────── -->
+  <nav class="nav" aria-label="Navegación principal" data-i18n-aria-label="aria.nav">
+    <div class="nav__inner">
+      <a href="#inicio"      class="nav__link" data-nav="inicio">      <span class="nav__link--text" data-i18n="nav.inicio">Inicio</span>      </a>
+      <a href="#sobre-mi"    class="nav__link" data-nav="sobre-mi">    <span class="nav__link--text" data-i18n="nav.sobre">Sobre mí</span>    </a>
+      <a href="#habilidades" class="nav__link" data-nav="habilidades"> <span class="nav__link--text" data-i18n="nav.skills">Habilidades</span> </a>
+      <a href="#proyectos"   class="nav__link" data-nav="proyectos">   <span class="nav__link--text" data-i18n="nav.proyectos">Proyectos</span>   </a>
+      <a href="#educacion"   class="nav__link" data-nav="educacion">   <span class="nav__link--text" data-i18n="nav.edu">Educación</span>   </a>
+      <a href="#cv"          class="nav__link" data-nav="cv">          <span class="nav__link--text">CV</span>          </a>
+      <a href="#contacto"    class="nav__link" data-nav="contacto">    <span class="nav__link--text" data-i18n="nav.contacto">Contacto</span>    </a>
+      <!-- Toggle de idioma -->
+      <button class="lang-toggle" id="js-lang-btn"
+              aria-label="Switch to English" type="button">
+        <span class="lang-opt lang-opt--active" data-lang="es">ES</span>
+        <span class="lang-sep" aria-hidden="true">|</span>
+        <span class="lang-opt" data-lang="en">EN</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ─── CONTENIDO PRINCIPAL ─────────────────────────────────── -->
+  <main class="site-main">
+
+    <!-- ══════════════ HERO ══════════════ -->
+    <section id="inicio" class="section" aria-labelledby="hero-name">
+      <!-- Esquinas decorativas -->
+      <div class="corner corner--tl" aria-hidden="true"></div>
+      <div class="corner corner--tr" aria-hidden="true"></div>
+      <div class="corner corner--bl" aria-hidden="true"></div>
+      <div class="corner corner--br" aria-hidden="true"></div>
+
+      <!-- Anillos orbitales decorativos -->
+      <div class="hero-orbit hero-orbit--sm" aria-hidden="true"></div>
+      <div class="hero-orbit hero-orbit--md" aria-hidden="true"></div>
+      <div class="hero-orbit hero-orbit--lg" aria-hidden="true"></div>
+
+      <div class="hero" id="js-hero">
+
+        <!-- Tag de código decorativo -->
+        <span class="hero__code-tag hero-enter" style="--delay:0s" aria-hidden="true">
+          <span>&#47;&#47;</span> portfolio.init(<span>'DSG'</span>) — 2026
+        </span>
+
+        <!-- Nombre con efecto glitch + sombra 3D profunda -->
+        <h1 class="hero__name" id="hero-name">
+          <span class="glitch" data-text="Diego">Diego</span><br>
+          <span class="glitch" data-text="Soto García">Soto García</span>
+        </h1>
+
+        <!-- Subtítulo fijo -->
+        <p class="hero__subtitle hero-enter" style="--delay:0.42s" data-i18n-html="hero.subtitle">
+          Desarrollador Full Stack Jr.<span class="hero__subtitle-sep" aria-hidden="true">|</span>Ingeniero en Sistemas Computacionales
+        </p>
+
+        <!-- Typewriter animado -->
+        <div class="hero__typewriter hero-enter" style="--delay:0.68s" aria-live="polite" aria-atomic="true">
+          <span class="hero__tw-prefix" aria-hidden="true">$&gt;&nbsp;</span>
+          <span class="hero__tw-text" id="js-typewriter"></span>
+          <span class="hero__tw-cursor" aria-hidden="true"></span>
+        </div>
+
+        <!-- Botones 3D con efecto press-down -->
+        <div class="hero__cta hero-enter" style="--delay:0.92s">
+          <a href="#proyectos" class="btn btn--primary">
+            <span class="btn__label" data-i18n="hero.btn.projects">Ver Proyectos</span>
+          </a>
+          <a href="#contacto" class="btn btn--secondary">
+            <span class="btn__label" data-i18n="hero.btn.contact">Contactar</span>
+          </a>
+        </div>
+
+        <!-- Badges flotantes 3D -->
+        <div class="hero__badges hero-enter" style="--delay:1.18s" aria-label="Stack tecnológico principal" data-i18n-aria-label="aria.hero.badges">
+          <span class="hero__badge" style="--bi:0">PHP</span>
+          <span class="hero__badge" style="--bi:1">Python</span>
+          <span class="hero__badge" style="--bi:2">JavaScript</span>
+          <span class="hero__badge" style="--bi:3">MySQL</span>
+          <span class="hero__badge" style="--bi:4">MongoDB</span>
+        </div>
+
+      </div>
+
+      <!-- Scroll hint -->
+      <div class="scroll-hint" aria-hidden="true">
+        <span class="scroll-hint__label">scroll</span>
+        <div class="scroll-hint__arrow"></div>
+      </div>
+    </section>
+
+    <!-- Divisor -->
+    <div class="cyber-divider" aria-hidden="true">
+      <span class="cyber-divider__dot"></span>
+    </div>
+
+    <!-- ══════════════ SOBRE MÍ ══════════════ -->
+    <section id="sobre-mi" class="section" aria-labelledby="title-about">
+      <div class="section__inner">
+        <span class="section__tag">// 01 — about_me.json</span>
+        <h2 class="section__title" id="title-about" data-i18n-html="section.sobre">Sobre <em>Mí</em></h2>
+
+        <div class="about-layout">
+
+          <!-- Card 3D principal -->
+          <div class="about-wrap">
+            <article class="about-card" id="js-about-card">
+              <!-- Brillo especular -->
+              <div class="about-card__shine" aria-hidden="true"></div>
+
+              <!-- Cabecera -->
+              <div class="about-card__head">
+                <div class="about-avatar" aria-hidden="true">
+                  <span class="about-avatar__text">DSG</span>
+                  <div class="about-avatar__ring"></div>
+                </div>
+                <div class="about-card__meta">
+                  <h3 class="about-card__name">Diego Soto García</h3>
+                  <p class="about-card__degree" data-i18n="about.degree">Ingeniero en Sistemas Computacionales</p>
+                  <p class="about-card__school">
+                    <span class="about-card__school-dot" aria-hidden="true"></span>
+                    <span data-i18n="about.school">TESCI — Enero 2026</span>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Texto exacto del CV -->
+              <p class="about-bio" data-i18n-html="about.bio">
+                Ingeniero en Sistemas Computacionales egresado del TESCI (enero 2026) con experiencia en el
+                desarrollo de sistemas web funcionales a través de proyectos reales. He construido soluciones
+                utilizadas por una empresa privada, un entorno institucional y clientes freelance,
+                participando en todo el ciclo de desarrollo: desde el diseño de base de datos hasta
+                el despliegue en producción.
+              </p>
+
+              <!-- Disponibilidad -->
+              <div class="about-availability">
+                <span class="about-avail__dot" aria-hidden="true"></span>
+                <span class="about-avail__text" data-i18n="about.avail">Edo. Méx / CDMX — Disponibilidad inmediata</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- Stats animados -->
+          <div class="about-stats" aria-label="Métricas clave" data-i18n-aria-label="aria.about.stats">
+
+            <div class="about-stat">
+              <span class="about-stat__num" data-about-target="4" data-suffix="+">0</span>
+              <span class="about-stat__label" data-i18n-html="about.stat.prod">Proyectos<br>en producción</span>
+            </div>
+
+            <div class="about-stat">
+              <span class="about-stat__num" data-about-target="2" data-suffix="">0</span>
+              <span class="about-stat__label" data-i18n-html="about.stat.free">Clientes<br>freelance</span>
+            </div>
+
+            <div class="about-stat">
+              <span class="about-stat__num" data-about-target="5" data-suffix="+">0</span>
+              <span class="about-stat__label" data-i18n-html="about.stat.tech">Tecnologías<br>dominadas</span>
+            </div>
+
+            <div class="about-stat about-stat--zero">
+              <span class="about-stat__num" data-about-target="0" data-suffix="">0</span>
+              <span class="about-stat__label" data-i18n-html="about.stat.fake">Proyectos<br>falsos</span>
+            </div>
+
+          </div>
+
+        </div><!-- /about-layout -->
+      </div>
+    </section>
+
+    <div class="cyber-divider" aria-hidden="true">
+      <span class="cyber-divider__dot"></span>
+    </div>
+
+    <!-- ══════════════ HABILIDADES ══════════════ -->
+    <section id="habilidades" class="section" aria-labelledby="title-skills">
+      <div class="section__inner">
+        <span class="section__tag">// 02 — tech_stack.js</span>
+        <h2 class="section__title" id="title-skills" data-i18n-html="section.skills">Habili<em>dades</em></h2>
+
+        <!--
+          Grid 4 cols:
+          Fila 1: [Lenguajes ×2] [Bases de Datos ×1] [Frameworks ×1]
+          Fila 2: [Herramientas ×2] [Conceptos ×2]
+          Fila 3: [IA Aplicada ×2] [Idiomas ×2]
+        -->
+        <div class="skills-grid" role="list" aria-label="Categorías de habilidades técnicas" data-i18n-aria-label="aria.skills.grid">
+
+          <!-- ─── LENGUAJES — 2 col ─── -->
+          <div class="skill-card skill-card--2col" role="listitem"
+               style="--ed:0s; --fd:4.2s; --fd2:0s">
+            <div class="skill-card__inner">
+
+              <div class="skill-card__face skill-card__face--front">
+                <div class="skill-card__header">
+                  <span class="skill-card__icon" aria-hidden="true">⌨️</span>
+                  <h3 class="skill-card__title" data-i18n="skill.lang">Lenguajes</h3>
+                  <span class="skill-card__count">6 langs</span>
+                </div>
+                <div class="skill-chips">
+                  <span class="skill-chip skill-chip--c" style="--ci:0.00s">PHP</span>
+                  <span class="skill-chip skill-chip--m" style="--ci:0.20s">Python</span>
+                  <span class="skill-chip skill-chip--g" style="--ci:0.40s">JavaScript</span>
+                  <span class="skill-chip skill-chip--m" style="--ci:0.60s">HTML5</span>
+                  <span class="skill-chip skill-chip--c" style="--ci:0.80s">CSS3</span>
+                  <span class="skill-chip skill-chip--c" style="--ci:1.00s">SQL</span>
+                </div>
+              </div>
+
+              <div class="skill-card__face skill-card__face--back" aria-hidden="true">
+                <span class="skill-card__back-icon">💻</span>
+                <p class="skill-card__back-cat" data-i18n="skill.lang.back.cat">Lenguajes de programación</p>
+                <p class="skill-card__back-desc" data-i18n-html="skill.lang.back.desc">
+                  PHP como lenguaje principal en sistemas en producción. Python para
+                  scripting y automatización. JavaScript para interactividad frontend.
+                  HTML5 y CSS3 para maquetación semántica y diseño responsivo.
+                </p>
+                <span class="skill-card__back-hint" data-i18n="skill.back.hint1">mueve el cursor · hover para girar</span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ─── BASES DE DATOS — 1 col ─── -->
+          <div class="skill-card" role="listitem"
+               style="--ed:0.12s; --fd:3.8s; --fd2:0.4s">
+            <div class="skill-card__inner">
+
+              <div class="skill-card__face skill-card__face--front">
+                <div class="skill-card__header">
+                  <span class="skill-card__icon" aria-hidden="true">🗄️</span>
+                  <h3 class="skill-card__title" data-i18n="skill.db">Bases de Datos</h3>
+                  <span class="skill-card__count">2 dbs</span>
+                </div>
+                <div class="skill-chips">
+                  <span class="skill-chip skill-chip--c" style="--ci:0.0s">MySQL</span>
+                  <span class="skill-chip skill-chip--m" style="--ci:0.3s">MongoDB</span>
+                </div>
+              </div>
+
+              <div class="skill-card__face skill-card__face--back" aria-hidden="true">
+                <span class="skill-card__back-icon">🔍</span>
+                <p class="skill-card__back-cat" data-i18n="skill.db.back.cat">Persistencia de datos</p>
+                <p class="skill-card__back-desc" data-i18n-html="skill.db.back.desc">
+                  Esquemas normalizados y queries complejas con MySQL (relacional).
+                  Almacenamiento de documentos flexible con MongoDB (NoSQL) en
+                  proyectos reales de producción.
+                </p>
+                <span class="skill-card__back-hint" data-i18n="skill.back.hint">hover para volver</span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ─── FRAMEWORKS & LIBRERÍAS — 1 col ─── -->
+          <div class="skill-card" role="listitem"
+               style="--ed:0.24s; --fd:4.5s; --fd2:0.8s">
+            <div class="skill-card__inner">
+
+              <div class="skill-card__face skill-card__face--front">
+                <div class="skill-card__header">
+                  <span class="skill-card__icon" aria-hidden="true">🧩</span>
+                  <h3 class="skill-card__title" data-i18n="skill.fw">Frameworks</h3>
+                  <span class="skill-card__count">2 libs</span>
+                </div>
+                <div class="skill-chips">
+                  <span class="skill-chip skill-chip--m" style="--ci:0.0s">AngularJS</span>
+                  <span class="skill-chip skill-chip--c" style="--ci:0.3s">Bootstrap</span>
+                </div>
+              </div>
+
+              <div class="skill-card__face skill-card__face--back" aria-hidden="true">
+                <span class="skill-card__back-icon">🏗️</span>
+                <p class="skill-card__back-cat" data-i18n="skill.fw.back.cat">Librerías & Frameworks</p>
+                <p class="skill-card__back-desc" data-i18n-html="skill.fw.back.desc">
+                  AngularJS para SPAs con two-way data binding y controladores MVC.
+                  Bootstrap para interfaces responsivas y cross-browser con
+                  componentes prediseñados.
+                </p>
+                <span class="skill-card__back-hint" data-i18n="skill.back.hint">hover para volver</span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ─── HERRAMIENTAS — 2 col ─── -->
+          <div class="skill-card skill-card--2col" role="listitem"
+               style="--ed:0.08s; --fd:4.0s; --fd2:0.2s">
+            <div class="skill-card__inner">
+
+              <div class="skill-card__face skill-card__face--front">
+                <div class="skill-card__header">
+                  <span class="skill-card__icon" aria-hidden="true">🔧</span>
+                  <h3 class="skill-card__title" data-i18n="skill.tools">Herramientas</h3>
+                  <span class="skill-card__count">4 tools</span>
+                </div>
+                <div class="skill-chips">
+                  <span class="skill-chip skill-chip--g" style="--ci:0.0s">Git</span>
+                  <span class="skill-chip skill-chip--c" style="--ci:0.2s">GitHub</span>
+                  <span class="skill-chip skill-chip--c" style="--ci:0.4s">VS Code</span>
+                  <span class="skill-chip skill-chip--m" style="--ci:0.6s">XAMPP</span>
+                </div>
+              </div>
+
+              <div class="skill-card__face skill-card__face--back" aria-hidden="true">
+                <span class="skill-card__back-icon">⚙️</span>
+                <p class="skill-card__back-cat" data-i18n="skill.tools.back.cat">Entorno de desarrollo</p>
+                <p class="skill-card__back-desc" data-i18n-html="skill.tools.back.desc">
+                  Control de versiones y trabajo colaborativo con Git y GitHub.
+                  Entorno de desarrollo local completo con XAMPP (Apache + MySQL + PHP).
+                  VS Code como editor principal con extensiones especializadas.
+                </p>
+                <span class="skill-card__back-hint" data-i18n="skill.back.hint">hover para volver</span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ─── CONCEPTOS & METODOLOGÍAS — 2 col ─── -->
+          <div class="skill-card skill-card--2col" role="listitem"
+               style="--ed:0.20s; --fd:3.9s; --fd2:0.6s">
+            <div class="skill-card__inner">
+
+              <div class="skill-card__face skill-card__face--front">
+                <div class="skill-card__header">
+                  <span class="skill-card__icon" aria-hidden="true">🧠</span>
+                  <h3 class="skill-card__title" data-i18n="skill.concepts">Conceptos & Metodologías</h3>
+                  <span class="skill-card__count">6 concepts</span>
+                </div>
+                <div class="skill-chips">
+                  <span class="skill-chip skill-chip--c" style="--ci:0.0s">REST APIs</span>
+                  <span class="skill-chip skill-chip--m" style="--ci:0.2s">POO</span>
+                  <span class="skill-chip skill-chip--g" style="--ci:0.4s">Auth JWT</span>
+                  <span class="skill-chip skill-chip--c" style="--ci:0.6s">MVC</span>
+                  <span class="skill-chip skill-chip--m" style="--ci:0.8s">CRUD</span>
+                  <span class="skill-chip skill-chip--g" style="--ci:1.0s">Scrum</span>
+                </div>
+              </div>
+
+              <div class="skill-card__face skill-card__face--back" aria-hidden="true">
+                <span class="skill-card__back-icon">📐</span>
+                <p class="skill-card__back-cat" data-i18n="skill.concepts.back.cat">Conceptos aplicados</p>
+                <p class="skill-card__back-desc" data-i18n-html="skill.concepts.back.desc">
+                  Implementados en proyectos reales: diseño de APIs RESTful con
+                  autenticación JWT, Programación Orientada a Objetos, arquitectura
+                  MVC, operaciones CRUD completas y flujos colaborativos con Scrum.
+                </p>
+                <span class="skill-card__back-hint" data-i18n="skill.back.hint">hover para volver</span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ─── IA APLICADA — 2 col ─── -->
+          <div class="skill-card skill-card--2col" role="listitem"
+               style="--ed:0.05s; --fd:4.4s; --fd2:0.1s">
+            <div class="skill-card__inner">
+
+              <div class="skill-card__face skill-card__face--front">
+                <div class="skill-card__header">
+                  <span class="skill-card__icon" aria-hidden="true">🤖</span>
+                  <h3 class="skill-card__title" data-i18n="skill.ia">IA Aplicada</h3>
+                  <span class="skill-card__count">2 tools</span>
+                </div>
+                <div class="skill-chips">
+                  <span class="skill-chip skill-chip--c" style="--ci:0.0s">Claude · Anthropic</span>
+                  <span class="skill-chip skill-chip--m" style="--ci:0.4s">GitHub Copilot</span>
+                </div>
+              </div>
+
+              <div class="skill-card__face skill-card__face--back" aria-hidden="true">
+                <span class="skill-card__back-icon">✨</span>
+                <p class="skill-card__back-cat" data-i18n="skill.ia.back.cat">Inteligencia Artificial</p>
+                <p class="skill-card__back-desc" data-i18n-html="skill.ia.back.desc">
+                  Uso profesional de IA como herramienta de productividad: generación
+                  y revisión de código, depuración de errores, prototipado ágil y
+                  documentación técnica en el ciclo completo de desarrollo.
+                </p>
+                <span class="skill-card__back-hint" data-i18n="skill.back.hint">hover para volver</span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ─── IDIOMAS — 2 col ─── -->
+          <div class="skill-card skill-card--2col" role="listitem"
+               style="--ed:0.15s; --fd:4.1s; --fd2:0.5s">
+            <div class="skill-card__inner">
+
+              <div class="skill-card__face skill-card__face--front">
+                <div class="skill-card__header">
+                  <span class="skill-card__icon" aria-hidden="true">🌐</span>
+                  <h3 class="skill-card__title" data-i18n="skill.spoken">Idiomas</h3>
+                  <span class="skill-card__count">2 langs</span>
+                </div>
+                <div class="skill-chips">
+                  <span class="skill-chip skill-chip--g" style="--ci:0.0s" data-i18n="skill.español">Español · Nativo</span>
+                  <span class="skill-chip skill-chip--c" style="--ci:0.4s" data-i18n="skill.ingles">Inglés · B1</span>
+                </div>
+              </div>
+
+              <div class="skill-card__face skill-card__face--back" aria-hidden="true">
+                <span class="skill-card__back-icon">📖</span>
+                <p class="skill-card__back-cat" data-i18n="skill.spoken.back.cat">Comunicación</p>
+                <p class="skill-card__back-desc" data-i18n-html="skill.spoken.back.desc">
+                  Español nativo para comunicación técnica y profesional.
+                  Inglés nivel B1 (intermedio): lectura fluida de documentación
+                  oficial, repositorios en GitHub, APIs y recursos internacionales.
+                </p>
+                <span class="skill-card__back-hint" data-i18n="skill.back.hint">hover para volver</span>
+              </div>
+
+            </div>
+          </div>
+
+        </div><!-- /skills-grid -->
+      </div>
+    </section>
+
+    <div class="cyber-divider" aria-hidden="true">
+      <span class="cyber-divider__dot"></span>
+    </div>
+
+    <!-- ══════════════ PROYECTOS ══════════════ -->
+    <section id="proyectos" class="section" aria-labelledby="title-projects">
+      <div class="section__inner">
+        <span class="section__tag">// 03 — projects.db</span>
+        <h2 class="section__title" id="title-projects" data-i18n-html="section.projects">Proyec<em>tos</em></h2>
+
+        <div class="projects-track">
+
+          <!-- ────────────────────────────────────────────────
+               PROYECTO 1 — Garza Gas · En producción
+          ──────────────────────────────────────────────── -->
+          <div class="proj-entry" data-dir="left" style="--pd:0s">
+
+            <!-- Nodo del timeline -->
+            <div class="proj-tl-badge" aria-hidden="true">
+              <div class="proj-tl-ring">
+                <span class="proj-tl-core"></span>
+              </div>
+              <span class="proj-tl-num">01</span>
+            </div>
+
+            <article class="proj-card" aria-labelledby="proj-name-1">
+              <!-- Barra de título estilo terminal -->
+              <div class="proj-card__bar">
+                <div class="proj-bar-dots" aria-hidden="true">
+                  <span class="proj-bar-dot"></span>
+                  <span class="proj-bar-dot"></span>
+                  <span class="proj-bar-dot"></span>
+                </div>
+                <span class="proj-bar-file">gestion_clientes.php</span>
+                <div class="proj-badge proj-badge--prod" role="status">
+                  <span class="proj-badge__dot" aria-hidden="true"></span>
+                  <span data-i18n="proj1.badge">EN PRODUCCIÓN ✓</span>
+                </div>
+              </div>
+
+              <!-- Pantalla / contenido -->
+              <div class="proj-card__screen">
+                <div class="proj-card__meta">
+                  <span class="proj-card__client">Garza Gas</span>
+                  <span class="proj-card__period">Sep 2025 — Ene 2026</span>
+                </div>
+
+                <h3 class="proj-card__name" id="proj-name-1" data-i18n="proj1.name">
+                  Sistema Web Empresarial de Gestión de Clientes
+                </h3>
+
+                <p class="proj-card__desc" data-i18n-html="proj1.desc">
+                  Sistema interno que digitalizó el flujo completo de alta y consulta de
+                  clientes, eliminando el registro manual en la empresa. Cuenta con
+                  autenticación segura con control de sesiones y módulo CRUD completo
+                  para la administración de datos. Sistema en producción y en uso activo
+                  por el equipo operativo de Garza Gas.
+                </p>
+
+                <div class="proj-stack" aria-label="Tecnologías utilizadas" data-i18n-aria-label="aria.proj.stack">
+                  <span class="proj-key">PHP</span>
+                  <span class="proj-key">MySQL</span>
+                  <span class="proj-key">JavaScript</span>
+                  <span class="proj-key">HTML5</span>
+                  <span class="proj-key">CSS3</span>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- ────────────────────────────────────────────────
+               PROYECTO 2 — TESCI · Institucional
+          ──────────────────────────────────────────────── -->
+          <div class="proj-entry" data-dir="right" style="--pd:0.08s">
+
+            <!-- Nodo del timeline -->
+            <div class="proj-tl-badge" aria-hidden="true">
+              <div class="proj-tl-ring proj-tl-ring--m">
+                <span class="proj-tl-core"></span>
+              </div>
+              <span class="proj-tl-num">02</span>
+            </div>
+
+            <article class="proj-card" aria-labelledby="proj-name-2">
+              <div class="proj-card__bar">
+                <div class="proj-bar-dots" aria-hidden="true">
+                  <span class="proj-bar-dot"></span>
+                  <span class="proj-bar-dot"></span>
+                  <span class="proj-bar-dot"></span>
+                </div>
+                <span class="proj-bar-file">flotilla_vehicular.php</span>
+                <div class="proj-badge proj-badge--inst" role="status">
+                  <span class="proj-badge__dot" aria-hidden="true"></span>
+                  <span data-i18n="proj2.badge">INSTITUCIONAL ✓</span>
+                </div>
+              </div>
+
+              <div class="proj-card__screen">
+                <div class="proj-card__meta">
+                  <span class="proj-card__client">TESCI — Depto. Recursos Materiales</span>
+                  <span class="proj-card__period">Mar 2025 — Jun 2025</span>
+                </div>
+
+                <h3 class="proj-card__name" id="proj-name-2" data-i18n="proj2.name">
+                  Plataforma de Gestión de Flotilla Vehicular
+                </h3>
+
+                <p class="proj-card__desc" data-i18n-html="proj2.desc">
+                  Plataforma web adoptada oficialmente por el Departamento de Recursos
+                  Materiales del TESCI para el control de viajes institucionales.
+                  Calendario interactivo con tracking de estados en tiempo real,
+                  eliminando el seguimiento en papel. Desarrollada en solitario y
+                  entregada en el plazo acordado.
+                </p>
+
+                <div class="proj-stack" aria-label="Tecnologías utilizadas" data-i18n-aria-label="aria.proj.stack">
+                  <span class="proj-key">PHP</span>
+                  <span class="proj-key">MySQL</span>
+                  <span class="proj-key">JavaScript</span>
+                  <span class="proj-key">HTML5</span>
+                  <span class="proj-key">CSS3</span>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- ────────────────────────────────────────────────
+               PROYECTO 3 — Freelance · Nutrición Inteligente
+          ──────────────────────────────────────────────── -->
+          <div class="proj-entry" data-dir="left" style="--pd:0.16s">
+
+            <!-- Nodo del timeline -->
+            <div class="proj-tl-badge" aria-hidden="true">
+              <div class="proj-tl-ring proj-tl-ring--g">
+                <span class="proj-tl-core"></span>
+              </div>
+              <span class="proj-tl-num">03</span>
+            </div>
+
+            <article class="proj-card" aria-labelledby="proj-name-3">
+              <div class="proj-card__bar">
+                <div class="proj-bar-dots" aria-hidden="true">
+                  <span class="proj-bar-dot"></span>
+                  <span class="proj-bar-dot"></span>
+                  <span class="proj-bar-dot"></span>
+                </div>
+                <span class="proj-bar-file">nutricion_inteligente.php</span>
+                <div class="proj-badge proj-badge--free" role="status">
+                  <span class="proj-badge__dot" aria-hidden="true"></span>
+                  <span data-i18n="proj3.badge">FREELANCE · ACTIVO ✓</span>
+                </div>
+              </div>
+
+              <div class="proj-card__screen">
+                <div class="proj-card__meta">
+                  <span class="proj-card__client">Cliente Freelance</span>
+                  <span class="proj-card__period">Feb 2026</span>
+                </div>
+
+                <h3 class="proj-card__name" id="proj-name-3" data-i18n="proj3.name">
+                  Sitio Web con Panel Administrativo — Nutrición Inteligente
+                </h3>
+
+                <p class="proj-card__desc" data-i18n-html="proj3.desc">
+                  Plataforma completa con login seguro y panel de administración de
+                  usuarios para cliente real. Diseño responsivo, gestión de contenido
+                  dinámico y despliegue en servidor de producción. Primer proyecto
+                  freelance entregado en producción — actualmente activo y en uso.
+                </p>
+
+                <!-- URL real del proyecto -->
+                <a class="proj-card__url"
+                   href="https://ognutricionentrenamientointeligente.com.mx"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   aria-label="Visitar ognutricionentrenamientointeligente.com.mx (abre en nueva pestaña)">
+                  ognutricionentrenamientointeligente.com.mx
+                </a>
+
+                <div class="proj-stack" aria-label="Tecnologías utilizadas" data-i18n-aria-label="aria.proj.stack">
+                  <span class="proj-key">PHP</span>
+                  <span class="proj-key">MySQL</span>
+                  <span class="proj-key">JavaScript</span>
+                  <span class="proj-key">HTML5</span>
+                  <span class="proj-key">CSS3</span>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- ────────────────────────────────────────────────
+               PROYECTO 4 — BarberApp PWA · Freelance
+          ──────────────────────────────────────────────── -->
+          <div class="proj-entry" data-dir="right" style="--pd:0.24s">
+
+            <!-- Nodo del timeline -->
+            <div class="proj-tl-badge" aria-hidden="true">
+              <div class="proj-tl-ring proj-tl-ring--g">
+                <span class="proj-tl-core"></span>
+              </div>
+              <span class="proj-tl-num">04</span>
+            </div>
+
+            <article class="proj-card" aria-labelledby="proj-name-4">
+              <div class="proj-card__bar">
+                <div class="proj-bar-dots" aria-hidden="true">
+                  <span class="proj-bar-dot"></span>
+                  <span class="proj-bar-dot"></span>
+                  <span class="proj-bar-dot"></span>
+                </div>
+                <span class="proj-bar-file">barber_app.js</span>
+                <div class="proj-badge proj-badge--free" role="status">
+                  <span class="proj-badge__dot" aria-hidden="true"></span>
+                  <span data-i18n="proj4.badge">FREELANCE · VENDIDO ✓</span>
+                </div>
+              </div>
+
+              <div class="proj-card__screen">
+                <div class="proj-card__meta">
+                  <span class="proj-card__client">Cliente Freelance</span>
+                  <span class="proj-card__period">Jun 2026</span>
+                </div>
+
+                <h3 class="proj-card__name" id="proj-name-4" data-i18n="proj4.name">
+                  BarberApp — PWA para Gestión de Barbería
+                </h3>
+
+                <p class="proj-card__desc" data-i18n-html="proj4.desc">
+                  Aplicación web progresiva (PWA) desarrollada para un barbero independiente.
+                  Permite gestionar citas, registrar cortes, controlar gastos, calcular propinas
+                  y dividir ganancias entre barbero y dueño. Funciona sin servidor ni hosting
+                  mensual, instalable en cualquier dispositivo móvil o computadora.
+                </p>
+
+                <div class="proj-stack" aria-label="Tecnologías utilizadas" data-i18n-aria-label="aria.proj.stack">
+                  <span class="proj-key">JavaScript</span>
+                  <span class="proj-key">HTML5</span>
+                  <span class="proj-key">CSS3</span>
+                  <span class="proj-key">PWA</span>
+                  <span class="proj-key">LocalStorage</span>
+                </div>
+              </div>
+            </article>
+          </div>
+
+        </div><!-- /projects-track -->
+      </div>
+    </section>
+
+    <div class="cyber-divider" aria-hidden="true">
+      <span class="cyber-divider__dot"></span>
+    </div>
+
+    <!-- ══════════════ EDUCACIÓN ══════════════ -->
+    <section id="educacion" class="section" aria-labelledby="title-edu">
+      <div class="section__inner">
+        <span class="section__tag">// 04 — education.json</span>
+        <h2 class="section__title" id="title-edu" data-i18n-html="section.edu">Educa<em>ción</em></h2>
+
+        <div class="edu-scene">
+          <div class="edu-card" id="js-edu-card">
+
+            <!-- Barrido de brillo dorado -->
+            <div class="edu-card__shine" aria-hidden="true"></div>
+
+            <!-- Esquinas estilo diploma -->
+            <div class="edu-corner edu-corner--tl" aria-hidden="true"></div>
+            <div class="edu-corner edu-corner--tr" aria-hidden="true"></div>
+            <div class="edu-corner edu-corner--bl" aria-hidden="true"></div>
+            <div class="edu-corner edu-corner--br" aria-hidden="true"></div>
+
+            <!-- Banner superior -->
+            <div class="edu-top-badge" aria-hidden="true">
+              <span class="edu-top-badge__line"></span>
+              <span class="edu-top-badge__text" data-i18n="edu.badge">EGRESADO · ENERO 2026</span>
+              <span class="edu-top-badge__line"></span>
+            </div>
+
+            <!-- Nombre de la institución -->
+            <h3 class="edu-inst">
+              Tecnológico de Estudios Superiores<br>de Cuautitlán Izcalli
+            </h3>
+            <span class="edu-acronym" aria-hidden="true">· TESCI ·</span>
+
+            <!-- Carrera -->
+            <div class="edu-degree">
+              <span class="edu-degree__label" data-i18n="edu.label">// carrera</span>
+              <span class="edu-degree__name" data-i18n="edu.degree">Ingeniería en Sistemas Computacionales</span>
+            </div>
+
+            <!-- Período y estado -->
+            <div class="edu-meta">
+              <div class="edu-meta__item">
+                <span class="edu-meta__key" data-i18n="edu.period">Período</span>
+                <span class="edu-meta__val">2021 – 2026</span>
+              </div>
+              <div class="edu-meta__item">
+                <span class="edu-meta__key" data-i18n="edu.acad">Estado académico</span>
+                <span class="edu-meta__val edu-meta__val--gold">
+                  <span class="edu-status-dot" aria-hidden="true"></span>
+                  <span data-i18n="edu.status">Egresado · Titulación en proceso</span>
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="cyber-divider" aria-hidden="true">
+      <span class="cyber-divider__dot"></span>
+    </div>
+
+    <!-- ══════════════ MI CV ══════════════ -->
+    <section id="cv" class="section cv-section" aria-labelledby="title-cv">
+      <div class="section__inner">
+        <span class="section__tag">// 05 — curriculum.pdf</span>
+
+        <!-- Título con letras individuales + stagger animado -->
+        <h2 class="cv-title" id="title-cv" aria-label="Currículum Vitae">
+          <span class="cv-char" style="--cd:0.00s">C</span><span
+              class="cv-char" style="--cd:0.05s">U</span><span
+              class="cv-char" style="--cd:0.10s">R</span><span
+              class="cv-char" style="--cd:0.15s">R</span><span
+              class="cv-char" style="--cd:0.20s">Í</span><span
+              class="cv-char" style="--cd:0.25s">C</span><span
+              class="cv-char" style="--cd:0.30s">U</span><span
+              class="cv-char" style="--cd:0.35s">L</span><span
+              class="cv-char" style="--cd:0.40s">U</span><span
+              class="cv-char" style="--cd:0.45s">M</span><span
+              class="cv-char cv-char--space"></span><span
+              class="cv-char" style="--cd:0.55s">V</span><span
+              class="cv-char" style="--cd:0.60s">I</span><span
+              class="cv-char" style="--cd:0.65s">T</span><span
+              class="cv-char" style="--cd:0.70s">A</span><span
+              class="cv-char" style="--cd:0.75s">E</span>
+        </h2>
+        <p class="cv-subtitle">Diego Soto García · Full Stack Developer · 2026</p>
+
+        <!-- Escena con perspectiva 3D -->
+        <div class="cv-scene">
+          <div class="cv-viewer-wrap" id="js-cv-card">
+
+            <!-- Targeting reticle — esquinas animadas -->
+            <div class="cv-reticle cv-reticle--tl" aria-hidden="true"></div>
+            <div class="cv-reticle cv-reticle--tr" aria-hidden="true"></div>
+            <div class="cv-reticle cv-reticle--bl" aria-hidden="true"></div>
+            <div class="cv-reticle cv-reticle--br" aria-hidden="true"></div>
+
+            <!-- Pantalla / visor holográfico -->
+            <div class="cv-viewer__screen">
+
+              <!-- PDF embebido (desktop) -->
+              <iframe class="cv-iframe" id="cv-iframe"
+                      src="CV_DiegoSotoGarcia_2026.pdf"
+                      title="Currículum Vitae de Diego Soto García — 2026"
+                      loading="lazy"
+                      aria-label="Visualizador del CV de Diego Soto García"
+                      data-i18n-aria-label="aria.cv.iframe">
+                <p>Tu navegador no puede mostrar el PDF.
+                  <a href="CV_DiegoSotoGarcia_2026.pdf">Descárgalo aquí</a>.</p>
+              </iframe>
+
+              <!-- Mensaje mobile (sustituye al iframe) -->
+              <div class="cv-mobile-msg" aria-hidden="true">
+                <span class="cv-mobile-msg__icon">📄</span>
+                <p class="cv-mobile-msg__text" data-i18n="cv.mobile.msg">Toca para ver el CV completo</p>
+              </div>
+
+            </div><!-- /cv-viewer__screen -->
+          </div><!-- /cv-viewer-wrap -->
+        </div><!-- /cv-scene -->
+
+        <!-- Botones de acción -->
+        <div class="cv-actions">
+          <a class="cv-btn cv-btn--dl" id="btn-download-cv"
+             href="CV_DiegoSotoGarcia_2026.pdf"
+             download="CV_DiegoSotoGarcia_2026.pdf"
+             aria-label="Descargar CV en formato PDF" data-i18n-aria-label="aria.cv.dl">
+            <span data-i18n="cv.btn.dl">⬇ Descargar CV</span>
+          </a>
+          <a class="cv-btn cv-btn--open" id="btn-open-cv"
+             href="CV_DiegoSotoGarcia_2026.pdf"
+             target="_blank"
+             rel="noopener noreferrer"
+             aria-label="Abrir CV en nueva pestaña" data-i18n-aria-label="aria.cv.open">
+            <span data-i18n="cv.btn.open">↗ Abrir en nueva pestaña</span>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="cyber-divider" aria-hidden="true">
+      <span class="cyber-divider__dot"></span>
+    </div>
+
+    <!-- ══════════════ CONTACTO ══════════════ -->
+    <section id="contacto" class="section" aria-labelledby="title-contact">
+      <div class="section__inner">
+        <span class="section__tag">// 06 — contact.ts</span>
+        <h2 class="section__title" id="title-contact" data-i18n-html="section.contact">Contac<em>to</em></h2>
+
+        <div class="contact-grid">
+
+          <!-- ── Teléfono ── -->
+          <a class="contact-card contact-card--phone"
+             href="tel:+525636866429"
+             aria-label="Llamar a Diego al 56-3686-6429" data-i18n-aria-label="contact.aria.phone">
+            <div class="contact-card__icon-wrap">
+              <div class="contact-card__icon-bg" aria-hidden="true"></div>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                   aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16z"/>
+              </svg>
+            </div>
+            <span class="contact-card__label" data-i18n="contact.phone">Teléfono</span>
+            <span class="contact-card__value">56-3686-6429</span>
+          </a>
+
+          <!-- ── Email ── -->
+          <a class="contact-card contact-card--email"
+             href="mailto:dieegoflame123@gmail.com"
+             aria-label="Enviar email a dieegoflame123@gmail.com">
+            <div class="contact-card__icon-wrap">
+              <div class="contact-card__icon-bg" aria-hidden="true"></div>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                   aria-hidden="true">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="M2 7l10 7 10-7"/>
+              </svg>
+            </div>
+            <span class="contact-card__label">Email</span>
+            <span class="contact-card__value">dieegoflame123@gmail.com</span>
+          </a>
+
+          <!-- ── LinkedIn ── -->
+          <!-- TODO: actualiza href con tu URL real de LinkedIn -->
+          <div class="contact-card contact-card--li contact-card--static"
+               aria-label="LinkedIn de Diego Soto García" data-i18n-aria-label="aria.li">
+            <div class="contact-card__icon-wrap">
+              <div class="contact-card__icon-bg" aria-hidden="true"></div>
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+            </div>
+            <span class="contact-card__label" data-i18n="contact.li">LinkedIn</span>
+            <span class="contact-card__value">Diego Soto García</span>
+          </div>
+
+          <!-- ── Ubicación ── -->
+          <div class="contact-card contact-card--loc contact-card--static"
+               aria-label="Ubicación: Estado de México y CDMX" data-i18n-aria-label="aria.loc">
+            <div class="contact-card__icon-wrap">
+              <div class="contact-card__icon-bg" aria-hidden="true"></div>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                   aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <span class="contact-card__label" data-i18n="contact.loc">Ubicación</span>
+            <span class="contact-card__value" data-i18n="contact.loc.val">Edo. Méx / CDMX</span>
+          </div>
+
+        </div><!-- /contact-grid -->
+      </div>
+    </section>
+
+  </main><!-- /site-main -->
+
+  <!-- ─── BOTÓN VOLVER ARRIBA ────────────────────────────── -->
+  <button class="btn-top" id="js-btn-top"
+          aria-label="Volver al inicio de la página" data-i18n-aria-label="aria.btn.top"
+          type="button">
+    <span class="btn-top__icon" aria-hidden="true"></span>
+  </button>
+
+  <!-- ─── FOOTER ─────────────────────────────────────────── -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="site-footer__inner">
+      <p class="site-footer__name">Diego Soto García</p>
+      <p class="site-footer__meta" data-i18n-html="footer.meta">
+        <span>Full Stack Developer</span>
+        <span class="site-footer__sep" aria-hidden="true">·</span>
+        <span>Ingeniero en Sistemas Computacionales</span>
+        <span class="site-footer__sep" aria-hidden="true">·</span>
+        <span>2026</span>
+        <span class="site-footer__sep" aria-hidden="true">·</span>
+        <span>Hecho con código real</span>
+      </p>
+      <div class="site-footer__badges" aria-label="Tecnologías del portafolio">
+        <span class="site-footer__badge">PHP</span>
+        <span class="site-footer__badge">JavaScript</span>
+        <span class="site-footer__badge">CSS3</span>
+        <span class="site-footer__badge">HTML5</span>
+        <span class="site-footer__badge">Sin frameworks</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SCRIPTS
+  ══════════════════════════════════════════════════════════ -->
+  <script>
+    'use strict';
+
+    /* ─────────────────────────────────────────────────────────
+       CURSOR PERSONALIZADO
+    ───────────────────────────────────────────────────────── */
+    (function initCursor() {
+      const dot  = document.getElementById('js-cursor');
+      const halo = document.getElementById('js-cursor-halo');
+      let mx = 0, my = 0;
+      let hx = 0, hy = 0;
+
+      document.addEventListener('mousemove', (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        dot.style.left = mx + 'px';
+        dot.style.top  = my + 'px';
+      });
+
+      /* Halo sigue con lag suave */
+      function trackHalo() {
+        hx += (mx - hx) * 0.12;
+        hy += (my - hy) * 0.12;
+        halo.style.left = hx + 'px';
+        halo.style.top  = hy + 'px';
+        requestAnimationFrame(trackHalo);
+      }
+      trackHalo();
+
+      /* Efecto hover en interactivos */
+      const interactives = document.querySelectorAll('a, button');
+      interactives.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          dot.style.width  = '14px';
+          dot.style.height = '14px';
+          halo.style.width  = '60px';
+          halo.style.height = '60px';
+          halo.style.borderColor = 'var(--secondary)';
+          halo.style.opacity = '0.6';
+        });
+        el.addEventListener('mouseleave', () => {
+          dot.style.width  = '8px';
+          dot.style.height = '8px';
+          halo.style.width  = '40px';
+          halo.style.height = '40px';
+          halo.style.borderColor = 'var(--primary)';
+          halo.style.opacity = '0.45';
+        });
+      });
+    })();
+
+    (function initParticles() {
+      const canvas = document.getElementById('canvas-particles');
+      const ctx = canvas.getContext('2d');
+      const COLORS = ['#7C3AED','#A855F7','#C084FC','#F8F8FF'];
+      const COUNT = 80;           /* max 80 para no saturar la GPU */
+      const CONNECT = 100;
+      const CONNECT_SQ = CONNECT * CONNECT; /* comparación sin sqrt */
+      let W, H, CX, CY;
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+        CX = W / 2; CY = H / 2;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      class Particle {
+        constructor() { this.spawn(); }
+        spawn() {
+          this.x = Math.random() * W;
+          this.y = Math.random() * H;
+          this.z = Math.random() * 900 + 100;
+          this.vx = (Math.random() - 0.5) * 0.45;
+          this.vy = (Math.random() - 0.5) * 0.45;
+          this.vz = Math.random() * 0.6 + 0.15;
+          this.baseSize  = Math.random() * 1.8 + 0.4;
+          this.color     = COLORS[Math.floor(Math.random() * COLORS.length)];
+          this.baseAlpha = Math.random() * 0.55 + 0.1;
+          this.phase     = Math.random() * Math.PI * 2;
+        }
+        update() {
+          this.x += this.vx; this.y += this.vy; this.z -= this.vz;
+          this.phase += 0.025;
+          const d = 1000;
+          this.scale  = d / (d + this.z);
+          this.px     = (this.x - CX) * this.scale + CX;
+          this.py     = (this.y - CY) * this.scale + CY;
+          this.pSize  = this.baseSize * this.scale;
+          this.pAlpha = this.baseAlpha * this.scale * (0.7 + 0.3 * Math.sin(this.phase));
+          if (this.z <= 0 || this.px < -60 || this.px > W+60 || this.py < -60 || this.py > H+60) {
+            this.spawn(); this.z = 900;
+          }
+        }
+        draw() {
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, Math.min(1, this.pAlpha));
+          ctx.fillStyle = this.color;
+          ctx.shadowBlur = 6;
+          ctx.shadowColor = this.color;
+          ctx.beginPath();
+          ctx.arc(this.px, this.py, Math.max(0.3, this.pSize), 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+
+      const pool = Array.from({ length: COUNT }, () => {
+        const p = new Particle();
+        p.z = Math.random() * 1000;
+        return p;
+      });
+
+      /* Conexiones: sin ctx.save/restore dentro del bucle, rechazo por distancia² */
+      function drawConnections() {
+        ctx.strokeStyle = '#A855F7';
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i < pool.length; i++) {
+          for (let j = i + 1; j < pool.length; j++) {
+            const a = pool[i], b = pool[j];
+            const dx = a.px - b.px, dy = a.py - b.py;
+            const dSq = dx * dx + dy * dy;
+            if (dSq >= CONNECT_SQ) continue;
+            ctx.globalAlpha = (1 - Math.sqrt(dSq) / CONNECT) * 0.09;
+            ctx.beginPath();
+            ctx.moveTo(a.px, a.py);
+            ctx.lineTo(b.px, b.py);
+            ctx.stroke();
+          }
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      function loop() {
+        ctx.clearRect(0, 0, W, H);
+        pool.forEach(p => p.update());
+        drawConnections();
+        pool.forEach(p => p.draw());
+        requestAnimationFrame(loop);
+      }
+      loop();
+    })();
+
+    /* ─────────────────────────────────────────────────────────
+       TILT 3D EN HERO AL MOVER EL MOUSE
+    ───────────────────────────────────────────────────────── */
+    (function initHeroTilt() {
+      const section = document.getElementById('inicio');
+      const hero    = document.getElementById('js-hero');
+
+      section.addEventListener('mousemove', (e) => {
+        const rect = section.getBoundingClientRect();
+        const ox = ((e.clientX - rect.left) / rect.width  - 0.5) * 2;
+        const oy = ((e.clientY - rect.top)  / rect.height - 0.5) * 2;
+        hero.style.transform =
+          `rotateY(${ox * 7}deg) rotateX(${-oy * 7}deg) translateZ(20px)`;
+      });
+
+      section.addEventListener('mouseleave', () => {
+        hero.style.transform = '';
+      });
+    })();
+
+
+    /* ─────────────────────────────────────────────────────────
+       SECTION TITLES — rotateX entrada por scroll
+    ───────────────────────────────────────────────────────── */
+    (function initSectionTitles() {
+      const titles = document.querySelectorAll('.section__title');
+      if (!titles.length) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-title-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.20 }
+      );
+
+      titles.forEach(t => observer.observe(t));
+    })();
+
+    /* ─────────────────────────────────────────────────────────
+       CV — OBSERVER (letras + card) + CURSOR EN BOTONES CV
+    ───────────────────────────────────────────────────────── */
+    (function initCVSection() {
+      const section = document.querySelector('.cv-section');
+      if (!section) return;
+
+      /* Un único observer: añade .is-cv-visible a la sección cuando entra */
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              section.classList.add('is-cv-visible');
+              observer.disconnect();
+            }
+          });
+        },
+        { threshold: 0.10 }
+      );
+      observer.observe(section);
+
+      /* Cursor personalizado en botones CV (los .cv-btn no son <a> estándar) */
+      document.querySelectorAll('.cv-btn').forEach(btn => {
+        btn.style.cursor = 'none';
+      });
+    })();
+
+    /* ─────────────────────────────────────────────────────────
+       SCROLL PROGRESS BAR
+    ───────────────────────────────────────────────────────── */
+    (function initScrollProgress() {
+      const bar = document.getElementById('js-scroll-progress');
+      if (!bar) return;
+
+      function update() {
+        const scrolled = document.documentElement.scrollTop || document.body.scrollTop;
+        const total    = document.documentElement.scrollHeight - window.innerHeight;
+        const pct      = total > 0 ? Math.min(scrolled / total * 100, 100).toFixed(2) : 0;
+        bar.style.width = pct + '%';
+        bar.setAttribute('aria-valuenow', Math.round(pct));
+      }
+
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    })();
+
+    /* ─────────────────────────────────────────────────────────
+       BOTÓN VOLVER ARRIBA
+    ───────────────────────────────────────────────────────── */
+    (function initBackToTop() {
+      const btn = document.getElementById('js-btn-top');
+      if (!btn) return;
+
+      window.addEventListener('scroll', () => {
+        btn.classList.toggle('is-visible', window.scrollY > 420);
+      }, { passive: true });
+
+      btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    })();
+
+    /* ─────────────────────────────────────────────────────────
+       TILT 3D — CARD EDUCACIÓN
+    ───────────────────────────────────────────────────────── */
+    (function initEduCard() {
+      const card = document.getElementById('js-edu-card');
+      if (!card) return;
+
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const ox   = ((e.clientX - rect.left)  / rect.width  - 0.5) * 2;
+        const oy   = ((e.clientY - rect.top)   / rect.height - 0.5) * 2;
+        card.style.transform =
+          `rotateY(${ox * 10}deg) rotateX(${-oy * 4}deg)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    })();
+
+    /* ─────────────────────────────────────────────────────────
+       PROYECTOS — SCROLL REVEAL + TILT 3D EN CARDS
+    ───────────────────────────────────────────────────────── */
+    (function initProjects() {
+      const entries = document.querySelectorAll('.proj-entry');
+      if (!entries.length) return;
+
+      /* ── IntersectionObserver: activa animación al entrar en viewport ── */
+      const observer = new IntersectionObserver(
+        (items) => {
+          items.forEach(item => {
+            if (item.isIntersecting) {
+              item.target.classList.add('is-visible');
+              observer.unobserve(item.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+
+      entries.forEach(e => observer.observe(e));
+
+      /* ── Tilt 3D de la card al mover el mouse dentro ── */
+      entries.forEach(entry => {
+        const card = entry.querySelector('.proj-card');
+        if (!card) return;
+
+        card.addEventListener('mousemove', (e) => {
+          const rect  = card.getBoundingClientRect();
+          const ox    = ((e.clientX - rect.left)  / rect.width  - 0.5) * 2;
+          const oy    = ((e.clientY - rect.top)   / rect.height - 0.5) * 2;
+          card.style.transform =
+            `perspective(900px) translateZ(40px) rotateX(${-oy * 4}deg) rotateY(${ox * 6}deg)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = '';
+        });
+      });
+    })();
+
+    /* ─────────────────────────────────────────────────────────
+       HABILIDADES — SCROLL REVEAL + CURSOR LIGHT
+    ───────────────────────────────────────────────────────── */
+    (function initSkills() {
+      const cards = document.querySelectorAll('.skill-card');
+      if (!cards.length) return;
+
+      /* ── IntersectionObserver: añade .is-visible al entrar en viewport ── */
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+
+      cards.forEach(card => observer.observe(card));
+
+      /* ── Cursor light: actualiza --mx / --my en cada card ── */
+      cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          card.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width  * 100).toFixed(1) + '%');
+          card.style.setProperty('--my', ((e.clientY - rect.top)  / rect.height * 100).toFixed(1) + '%');
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.setProperty('--mx', '50%');
+          card.style.setProperty('--my', '50%');
+        });
+      });
+
+      /* ── Bloqueo de scroll de página al pasar sobre una card volteada ── */
+      cards.forEach(card => {
+        card.addEventListener('mouseenter', () => { document.body.style.overflow = 'hidden'; });
+        card.addEventListener('mouseleave', () => { document.body.style.overflow = ''; });
+      });
+
+      /* ── Indicador de scroll y listener por card ── */
+      cards.forEach(card => {
+        const back = card.querySelector('.skill-card__face--back');
+        if (!back) return;
+
+        const fade = document.createElement('div');
+        fade.className = 'skill-back__scroll-fade';
+        back.appendChild(fade);
+
+        function checkOverflow() {
+          fade.style.display = back.scrollHeight > back.clientHeight + 2 ? '' : 'none';
+        }
+        checkOverflow();
+        setTimeout(checkOverflow, 500);
+
+        back.addEventListener('scroll', () => {
+          const atBottom = back.scrollTop + back.clientHeight >= back.scrollHeight - 8;
+          fade.classList.toggle('is-scrolled', atBottom);
+        });
+      });
+    })();
+
+    /* ─────────────────────────────────────────────────────────
+       TYPEWRITER — HERO
+    ───────────────────────────────────────────────────────── */
+    (function initTypewriter() {
+      const el     = document.getElementById('js-typewriter');
+      if (!el) return;
+
+      const phrases  = ['PHP Developer', 'Backend Engineer', 'Full Stack Jr.', 'Problem Solver'];
+      const SPEED_IN  = 75;   /* ms por carácter al escribir */
+      const SPEED_OUT = 45;   /* ms por carácter al borrar   */
+      const PAUSE_END = 1800; /* ms de pausa con texto completo */
+      const PAUSE_CLR = 400;  /* ms de pausa con texto vacío    */
+
+      let phraseIdx = 0;
+      let charIdx   = 0;
+      let deleting  = false;
+
+      function tick() {
+        const current = phrases[phraseIdx];
+
+        if (!deleting) {
+          charIdx++;
+          el.textContent = current.slice(0, charIdx);
+          if (charIdx === current.length) {
+            deleting = true;
+            setTimeout(tick, PAUSE_END);
+            return;
+          }
+          setTimeout(tick, SPEED_IN + Math.random() * 30);
+        } else {
+          charIdx--;
+          el.textContent = current.slice(0, charIdx);
+          if (charIdx === 0) {
+            deleting  = false;
+            phraseIdx = (phraseIdx + 1) % phrases.length;
+            setTimeout(tick, PAUSE_CLR);
+            return;
+          }
+          setTimeout(tick, SPEED_OUT);
+        }
+      }
+
+      /* Inicia después del stagger del typewriter (--delay:0.68s) */
+      setTimeout(tick, 900);
+    })();
+
+    /* ─────────────────────────────────────────────────────────
+       TILT 3D — CARD SOBRE MÍ (mouse seguimiento)
+    ───────────────────────────────────────────────────────── */
+    (function initAboutCardTilt() {
+      const card = document.getElementById('js-about-card');
+      if (!card) return;
+
+      const wrap = card.closest('.about-wrap');
+
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const ox = ((e.clientX - rect.left)  / rect.width  - 0.5) * 2;
+        const oy = ((e.clientY - rect.top)   / rect.height - 0.5) * 2;
+        /* Máximo rotateY 15 deg, rotateX 6 deg — suave */
+        card.style.transform =
+          `rotateY(${ox * 15}deg) rotateX(${-oy * 6}deg)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    })();
+
+    /* ─────────────────────────────────────────────────────────
+       CONTADORES — SOBRE MÍ
+    ───────────────────────────────────────────────────────── */
+    (function initAboutCounters() {
+      const statEls = document.querySelectorAll('.about-stat__num[data-about-target]');
+      if (!statEls.length) return;
+
+      let fired = false;
+
+      function animateCounter(el) {
+        const target   = parseInt(el.dataset.aboutTarget, 10);
+        const suffix   = el.dataset.suffix || '';
+        const duration = 1400;
+        const start    = performance.now();
+
+        if (target === 0) {
+          el.textContent = '0' + suffix;
+          return;
+        }
+
+        function step(now) {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased    = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.floor(eased * target) + suffix;
+          if (progress < 1) requestAnimationFrame(step);
+          else el.textContent = target + suffix;
+        }
+        requestAnimationFrame(step);
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !fired) {
+              fired = true;
+              statEls.forEach(animateCounter);
+              observer.disconnect();
+            }
+          });
+        },
+        { threshold: 0.35 }
+      );
+
+      const aboutSection = document.getElementById('sobre-mi');
+      if (aboutSection) observer.observe(aboutSection);
+    })();
+
+    /* ─────────────────────────────────────────────────────────
+       NAV ACTIVO SEGÚN SECCIÓN VISIBLE
+    ───────────────────────────────────────────────────────── */
+    (function initNavActive() {
+      const sections  = document.querySelectorAll('section[id]');
+      const navLinks  = document.querySelectorAll('.nav__link[data-nav]');
+
+      function setActive() {
+        let current = '';
+        sections.forEach(sec => {
+          const top = sec.getBoundingClientRect().top;
+          if (top < window.innerHeight * 0.45) current = sec.id;
+        });
+        navLinks.forEach(link => {
+          const isActive = link.dataset.nav === current;
+          link.classList.toggle('is-active', isActive);
+        });
+      }
+
+      window.addEventListener('scroll', setActive, { passive: true });
+      setActive();
+    })();
+
+    /* ─────────────────────────────────────────────────────────
+       SISTEMA DE TRADUCCIÓN ES | EN
+    ───────────────────────────────────────────────────────── */
+    (function initI18n() {
+      'use strict';
+
+      /* ── Objeto de traducciones ── */
+      const T = {
+        es: {
+          /* Nav */
+          'nav.inicio':    'Inicio',
+          'nav.sobre':     'Sobre mí',
+          'nav.skills':    'Habilidades',
+          'nav.proyectos': 'Proyectos',
+          'nav.edu':       'Educación',
+          'nav.contacto':  'Contacto',
+
+          /* Hero */
+          'hero.subtitle':       'Desarrollador Full Stack Jr.<span class="hero__subtitle-sep" aria-hidden="true">|</span>Ingeniero en Sistemas Computacionales',
+          'hero.btn.projects':   'Ver Proyectos',
+          'hero.btn.contact':    'Contactar',
+
+          /* Sobre mí */
+          'section.sobre': 'Sobre <em>Mí</em>',
+          'about.degree': 'Ingeniero en Sistemas Computacionales',
+          'about.school': 'TESCI — Enero 2026',
+          'about.bio': 'Ingeniero en Sistemas Computacionales egresado del TESCI (enero 2026) con experiencia en el desarrollo de sistemas web funcionales a través de proyectos reales. He construido soluciones utilizadas por una empresa privada, un entorno institucional y clientes freelance, participando en todo el ciclo de desarrollo: desde el diseño de base de datos hasta el despliegue en producción.',
+          'about.stat.prod': 'Proyectos<br>en producción',
+          'about.stat.free': 'Clientes<br>freelance',
+          'about.stat.tech': 'Tecnologías<br>dominadas',
+          'about.stat.fake': 'Proyectos<br>falsos',
+          'about.avail':     'Edo. Méx / CDMX — Disponibilidad inmediata',
+
+          /* Habilidades */
+          'section.skills': 'Habili<em>dades</em>',
+          'skill.lang':     'Lenguajes',
+          'skill.db':       'Bases de Datos',
+          'skill.fw':       'Frameworks',
+          'skill.tools':    'Herramientas',
+          'skill.concepts': 'Conceptos & Metodologías',
+          'skill.ia':       'IA Aplicada',
+          'skill.spoken':   'Idiomas',
+          'skill.español':  'Español · Nativo',
+          'skill.ingles':   'Inglés · B1',
+          'skill.back.hint':          'hover para volver',
+          'skill.back.hint1':         'mueve el cursor · hover para girar',
+          'skill.lang.back.cat':      'Lenguajes de programación',
+          'skill.lang.back.desc':     'PHP como lenguaje principal en sistemas en producción. Python para scripting y automatización. JavaScript para interactividad frontend. HTML5 y CSS3 para maquetación semántica y diseño responsivo.',
+          'skill.db.back.cat':        'Persistencia de datos',
+          'skill.db.back.desc':       'Esquemas normalizados y queries complejas con MySQL (relacional). Almacenamiento de documentos flexible con MongoDB (NoSQL) en proyectos reales de producción.',
+          'skill.fw.back.cat':        'Librerías & Frameworks',
+          'skill.fw.back.desc':       'AngularJS para SPAs con two-way data binding y controladores MVC. Bootstrap para interfaces responsivas y cross-browser con componentes prediseñados.',
+          'skill.tools.back.cat':     'Entorno de desarrollo',
+          'skill.tools.back.desc':    'Control de versiones y trabajo colaborativo con Git y GitHub. Entorno de desarrollo local completo con XAMPP (Apache + MySQL + PHP). VS Code como editor principal con extensiones especializadas.',
+          'skill.concepts.back.cat':  'Conceptos aplicados',
+          'skill.concepts.back.desc': 'Implementados en proyectos reales: diseño de APIs RESTful con autenticación JWT, Programación Orientada a Objetos, arquitectura MVC, operaciones CRUD completas y flujos colaborativos con Scrum.',
+          'skill.ia.back.cat':        'Inteligencia Artificial',
+          'skill.ia.back.desc':       'Uso profesional de IA como herramienta de productividad: generación y revisión de código, depuración de errores, prototipado ágil y documentación técnica en el ciclo completo de desarrollo.',
+          'skill.spoken.back.cat':    'Comunicación',
+          'skill.spoken.back.desc':   'Español nativo para comunicación técnica y profesional. Inglés nivel B1 (intermedio): lectura fluida de documentación oficial, repositorios en GitHub, APIs y recursos internacionales.',
+
+          /* Proyectos */
+          'section.projects': 'Proyec<em>tos</em>',
+          'proj1.name':  'Sistema Web Empresarial de Gestión de Clientes',
+          'proj1.desc':  'Sistema interno que digitalizó el flujo completo de alta y consulta de clientes, eliminando el registro manual en la empresa. Autenticación segura con control de sesiones y módulo CRUD completo. En producción y en uso activo por el equipo operativo.',
+          'proj1.badge': 'EN PRODUCCIÓN ✓',
+          'proj2.name':  'Plataforma de Gestión de Flotilla Vehicular',
+          'proj2.desc':  'Plataforma web adoptada oficialmente por el Departamento de Recursos Materiales del TESCI para el control de viajes institucionales. Calendario interactivo con tracking de estados en tiempo real, eliminando el seguimiento en papel. Único desarrollador, entregado en plazo.',
+          'proj2.badge': 'INSTITUCIONAL ✓',
+          'proj3.name':  'Sitio Web con Panel Administrativo — Nutrición Inteligente',
+          'proj3.desc':  'Plataforma completa con login seguro y panel de administración de usuarios para cliente real. Diseño responsivo, gestión de contenido dinámico y despliegue en producción. Primer proyecto freelance entregado — actualmente activo.',
+          'proj3.badge': 'FREELANCE · ACTIVO ✓',
+          'proj4.name':  'BarberApp — PWA para Gestión de Barbería',
+          'proj4.desc':  'Aplicación web progresiva (PWA) desarrollada para un barbero independiente. Permite gestionar citas, registrar cortes, controlar gastos, calcular propinas y dividir ganancias entre barbero y dueño. Funciona sin servidor ni hosting mensual, instalable en cualquier dispositivo móvil o computadora.',
+          'proj4.badge': 'FREELANCE · VENDIDO ✓',
+
+          /* Educación */
+          'section.edu':  'Educa<em>ción</em>',
+          'edu.badge':    'EGRESADO · ENERO 2026',
+          'edu.label':    '// carrera',
+          'edu.period':   'Período',
+          'edu.acad':     'Estado académico',
+          'edu.degree':   'Ingeniería en Sistemas Computacionales',
+          'edu.status':   'Egresado · Titulación en proceso',
+
+          /* CV */
+          'cv.lang.label': 'Versión:',
+          'cv.mobile.msg': 'Toca para ver el CV completo',
+          'cv.btn.dl':   '⬇ Descargar CV',
+          'cv.btn.open': '↗ Abrir en nueva pestaña',
+
+          /* Contacto */
+          'section.contact':  'Contac<em>to</em>',
+          'contact.phone':    'Teléfono',
+          'contact.li':       'LinkedIn',
+          'contact.loc':      'Ubicación',
+          'contact.loc.val':  'Edo. Méx / CDMX',
+
+          /* Footer */
+          'footer.meta': '<span>Full Stack Developer</span><span class="site-footer__sep" aria-hidden="true">·</span><span>Ingeniero en Sistemas Computacionales</span><span class="site-footer__sep" aria-hidden="true">·</span><span>2026</span><span class="site-footer__sep" aria-hidden="true">·</span><span>Hecho con código real</span>',
+
+          /* Aria labels */
+          'aria.progress':    'Progreso de lectura',
+          'aria.nav':         'Navegación principal',
+          'aria.hero.badges': 'Stack tecnológico principal',
+          'aria.about.stats': 'Métricas clave',
+          'aria.skills.grid': 'Categorías de habilidades técnicas',
+          'aria.proj.stack':  'Tecnologías utilizadas',
+          'aria.cv.iframe':   'Visualizador del CV de Diego Soto García',
+          'aria.cv.dl':       'Descargar CV en formato PDF',
+          'aria.cv.open':     'Abrir CV en nueva pestaña',
+          'aria.li':          'LinkedIn de Diego Soto García',
+          'aria.loc':         'Ubicación: Estado de México y CDMX',
+          'aria.btn.top':     'Volver al inicio de la página',
+          'contact.aria.phone': 'Llamar a Diego al 56-3686-6429'
+        },
+
+        en: {
+          /* Nav */
+          'nav.inicio':    'Home',
+          'nav.sobre':     'About',
+          'nav.skills':    'Skills',
+          'nav.proyectos': 'Projects',
+          'nav.edu':       'Education',
+          'nav.contacto':  'Contact',
+
+          /* Hero */
+          'hero.subtitle':       'Full Stack Jr. Developer<span class="hero__subtitle-sep" aria-hidden="true">|</span>Computer Systems Engineer',
+          'hero.btn.projects':   'View Projects',
+          'hero.btn.contact':    'Contact Me',
+
+          /* About */
+          'section.sobre': 'About <em>Me</em>',
+          'about.degree': 'Computer Systems Engineer',
+          'about.school': 'TESCI — January 2026',
+          'about.bio': 'Computer Systems Engineer graduated from TESCI (January 2026) with experience building functional web systems through real projects. I have built solutions used by a private company, an institutional environment, and freelance clients, participating in the full development cycle: from database design to production deployment. Proficient in PHP, JavaScript, Python, MySQL and MongoDB, focused on backend development and web applications.',
+          'about.stat.prod': 'Production<br>projects',
+          'about.stat.free': 'Freelance<br>clients',
+          'about.stat.tech': 'Technologies<br>mastered',
+          'about.stat.fake': 'Fake<br>projects',
+          'about.avail':     'Mexico State / CDMX — Immediately available',
+
+          /* Skills */
+          'section.skills': '<em>Skills</em>',
+          'skill.lang':     'Languages',
+          'skill.db':       'Databases',
+          'skill.fw':       'Frameworks',
+          'skill.tools':    'Tools',
+          'skill.concepts': 'Concepts & Methodologies',
+          'skill.ia':       'Applied AI',
+          'skill.spoken':   'Spoken Languages',
+          'skill.español':  'Spanish · Native',
+          'skill.ingles':   'English · B1',
+          'skill.back.hint':          'hover to go back',
+          'skill.back.hint1':         'move the cursor · hover to flip',
+          'skill.lang.back.cat':      'Programming languages',
+          'skill.lang.back.desc':     'PHP as the primary language in production systems. Python for scripting and automation. JavaScript for frontend interactivity. HTML5 and CSS3 for semantic markup and responsive design.',
+          'skill.db.back.cat':        'Data persistence',
+          'skill.db.back.desc':       'Normalized schemas and complex queries with MySQL (relational). Flexible document storage with MongoDB (NoSQL) in real production projects.',
+          'skill.fw.back.cat':        'Libraries & Frameworks',
+          'skill.fw.back.desc':       'AngularJS for SPAs with two-way data binding and MVC controllers. Bootstrap for responsive, cross-browser interfaces with pre-built components.',
+          'skill.tools.back.cat':     'Development environment',
+          'skill.tools.back.desc':    'Version control and collaborative work with Git and GitHub. Full local development environment with XAMPP (Apache + MySQL + PHP). VS Code as the primary editor with specialized extensions.',
+          'skill.concepts.back.cat':  'Applied concepts',
+          'skill.concepts.back.desc': 'Applied in real projects: RESTful API design with JWT authentication, Object-Oriented Programming, MVC architecture, full CRUD operations and collaborative workflows with Scrum.',
+          'skill.ia.back.cat':        'Artificial Intelligence',
+          'skill.ia.back.desc':       'Professional use of AI as a productivity tool: code generation and review, debugging, agile prototyping and technical documentation across the full development cycle.',
+          'skill.spoken.back.cat':    'Communication',
+          'skill.spoken.back.desc':   'Native Spanish for technical and professional communication. English level B1 (intermediate): fluent reading of official documentation, GitHub repositories, APIs and international resources.',
+
+          /* Projects */
+          'section.projects': '<em>Projects</em>',
+          'proj1.name':  'Enterprise Web Client Management System',
+          'proj1.desc':  'Internal system that digitalized the complete client registration and lookup workflow, eliminating manual records. Secure authentication with session control and full CRUD module. Live in production and actively used by the operations team.',
+          'proj1.badge': 'LIVE IN PRODUCTION ✓',
+          'proj2.name':  'Vehicle Fleet Management Platform',
+          'proj2.desc':  'Web platform officially adopted by the TESCI Materials Department for institutional trip management. Interactive calendar with real-time status tracking, replacing paper-based follow-up. Solo developer, delivered on time.',
+          'proj2.badge': 'INSTITUTIONAL ✓',
+          'proj3.name':  'Website with Admin Panel — Nutrición Inteligente',
+          'proj3.desc':  'Full platform with secure login and user administration panel for a real client. Responsive design, dynamic content management and production server deployment. First freelance project delivered — currently live.',
+          'proj3.badge': 'FREELANCE · LIVE ✓',
+          'proj4.name':  'BarberApp — Barbershop Management PWA',
+          'proj4.desc':  'Progressive Web App (PWA) built for an independent barber. Manages appointments, haircut records, expenses, tip calculation, and profit-splitting between barber and owner. Runs with no server or monthly hosting, installable on any mobile or desktop device.',
+          'proj4.badge': 'FREELANCE · SOLD ✓',
+
+          /* Education */
+          'section.edu':  '<em>Education</em>',
+          'edu.badge':    'GRADUATED · JANUARY 2026',
+          'edu.label':    '// degree',
+          'edu.period':   'Period',
+          'edu.acad':     'Academic status',
+          'edu.degree':   'Computer Systems Engineering',
+          'edu.status':   'Graduated · Degree in progress',
+
+          /* CV */
+          'cv.lang.label': 'Version:',
+          'cv.mobile.msg': 'Tap to view the full CV',
+          'cv.btn.dl':   '⬇ Download CV',
+          'cv.btn.open': '↗ Open in new tab',
+
+          /* Contact */
+          'section.contact':  '<em>Contact</em>',
+          'contact.phone':    'Phone',
+          'contact.li':       'LinkedIn',
+          'contact.loc':      'Location',
+          'contact.loc.val':  'Mexico State / CDMX',
+
+          /* Footer */
+          'footer.meta': '<span>Full Stack Developer</span><span class="site-footer__sep" aria-hidden="true">·</span><span>Computer Systems Engineer</span><span class="site-footer__sep" aria-hidden="true">·</span><span>2026</span><span class="site-footer__sep" aria-hidden="true">·</span><span>Built with real code</span>',
+
+          /* Aria labels */
+          'aria.progress':    'Reading progress',
+          'aria.nav':         'Main navigation',
+          'aria.hero.badges': 'Main tech stack',
+          'aria.about.stats': 'Key metrics',
+          'aria.skills.grid': 'Technical skill categories',
+          'aria.proj.stack':  'Technologies used',
+          'aria.cv.iframe':   'Diego Soto García\'s CV viewer',
+          'aria.cv.dl':       'Download CV as PDF',
+          'aria.cv.open':     'Open CV in new tab',
+          'aria.li':          'Diego Soto García on LinkedIn',
+          'aria.loc':         'Location: Mexico State and CDMX',
+          'aria.btn.top':     'Back to top',
+          'contact.aria.phone': 'Call Diego at 56-3686-6429'
+        }
+      };
+
+      let lang = localStorage.getItem('portfolio-lang') || 'es';
+
+      /* ── Aplica todas las traducciones al DOM ── */
+      function updateTexts(l) {
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const v = T[l][el.dataset.i18n];
+          if (v !== undefined) el.textContent = v;
+        });
+        document.querySelectorAll('[data-i18n-html]').forEach(el => {
+          const v = T[l][el.dataset.i18nHtml];
+          if (v !== undefined) el.innerHTML = v;
+        });
+        document.querySelectorAll('[data-i18n-aria-label]').forEach(el => {
+          const v = T[l][el.dataset.i18nAriaLabel];
+          if (v !== undefined) el.setAttribute('aria-label', v);
+        });
+        /* Sincronizar clases activas del botón */
+        const btn = document.getElementById('js-lang-btn');
+        if (btn) {
+          btn.querySelectorAll('.lang-opt').forEach(o => {
+            o.classList.toggle('lang-opt--active', o.dataset.lang === l);
+          });
+          btn.setAttribute('aria-label', l === 'es' ? 'Switch to English' : 'Cambiar a Español');
+        }
+        /* Atributo lang del documento */
+        document.documentElement.lang = l;
+        localStorage.setItem('portfolio-lang', l);
+        lang = l;
+
+        /* PDF del CV según idioma */
+        const cvFile   = l === 'en' ? 'CV_DiegoSotoGarcia_2026_ENGLISH.pdf' : 'CV_DiegoSotoGarcia_2026.pdf';
+        const cvIframe = document.getElementById('cv-iframe');
+        const cvDl     = document.getElementById('btn-download-cv');
+        const cvOpen   = document.getElementById('btn-open-cv');
+        if (cvIframe) cvIframe.src = cvFile;
+        if (cvDl)   { cvDl.href = cvFile; cvDl.setAttribute('download', cvFile); }
+        if (cvOpen)   cvOpen.href = cvFile;
+      }
+
+      /* ── Cambia idioma con fade de 140ms ── */
+      function switchLang(target) {
+        document.body.classList.add('i18n-out');
+        setTimeout(() => {
+          updateTexts(target);
+          document.body.classList.remove('i18n-out');
+        }, 140);
+      }
+
+      /* ── Aplica al cargar (sin animación) ── */
+      updateTexts(lang);
+
+      /* ── Click en el toggle ── */
+      const btn = document.getElementById('js-lang-btn');
+      if (btn) {
+        btn.addEventListener('click', () => switchLang(lang === 'es' ? 'en' : 'es'));
+      }
+    })();
+
+  </script>
+</body>
+</html>
