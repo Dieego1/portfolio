@@ -1,4 +1,4 @@
-﻿    /* ═══════════════════════════════════════════════════════
+﻿   /* ═══════════════════════════════════════════════════════
        VARIABLES GLOBALES
     ═══════════════════════════════════════════════════════ */
     :root {
@@ -12,7 +12,7 @@
       /* Superficies glassmorphism */
       --glass-bg:      rgba(5, 5, 15, 0.72);
       --glass-border:  rgba(124, 58, 237, 0.18);
-      --glass-blur:    20px;
+      --glass-blur:    12px;
 
       /* Tipografías */
       --font-display: 'Orbitron', sans-serif;
@@ -146,6 +146,7 @@
       height: 100%;
       z-index: 0;
       pointer-events: none;
+      will-change: transform;
     }
 
     /* ═══════════════════════════════════════════════════════
@@ -176,7 +177,7 @@
         linear-gradient(rgba(124, 58, 237, 0.12) 1px, transparent 1px),
         linear-gradient(90deg, rgba(124, 58, 237, 0.12) 1px, transparent 1px);
       background-size: 60px 60px;
-      animation: floor-scroll 5s linear infinite;
+      animation: floor-scroll 10s linear infinite;
     }
 
     .scene-floor__fade {
@@ -302,7 +303,7 @@
       color: var(--secondary);
       letter-spacing: 4px;
       text-transform: uppercase;
-      margin-bottom: 14px;
+      margin-bottom: 20px;
       opacity: 0.9;
     }
 
@@ -1202,36 +1203,28 @@
 
     /* Estado inicial (oculto hasta que el observer dispara) */
     .skill-card {
-      perspective: 1000px;
       cursor: default;
       opacity: 0;
     }
 
     /* Encadenamos: appear (una vez) → float (infinito) */
     .skill-card.is-visible {
+      opacity: 1; /* fallback: si el fill de la animación se pierde, la card no desaparece */
       animation:
         skill-appear 0.70s cubic-bezier(0.23, 1, 0.32, 1) var(--ed, 0s) both,
         skill-float  var(--fd, 4.2s) ease-in-out calc(var(--ed, 0s) + 0.75s + var(--fd2, 0s)) infinite;
     }
 
-    /* ── Inner: objeto que gira en el flip ── */
+    /* ── Inner ── */
     .skill-card__inner {
       position: relative;
       width: 100%;
-      transform-style: preserve-3d;
-      transition: transform 0.80s cubic-bezier(0.23, 1, 0.32, 1);
     }
 
-    .skill-card:hover .skill-card__inner {
-      transform: rotateY(180deg);
-    }
-
-    /* ── Caras: front = flujo normal · back = absoluta overlay ── */
+    /* ── Cara frontal ── */
     .skill-card__face {
       border-radius: 18px;
       padding: 26px 28px;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
       overflow: hidden;
     }
 
@@ -1246,21 +1239,8 @@
       gap: 0;
     }
 
-    .skill-card__face--back {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(148deg, rgba(3, 2, 10, 0.97) 0%, rgba(14, 4, 22, 0.97) 100%);
-      border: 1px solid rgba(168, 85, 247, 0.20);
-      transform: rotateY(180deg);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 13px;
-    }
-
     /* ── Luz de cursor: radial gradient que sigue al mouse ── */
-    .skill-card__face--front::after,
-    .skill-card__face--back::after {
+    .skill-card__face--front::after {
       content: '';
       position: absolute;
       inset: 0;
@@ -1275,8 +1255,7 @@
       transition: opacity 0.4s ease;
     }
 
-    .skill-card:hover .skill-card__face--front::after,
-    .skill-card:hover .skill-card__face--back::after {
+    .skill-card:hover .skill-card__face--front::after {
       opacity: 1;
     }
 
@@ -1313,6 +1292,15 @@
       letter-spacing: 1px;
     }
 
+    .skill-card__desc {
+      font-family: var(--font-code);
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(240, 240, 240, 0.64);
+      line-height: 1.5;
+      margin: 10px 0;
+    }
+
     /* ── Chips / badges con glow neón animado ── */
     .skill-chips {
       display: flex;
@@ -1321,16 +1309,16 @@
     }
 
     @keyframes chip-glow-c {
-      0%, 100% { box-shadow: 0 0 4px rgba(124,58,237,0.20); }
-      50%       { box-shadow: 0 0 10px rgba(124,58,237,0.60), 0 0 18px rgba(124,58,237,0.20); }
+      0%, 100% { opacity: 0.80; }
+      50%       { opacity: 1;    }
     }
     @keyframes chip-glow-m {
-      0%, 100% { box-shadow: 0 0 4px rgba(168,85,247,0.20); }
-      50%       { box-shadow: 0 0 10px rgba(168,85,247,0.60), 0 0 18px rgba(168,85,247,0.20); }
+      0%, 100% { opacity: 0.80; }
+      50%       { opacity: 1;    }
     }
     @keyframes chip-glow-g {
-      0%, 100% { box-shadow: 0 0 4px rgba(192,132,252,0.20); }
-      50%       { box-shadow: 0 0 10px rgba(192,132,252,0.60), 0 0 18px rgba(192,132,252,0.20); }
+      0%, 100% { opacity: 0.80; }
+      50%       { opacity: 1;    }
     }
 
     .skill-chip {
@@ -1370,91 +1358,6 @@
       animation: chip-glow-g 2.8s ease-in-out var(--ci, 0s) infinite;
     }
 
-    /* ── Cara trasera ── */
-    .skill-card__back-icon {
-      font-size: 2rem;
-      line-height: 1;
-    }
-
-    .skill-card__back-cat {
-      font-family: var(--font-display);
-      font-size: 0.60rem;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--secondary);
-    }
-
-    .skill-card__back-desc {
-      font-family: var(--font-code);
-      font-size: 0.74rem;
-      color: rgba(240, 240, 240, 0.66);
-      line-height: 1.92;
-    }
-
-    .skill-card__back-hint {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: var(--font-code);
-      font-size: 0.58rem;
-      color: rgba(240, 240, 240, 0.20);
-      letter-spacing: 1.5px;
-      margin-top: 4px;
-    }
-
-    .skill-card__back-hint::before {
-      content: '';
-      display: inline-block;
-      width: 14px;
-      height: 1px;
-      background: rgba(168, 85, 247, 0.35);
-    }
-
-    /* ── Scroll fix: reverso de skill cards ── */
-    .skill-card__face--back {
-      justify-content: flex-start;
-      overflow-y: auto;
-      max-height: 100%;
-      scrollbar-width: thin;
-      scrollbar-color: #7C3AED transparent;
-    }
-
-    .skill-card__face--back::-webkit-scrollbar { width: 4px; }
-    .skill-card__face--back::-webkit-scrollbar-track { background: transparent; }
-    .skill-card__face--back::-webkit-scrollbar-thumb {
-      background: #7C3AED;
-      border-radius: 2px;
-    }
-
-    /* ── Indicador de scroll inferior ── */
-    .skill-back__scroll-fade {
-      position: sticky;
-      bottom: 0;
-      flex-shrink: 0;
-      height: 36px;
-      margin-top: auto;
-      background: linear-gradient(transparent, rgba(124, 58, 237, 0.15));
-      pointer-events: none;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      padding-bottom: 4px;
-      transition: opacity 0.25s ease;
-    }
-
-    .skill-back__scroll-fade::after {
-      content: '↕ scroll';
-      color: #7C3AED;
-      opacity: 0.5;
-      font-size: 10px;
-      font-family: var(--font-code);
-      letter-spacing: 1px;
-    }
-
-    .skill-back__scroll-fade.is-scrolled {
-      opacity: 0;
-    }
 
     /* ═══════════════════════════════════════════════════════
        PROYECTOS — MONITOR CARDS 3D + TIMELINE VERTICAL
@@ -1860,8 +1763,8 @@
       justify-content: center;
       z-index: 800;
       cursor: none;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       opacity: 0;
       transform: translateY(22px) scale(0.82);
       transition: opacity 0.4s ease, transform 0.45s cubic-bezier(0.23,1,0.32,1),
@@ -2201,25 +2104,35 @@
     .contact-card--phone  { --cc: 61, 255, 128;  color: inherit; }
     .contact-card--email  { --cc: 255, 45, 120;  color: inherit; }
     .contact-card--li     { --cc: 0, 119, 181;   color: inherit; }
+    .contact-card--wa     { --cc: 37, 211, 102;  color: inherit; }
+    .contact-card--gh     { --cc: 230, 237, 243; color: inherit; }
     .contact-card--loc    { --cc: 255, 215, 0;   color: inherit; }
 
     .contact-card--phone  .contact-card__icon-wrap { color: #3DFF80; }
     .contact-card--email  .contact-card__icon-wrap { color: var(--secondary); }
     .contact-card--li     .contact-card__icon-wrap { color: #4DB8FF; }
+    .contact-card--wa     .contact-card__icon-wrap { color: #25D366; }
+    .contact-card--gh     .contact-card__icon-wrap { color: #E6EDF3; }
     .contact-card--loc    .contact-card__icon-wrap { color: var(--accent); }
 
-    .contact-card--phone  .contact-card__icon-bg { background: rgba(61,255,128,0.07);  border-color: rgba(61,255,128,0.22);  animation: none; }
-    .contact-card--email  .contact-card__icon-bg { background: rgba(168,85,247,0.07);  border-color: rgba(168,85,247,0.22);  animation: chip-glow-m 3s ease-in-out infinite; }
-    .contact-card--li     .contact-card__icon-bg { background: rgba(0,119,181,0.10);   border-color: rgba(0,119,181,0.28);   animation: none; }
-    .contact-card--loc    .contact-card__icon-bg { background: rgba(192,132,252,0.07);   border-color: rgba(192,132,252,0.22);   animation: chip-glow-g 3s ease-in-out infinite; }
+    .contact-card--phone  .contact-card__icon-bg { background: rgba(61,255,128,0.07);   border-color: rgba(61,255,128,0.22);   animation: none; }
+    .contact-card--email  .contact-card__icon-bg { background: rgba(168,85,247,0.07);   border-color: rgba(168,85,247,0.22);   animation: chip-glow-m 3s ease-in-out infinite; }
+    .contact-card--li     .contact-card__icon-bg { background: rgba(0,119,181,0.10);    border-color: rgba(0,119,181,0.28);    animation: none; }
+    .contact-card--wa     .contact-card__icon-bg { background: rgba(37,211,102,0.08);   border-color: rgba(37,211,102,0.24);   animation: none; }
+    .contact-card--gh     .contact-card__icon-bg { background: rgba(230,237,243,0.06);  border-color: rgba(230,237,243,0.18);  animation: none; }
+    .contact-card--loc    .contact-card__icon-bg { background: rgba(192,132,252,0.07);  border-color: rgba(192,132,252,0.22);  animation: chip-glow-g 3s ease-in-out infinite; }
 
-    .contact-card--phone:hover  { border-color: rgba(61,255,128,0.32);  box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 24px rgba(61,255,128,0.22); }
-    .contact-card--email:hover  { border-color: rgba(168,85,247,0.32);  box-shadow: 0 20px 50px rgba(0,0,0,0.5), var(--glow-secondary); }
-    .contact-card--li:hover     { border-color: rgba(0,119,181,0.42);   box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 24px rgba(0,119,181,0.22); }
+    .contact-card--phone:hover  { border-color: rgba(61,255,128,0.32);   box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 24px rgba(61,255,128,0.22); }
+    .contact-card--email:hover  { border-color: rgba(168,85,247,0.32);   box-shadow: 0 20px 50px rgba(0,0,0,0.5), var(--glow-secondary); }
+    .contact-card--li:hover     { border-color: rgba(0,119,181,0.42);    box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 24px rgba(0,119,181,0.22); }
+    .contact-card--wa:hover     { border-color: rgba(37,211,102,0.38);   box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 24px rgba(37,211,102,0.22); }
+    .contact-card--gh:hover     { border-color: rgba(230,237,243,0.28);  box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 24px rgba(230,237,243,0.14); }
 
     .contact-card--phone:hover  .contact-card__value { color: #3DFF80; }
     .contact-card--email:hover  .contact-card__value { color: var(--secondary); }
     .contact-card--li:hover     .contact-card__value { color: #4DB8FF; }
+    .contact-card--wa:hover     .contact-card__value { color: #25D366; }
+    .contact-card--gh:hover     .contact-card__value { color: #E6EDF3; }
 
     /* ═══════════════════════════════════════════════════════
        FOOTER
@@ -2708,19 +2621,17 @@
     }
 
     /* ═══════════════════════════════════════════════════════
-       PERFORMANCE — will-change en elementos críticos
+       PERFORMANCE — will-change solo en animaciones activas
     ═══════════════════════════════════════════════════════ */
-    .skill-card__inner,
-    .proj-card,
-    .about-card,
-    .edu-card,
-    .contact-card,
-    .nav__inner,
-    .btn-top {
+    .nav__inner {
       will-change: transform;
     }
 
     .hero__badge {
+      will-change: transform;
+    }
+
+    .skill-card.is-visible {
       will-change: transform;
     }
 
