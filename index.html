@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="es" translate="no">
 <head>
   <meta charset="UTF-8" />
@@ -664,6 +664,61 @@
       <span class="cyber-divider__dot"></span>
     </div>
 
+    <!-- ══════════════ NEGOCIO ACTIVO ══════════════ -->
+    <section id="negocio" class="section negocio-section" aria-labelledby="title-negocio">
+      <div class="section__inner">
+        <span class="section__tag">// negocio — business.ts</span>
+        <h2 class="section__title" id="title-negocio" data-i18n-html="section.negocio">Mi <em>Negocio</em></h2>
+        <p class="negocio-subtitle" data-i18n="negocio.subtitle">Más allá de los proyectos — ofrezco servicios profesionales activamente</p>
+
+        <!-- Card principal DSG Developer -->
+        <div class="negocio-card js-negocio-card">
+
+          <!-- Badge estado -->
+          <div class="negocio-badge">
+            <span class="negocio-badge__dot" aria-hidden="true"></span>
+            <span data-i18n="negocio.badge">⚡ NEGOCIO ACTIVO · 2026 – Presente</span>
+          </div>
+
+          <!-- Nombre de marca -->
+          <h3 class="negocio-brand">DSG Developer</h3>
+
+          <!-- Descripción -->
+          <p class="negocio-desc" data-i18n="negocio.desc">
+            Marca personal de desarrollo web profesional activa. Ofrezco servicios de
+            desarrollo web a medida, sistemas de gestión, chatbots con inteligencia
+            artificial y servidores Discord para empresas, negocios y creadores de
+            contenido en México y el extranjero.
+          </p>
+
+          <!-- Grid de servicios -->
+          <ul class="negocio-services" aria-label="Servicios ofrecidos" data-i18n-aria-label="aria.negocio.services">
+            <li><span class="negocio-svc-icon" aria-hidden="true">🌐</span><span data-i18n="negocio.svc1">Páginas web</span></li>
+            <li><span class="negocio-svc-icon" aria-hidden="true">⚙️</span><span data-i18n="negocio.svc2">Sistemas a medida</span></li>
+            <li><span class="negocio-svc-icon" aria-hidden="true">🤖</span><span data-i18n="negocio.svc3">Chatbots con IA</span></li>
+            <li><span class="negocio-svc-icon" aria-hidden="true">🎮</span><span data-i18n="negocio.svc4">Servidores Discord</span></li>
+            <li><span class="negocio-svc-icon" aria-hidden="true">📊</span><span data-i18n="negocio.svc5">Bases de datos</span></li>
+            <li><span class="negocio-svc-icon" aria-hidden="true">🔧</span><span data-i18n="negocio.svc6">Mantenimiento</span></li>
+          </ul>
+
+          <!-- CTA -->
+          <a class="negocio-cta"
+             href="https://dsg-developer-mx.netlify.app"
+             target="_blank"
+             rel="noopener noreferrer"
+             data-i18n="negocio.cta"
+             aria-label="Ver sitio profesional de DSG Developer (abre en nueva pestaña)">
+            🌐 Ver Sitio Profesional
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="cyber-divider" aria-hidden="true">
+      <span class="cyber-divider__dot"></span>
+    </div>
+
     <!-- ══════════════ EDUCACIÓN ══════════════ -->
     <section id="educacion" class="section" aria-labelledby="title-edu">
       <div class="section__inner">
@@ -1286,6 +1341,45 @@
     })();
 
     /* ─────────────────────────────────────────────────────────
+       NEGOCIO — SCROLL REVEAL + TILT 3D
+    ───────────────────────────────────────────────────────── */
+    (function initNegocio() {
+      const card = document.querySelector('.js-negocio-card');
+      if (!card) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              card.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -60px 0px' }
+      );
+      observer.observe(card);
+
+      let negRaf = false, negOx = 0, negOy = 0;
+      card.addEventListener('mouseenter', () => { card.style.willChange = 'transform'; });
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        negOx = ((e.clientX - rect.left) / rect.width  - 0.5) * 2;
+        negOy = ((e.clientY - rect.top)  / rect.height - 0.5) * 2;
+        if (negRaf) return;
+        negRaf = true;
+        requestAnimationFrame(() => {
+          card.style.transform = `perspective(900px) translateZ(20px) rotateX(${-negOy * 3}deg) rotateY(${negOx * 4}deg)`;
+          negRaf = false;
+        });
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+        card.style.willChange = '';
+      });
+    })();
+
+    /* ─────────────────────────────────────────────────────────
        HABILIDADES — SCROLL REVEAL + CURSOR LIGHT
     ───────────────────────────────────────────────────────── */
     (function initSkills() {
@@ -1562,6 +1656,20 @@
           'proj4.desc':  'Aplicación web progresiva (PWA) desarrollada para un barbero independiente. Permite gestionar citas, registrar cortes, controlar gastos, calcular propinas y dividir ganancias entre barbero y dueño. Funciona sin servidor ni hosting mensual, instalable en cualquier dispositivo móvil o computadora.',
           'proj4.badge': 'FREELANCE · VENDIDO ✓',
 
+          /* Negocio */
+          'section.negocio':       'Mi <em>Negocio</em>',
+          'negocio.subtitle':      'Más allá de los proyectos — ofrezco servicios profesionales activamente',
+          'negocio.badge':         '⚡ NEGOCIO ACTIVO · 2026 – Presente',
+          'negocio.desc':          'Marca personal de desarrollo web profesional activa. Ofrezco servicios de desarrollo web a medida, sistemas de gestión, chatbots con inteligencia artificial y servidores Discord para empresas, negocios y creadores de contenido en México y el extranjero.',
+          'negocio.svc1':          'Páginas web',
+          'negocio.svc2':          'Sistemas a medida',
+          'negocio.svc3':          'Chatbots con IA',
+          'negocio.svc4':          'Servidores Discord',
+          'negocio.svc5':          'Bases de datos',
+          'negocio.svc6':          'Mantenimiento',
+          'negocio.cta':           '🌐 Ver Sitio Profesional',
+          'aria.negocio.services': 'Servicios ofrecidos',
+
           /* Educación */
           'section.edu':  'Educa<em>ción</em>',
           'edu.badge':    'EGRESADO · ENERO 2026',
@@ -1682,6 +1790,20 @@
           'proj4.desc':  'Progressive Web App (PWA) built for an independent barber. Manages appointments, haircut records, expenses, tip calculation, and profit-splitting between barber and owner. Runs with no server or monthly hosting, installable on any mobile or desktop device.',
           'proj4.badge': 'FREELANCE · SOLD ✓',
 
+          /* Business */
+          'section.negocio':       'My Active <em>Business</em>',
+          'negocio.subtitle':      'Beyond projects — I actively offer professional services',
+          'negocio.badge':         '⚡ ACTIVE BUSINESS · 2026 – Present',
+          'negocio.desc':          'Active personal professional web development brand. I offer custom web development services, management systems, artificial intelligence chatbots and Discord servers for companies, businesses and content creators in Mexico and abroad.',
+          'negocio.svc1':          'Websites',
+          'negocio.svc2':          'Custom systems',
+          'negocio.svc3':          'AI Chatbots',
+          'negocio.svc4':          'Discord Servers',
+          'negocio.svc5':          'Databases',
+          'negocio.svc6':          'Maintenance',
+          'negocio.cta':           '🌐 View Professional Site',
+          'aria.negocio.services': 'Services offered',
+
           /* Education */
           'section.edu':  '<em>Education</em>',
           'edu.badge':    'GRADUATED · JANUARY 2026',
@@ -1789,4 +1911,3 @@
   </script>
 </body>
 </html>
-
