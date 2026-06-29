@@ -1,4 +1,4 @@
-﻿   /* ═══════════════════════════════════════════════════════
+    /* ═══════════════════════════════════════════════════════
        VARIABLES GLOBALES
     ═══════════════════════════════════════════════════════ */
     :root {
@@ -1536,7 +1536,7 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.07);
     }
 
-    /* ── Barra de título (estilo code editor) ── */
+/* ── Barra de título (estilo code editor) ── */
     .proj-card__bar {
       display: flex;
       align-items: center;
@@ -1603,7 +1603,7 @@
       color: var(--accent);
     }
 
-    .proj-badge__dot {
+.proj-badge__dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
@@ -1790,6 +1790,164 @@
       border-right: 2px solid var(--primary);
       transform: rotate(-45deg) translateY(3px);
       flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       NEGOCIO ACTIVO
+    ═══════════════════════════════════════════════════════ */
+
+    .negocio-section {
+      background: radial-gradient(ellipse at 50% 0%, rgba(245, 158, 11, 0.05) 0%, transparent 65%);
+    }
+
+    .negocio-subtitle {
+      font-family: var(--font-code);
+      font-size: 0.85rem;
+      color: rgba(240, 240, 240, 0.52);
+      margin-top: -36px;
+      margin-bottom: 44px;
+      letter-spacing: 0.4px;
+    }
+
+    .negocio-card {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(4, 4, 10, 0.97);
+      border-radius: 20px;
+      padding: 40px 44px 44px;
+      border: 1.5px solid rgba(245, 158, 11, 0.30);
+      box-shadow:
+        0  8px 32px rgba(0, 0, 0, 0.55),
+        0  0  80px  rgba(245, 158, 11, 0.07),
+        inset 0 1px 0 rgba(245, 158, 11, 0.12);
+      opacity: 0;
+      transform: translateY(44px);
+      transition:
+        opacity   0.72s cubic-bezier(0.23, 1, 0.32, 1),
+        transform 0.72s cubic-bezier(0.23, 1, 0.32, 1),
+        box-shadow   0.40s ease,
+        border-color 0.40s ease;
+    }
+
+    .negocio-card.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .negocio-card:hover {
+      border-color: rgba(245, 158, 11, 0.52);
+      box-shadow:
+        0  8px 32px  rgba(0, 0, 0, 0.55),
+        0  0  110px  rgba(245, 158, 11, 0.14),
+        inset 0 1px 0 rgba(245, 158, 11, 0.18);
+    }
+
+    .negocio-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: rgba(245, 158, 11, 0.10);
+      border: 1px solid rgba(245, 158, 11, 0.36);
+      border-radius: 100px;
+      font-family: var(--font-code);
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #F59E0B;
+      letter-spacing: 1.8px;
+      margin-bottom: 22px;
+    }
+
+    .negocio-badge__dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #F59E0B;
+      box-shadow: 0 0 8px #F59E0B;
+      animation: proj-dot-pulse 1.8s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    .negocio-brand {
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 5vw, 3rem);
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+      text-shadow:
+        2px  2px  0   rgba(245, 158, 11, 0.50),
+        4px  4px  8px rgba(245, 158, 11, 0.25),
+        0    0   40px rgba(245, 158, 11, 0.18);
+    }
+
+    .negocio-desc {
+      font-family: var(--font-code);
+      font-size: 0.88rem;
+      color: rgba(240, 240, 240, 0.68);
+      line-height: 1.75;
+      margin-bottom: 32px;
+      max-width: 640px;
+    }
+
+    .negocio-services {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px 14px;
+      margin-bottom: 36px;
+      padding: 0;
+    }
+
+    .negocio-services li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-code);
+      font-size: 0.78rem;
+      color: rgba(240, 240, 240, 0.72);
+      background: rgba(245, 158, 11, 0.05);
+      border: 1px solid rgba(245, 158, 11, 0.14);
+      border-radius: 8px;
+      padding: 9px 12px;
+      transition: background 0.25s ease, border-color 0.25s ease;
+    }
+
+    .negocio-services li:hover {
+      background: rgba(245, 158, 11, 0.09);
+      border-color: rgba(245, 158, 11, 0.28);
+    }
+
+    .negocio-svc-icon { flex-shrink: 0; }
+
+    .negocio-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 34px;
+      background: rgba(124, 58, 237, 0.14);
+      border: 1.5px solid rgba(124, 58, 237, 0.46);
+      border-radius: 10px;
+      font-family: var(--font-code);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: 0.4px;
+      box-shadow: 0 0 22px rgba(124, 58, 237, 0.14);
+      transition:
+        background    0.30s ease,
+        border-color  0.30s ease,
+        box-shadow    0.30s ease,
+        transform     0.30s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .negocio-cta:hover {
+      background: rgba(124, 58, 237, 0.28);
+      border-color: rgba(124, 58, 237, 0.72);
+      box-shadow: 0 0 44px rgba(124, 58, 237, 0.30);
+      transform: translateY(-2px);
     }
 
     /* ═══════════════════════════════════════════════════════
@@ -2717,6 +2875,12 @@
       }
       .skill-card--2col {
         grid-column: span 1;
+      }
+      .negocio-card {
+        padding: 26px 18px 30px;
+      }
+      .negocio-services {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
