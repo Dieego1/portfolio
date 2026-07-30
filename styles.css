@@ -1793,6 +1793,122 @@
     }
 
     /* ═══════════════════════════════════════════════════════
+       EXPERIENCIA LABORAL
+    ═══════════════════════════════════════════════════════ */
+    .exp-card {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(4, 4, 10, 0.97);
+      border-radius: 20px;
+      padding: 40px 44px 44px;
+      border: 1.5px solid rgba(124, 58, 237, 0.30);
+      box-shadow:
+        0  8px 32px rgba(0, 0, 0, 0.55),
+        0  0  80px  rgba(124, 58, 237, 0.07),
+        inset 0 1px 0 rgba(124, 58, 237, 0.12);
+      opacity: 0;
+      transform: translateY(44px);
+      transition:
+        opacity   0.72s cubic-bezier(0.23, 1, 0.32, 1),
+        transform 0.72s cubic-bezier(0.23, 1, 0.32, 1),
+        box-shadow   0.40s ease,
+        border-color 0.40s ease;
+    }
+
+    .exp-card.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .exp-card:hover {
+      border-color: rgba(124, 58, 237, 0.52);
+      box-shadow:
+        0  8px 32px  rgba(0, 0, 0, 0.55),
+        0  0  110px  rgba(124, 58, 237, 0.14),
+        inset 0 1px 0 rgba(124, 58, 237, 0.18);
+    }
+
+    .exp-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: rgba(124, 58, 237, 0.10);
+      border: 1px solid rgba(124, 58, 237, 0.36);
+      border-radius: 100px;
+      font-family: var(--font-code);
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 1.8px;
+      margin-bottom: 22px;
+    }
+
+    .exp-badge__dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      animation: proj-dot-pulse 1.8s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    .exp-role {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 3.6vw, 1.9rem);
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.4px;
+      margin-bottom: 6px;
+    }
+
+    .exp-company {
+      font-family: var(--font-code);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.4px;
+      margin-bottom: 24px;
+    }
+
+    .exp-desc {
+      font-family: var(--font-code);
+      font-size: 0.88rem;
+      color: rgba(240, 240, 240, 0.68);
+      line-height: 1.75;
+      margin-bottom: 28px;
+      max-width: 640px;
+    }
+
+    .exp-stat {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 10px;
+      background: rgba(124, 58, 237, 0.05);
+      border: 1px solid rgba(124, 58, 237, 0.14);
+      border-radius: 10px;
+      padding: 12px 20px;
+    }
+
+    .exp-stat__num {
+      font-family: var(--font-display);
+      font-size: 1.7rem;
+      font-weight: 900;
+      color: var(--primary);
+      text-shadow: var(--glow-primary);
+      line-height: 1;
+    }
+
+    .exp-stat__label {
+      font-family: var(--font-code);
+      font-size: 0.78rem;
+      color: rgba(240, 240, 240, 0.62);
+      letter-spacing: 0.3px;
+    }
+
+    /* ═══════════════════════════════════════════════════════
        NEGOCIO ACTIVO
     ═══════════════════════════════════════════════════════ */
 
@@ -2522,6 +2638,14 @@
       gap: 12px;
       height: 160px;
       padding: 24px;
+      text-decoration: none;
+      cursor: pointer;
+      -webkit-tap-highlight-color: rgba(124, 58, 237, 0.18);
+      transition: background 0.25s ease;
+    }
+
+    .cv-mobile-msg:active {
+      background: rgba(124, 58, 237, 0.06);
     }
 
     .cv-mobile-msg__icon {
@@ -2881,6 +3005,9 @@
       }
       .negocio-services {
         grid-template-columns: repeat(2, 1fr);
+      }
+      .exp-card {
+        padding: 26px 18px 30px;
       }
     }
 
