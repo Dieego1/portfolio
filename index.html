@@ -61,7 +61,9 @@
       <a href="#inicio"      class="nav__link" data-nav="inicio">      <span class="nav__link--text" data-i18n="nav.inicio">Inicio</span>      </a>
       <a href="#sobre-mi"    class="nav__link" data-nav="sobre-mi">    <span class="nav__link--text" data-i18n="nav.sobre">Sobre mí</span>    </a>
       <a href="#habilidades" class="nav__link" data-nav="habilidades"> <span class="nav__link--text" data-i18n="nav.skills">Habilidades</span> </a>
+      <a href="#experiencia" class="nav__link" data-nav="experiencia"> <span class="nav__link--text" data-i18n="nav.exp">Experiencia</span> </a>
       <a href="#proyectos"   class="nav__link" data-nav="proyectos">   <span class="nav__link--text" data-i18n="nav.proyectos">Proyectos</span>   </a>
+      <a href="#negocio"     class="nav__link" data-nav="negocio">     <span class="nav__link--text" data-i18n="nav.negocio">Negocio</span>     </a>
       <a href="#educacion"   class="nav__link" data-nav="educacion">   <span class="nav__link--text" data-i18n="nav.edu">Educación</span>   </a>
       <a href="#cv"          class="nav__link" data-nav="cv">          <span class="nav__link--text">CV</span>          </a>
       <a href="#contacto"    class="nav__link" data-nav="contacto">    <span class="nav__link--text" data-i18n="nav.contacto">Contacto</span>    </a>
@@ -252,7 +254,7 @@
                 <div class="skill-card__header">
                   <span class="skill-card__icon" aria-hidden="true">⌨️</span>
                   <h3 class="skill-card__title" data-i18n="skill.lang">Lenguajes</h3>
-                  <span class="skill-card__count">6 langs</span>
+                  <span class="skill-card__count">7 langs</span>
                 </div>
                 <p class="skill-card__desc" data-i18n="skill.lang.desc">Lenguajes de programación para desarrollo backend y frontend.</p>
                 <div class="skill-chips">
@@ -262,6 +264,7 @@
                   <span class="skill-chip skill-chip--m" style="--ci:0.60s">HTML5</span>
                   <span class="skill-chip skill-chip--c" style="--ci:0.80s">CSS3</span>
                   <span class="skill-chip skill-chip--c" style="--ci:1.00s">SQL</span>
+                  <span class="skill-chip skill-chip--g" style="--ci:1.20s">Java</span>
                 </div>
               </div>
 
@@ -408,6 +411,40 @@
           </div>
 
         </div><!-- /skills-grid -->
+      </div>
+    </section>
+
+    <div class="cyber-divider" aria-hidden="true">
+      <span class="cyber-divider__dot"></span>
+    </div>
+
+    <!-- ══════════════ EXPERIENCIA ══════════════ -->
+    <section id="experiencia" class="section" aria-labelledby="title-exp">
+      <div class="section__inner">
+        <span class="section__tag">// experiencia — work_history.ts</span>
+        <h2 class="section__title" id="title-exp" data-i18n-html="section.exp">Exp<em>eriencia</em></h2>
+
+        <div class="exp-card js-exp-card">
+
+          <div class="exp-badge">
+            <span class="exp-badge__dot" aria-hidden="true"></span>
+            <span data-i18n="exp.badge">💼 EN CURSO · Sep 2025 – Presente</span>
+          </div>
+
+          <h3 class="exp-role" data-i18n="exp.role">Desarrollador Full Stack Jr. · Freelance</h3>
+          <p class="exp-company">DSG Developer</p>
+
+          <p class="exp-desc" data-i18n="exp.desc">
+            Desarrollo de sistemas y apps web (backend, frontend, BD y despliegue) para
+            empresas, instituciones y clientes freelance.
+          </p>
+
+          <div class="exp-stat">
+            <span class="exp-stat__num">4</span>
+            <span class="exp-stat__label" data-i18n="exp.stat">proyectos en producción</span>
+          </div>
+
+        </div>
       </div>
     </section>
 
@@ -831,10 +868,14 @@
               </iframe>
 
               <!-- Mensaje mobile (sustituye al iframe) -->
-              <div class="cv-mobile-msg" aria-hidden="true">
-                <span class="cv-mobile-msg__icon">📄</span>
+              <a class="cv-mobile-msg" id="cv-mobile-link"
+                 href="CV_DiegoSotoGarcia_2026.pdf"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 aria-label="Abrir CV en nueva pestaña" data-i18n-aria-label="aria.cv.open">
+                <span class="cv-mobile-msg__icon" aria-hidden="true">📄</span>
                 <p class="cv-mobile-msg__text" data-i18n="cv.mobile.msg">Toca para ver el CV completo</p>
-              </div>
+              </a>
 
             </div><!-- /cv-viewer__screen -->
           </div><!-- /cv-viewer-wrap -->
@@ -1380,6 +1421,45 @@
     })();
 
     /* ─────────────────────────────────────────────────────────
+       EXPERIENCIA — SCROLL REVEAL + TILT 3D
+    ───────────────────────────────────────────────────────── */
+    (function initExperiencia() {
+      const card = document.querySelector('.js-exp-card');
+      if (!card) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              card.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -60px 0px' }
+      );
+      observer.observe(card);
+
+      let expRaf = false, expOx = 0, expOy = 0;
+      card.addEventListener('mouseenter', () => { card.style.willChange = 'transform'; });
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        expOx = ((e.clientX - rect.left) / rect.width  - 0.5) * 2;
+        expOy = ((e.clientY - rect.top)  / rect.height - 0.5) * 2;
+        if (expRaf) return;
+        expRaf = true;
+        requestAnimationFrame(() => {
+          card.style.transform = `perspective(900px) translateZ(20px) rotateX(${-expOy * 3}deg) rotateY(${expOx * 4}deg)`;
+          expRaf = false;
+        });
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+        card.style.willChange = '';
+      });
+    })();
+
+    /* ─────────────────────────────────────────────────────────
        HABILIDADES — SCROLL REVEAL + CURSOR LIGHT
     ───────────────────────────────────────────────────────── */
     (function initSkills() {
@@ -1586,7 +1666,9 @@
           'nav.inicio':    'Inicio',
           'nav.sobre':     'Sobre mí',
           'nav.skills':    'Habilidades',
+          'nav.exp':       'Experiencia',
           'nav.proyectos': 'Proyectos',
+          'nav.negocio':   'Negocio',
           'nav.edu':       'Educación',
           'nav.contacto':  'Contacto',
 
@@ -1640,6 +1722,13 @@
           'skill.ia.back.desc':       'Uso profesional de IA como herramienta de productividad: generación y revisión de código, depuración de errores, prototipado ágil y documentación técnica en el ciclo completo de desarrollo.',
           'skill.spoken.back.cat':    'Comunicación',
           'skill.spoken.back.desc':   'Español nativo para comunicación técnica y profesional. Inglés nivel B1 (intermedio): lectura fluida de documentación oficial, repositorios en GitHub, APIs y recursos internacionales.',
+
+          /* Experiencia */
+          'section.exp': 'Exp<em>eriencia</em>',
+          'exp.badge':   '💼 EN CURSO · Sep 2025 – Presente',
+          'exp.role':    'Desarrollador Full Stack Jr. · Freelance',
+          'exp.desc':    'Desarrollo de sistemas y apps web (backend, frontend, BD y despliegue) para empresas, instituciones y clientes freelance.',
+          'exp.stat':    'proyectos en producción',
 
           /* Proyectos */
           'section.projects': 'Proyec<em>tos</em>',
@@ -1720,7 +1809,9 @@
           'nav.inicio':    'Home',
           'nav.sobre':     'About',
           'nav.skills':    'Skills',
+          'nav.exp':       'Experience',
           'nav.proyectos': 'Projects',
+          'nav.negocio':   'Business',
           'nav.edu':       'Education',
           'nav.contacto':  'Contact',
 
@@ -1774,6 +1865,13 @@
           'skill.ia.back.desc':       'Professional use of AI as a productivity tool: code generation and review, debugging, agile prototyping and technical documentation across the full development cycle.',
           'skill.spoken.back.cat':    'Communication',
           'skill.spoken.back.desc':   'Native Spanish for technical and professional communication. English level B1 (intermediate): fluent reading of official documentation, GitHub repositories, APIs and international resources.',
+
+          /* Experience */
+          'section.exp': '<em>Experience</em>',
+          'exp.badge':   '💼 ONGOING · Sep 2025 – Present',
+          'exp.role':    'Full Stack Jr. Developer · Freelance',
+          'exp.desc':    'Development of web systems and applications (backend, frontend, database and deployment) for companies, institutions and freelance clients.',
+          'exp.stat':    'production projects',
 
           /* Projects */
           'section.projects': '<em>Projects</em>',
@@ -1884,9 +1982,11 @@
         const cvIframe = document.getElementById('cv-iframe');
         const cvDl     = document.getElementById('btn-download-cv');
         const cvOpen   = document.getElementById('btn-open-cv');
+        const cvMobile = document.getElementById('cv-mobile-link');
         if (cvIframe) cvIframe.src = cvFile;
         if (cvDl)   { cvDl.href = cvFile; cvDl.setAttribute('download', cvFile); }
         if (cvOpen)   cvOpen.href = cvFile;
+        if (cvMobile) cvMobile.href = cvFile;
       }
 
       /* ── Cambia idioma con fade de 140ms ── */
