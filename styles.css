@@ -2475,6 +2475,87 @@
     }
 
     /* ═══════════════════════════════════════════════════════
+       CERTIFICACIONES
+    ═══════════════════════════════════════════════════════ */
+    .cert-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    .cert-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      background: rgba(6, 6, 12, 0.92);
+      border: 1px solid rgba(124, 58, 237, 0.15);
+      border-radius: 16px;
+      padding: 24px 28px;
+      transition:
+        border-color 0.30s ease,
+        box-shadow   0.30s ease,
+        transform    0.30s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .cert-card:hover {
+      border-color: rgba(124, 58, 237, 0.38);
+      box-shadow: 0 0 40px rgba(124, 58, 237, 0.10);
+      transform: translateY(-2px);
+    }
+
+    .cert-icon {
+      font-size: 1.7rem;
+      line-height: 1;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 10px rgba(124, 58, 237, 0.35));
+    }
+
+    .cert-body {
+      min-width: 0;
+    }
+
+    .cert-name {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.2px;
+      margin-bottom: 6px;
+    }
+
+    .cert-issuer {
+      font-family: var(--font-code);
+      font-size: 0.80rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .cert-detail {
+      font-family: var(--font-code);
+      font-size: 0.76rem;
+      color: rgba(240, 240, 240, 0.56);
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .cert-date {
+      display: inline-block;
+      font-family: var(--font-code);
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: rgba(240, 240, 240, 0.48);
+      letter-spacing: 0.6px;
+      border: 1px solid rgba(124, 58, 237, 0.20);
+      border-radius: 100px;
+      padding: 3px 12px;
+    }
+
+    /* ═══════════════════════════════════════════════════════
        CV — VISOR PDF 3D HOLOGRÁFICO
     ═══════════════════════════════════════════════════════ */
 
@@ -3008,6 +3089,11 @@
       }
       .exp-card {
         padding: 26px 18px 30px;
+      }
+      .cert-card {
+        flex-direction: column;
+        gap: 10px;
+        padding: 20px 18px;
       }
     }
 
