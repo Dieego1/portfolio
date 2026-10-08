@@ -2458,6 +2458,8 @@
         progressFill.style.width = '0%';
       }
 
+      let lastProgressPaint = 0;
+
       function startEngine() {
         const PA = window.PortfolioAssistant;
         if (!PA) return Promise.resolve(null);
@@ -2466,6 +2468,9 @@
           progressHooked = true;
           p = PA.preload((ev) => {
             if (ev.status !== 'progress') return;
+            const now = performance.now();
+            if (now - lastProgressPaint < 100) return;
+            lastProgressPaint = now;
             showProgress(ev.progress || 0);
             if (typingBubble) typingBubble.textContent = BOT_T[currentLang()].loading;
           });
