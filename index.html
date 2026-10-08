@@ -2410,7 +2410,7 @@
       let busy = false;
       let typingBubble = null;
       let progressHooked = false;
-      let lastQuestion = '';
+      let lastTopicId = '';
       /* Frase para ver preguntas sin responder (/missed <frase>). Está en el código fuente,
          así que no es seguridad real: solo evita que un visitante casual la vea. */
       const ADMIN_PASS = 'dsg2026';
@@ -2553,8 +2553,8 @@
         typingBubble = typing;
         const engine = await startEngine();
         typingBubble = null;
-        const result = await window.PortfolioAssistant.answerAsync(clean, currentLang(), engine, { lastQuestion });
-        if (!result.followUp) lastQuestion = clean;
+        const result = await window.PortfolioAssistant.answerAsync(clean, currentLang(), engine, { lastTopicId });
+        if (result.topicId) lastTopicId = result.topicId;
         const reply = result.text;
         const ok = !result.blocked;
 

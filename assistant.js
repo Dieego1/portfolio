@@ -659,14 +659,14 @@
     return entry.dynamic ? entry.dynamic(L) : entry.answer[L];
   }
 
-  // nota: "primero/primera/ultimo/ultima" NO se incluyen aqui a proposito: esas palabras ya
-  // resuelven bien solas (coinciden de forma directa con los temas "first"/"recent"), y tratarlas
-  // como seguimiento las obliga a combinarse con la pregunta anterior y pierden esa precision.
-  const FOLLOWUP_WORDS = new Set(['eso', 'esa', 'ese', 'otro', 'otra', 'segundo', 'segunda', 'tercero', 'tercera',
-    'cuarto', 'cuarta', 'tambien',
+  // "primero/primera/ultimo/ultima" se dejan fuera a proposito: esas palabras ya resuelven
+  // bien solas contra los temas "first"/"recent", tratarlas como genericas les haria perder
+  // esa precision.
+  const GENERIC_FOLLOWUP_WORDS = new Set(['eso', 'esa', 'ese', 'otro', 'otra', 'segundo', 'segunda',
+    'tercero', 'tercera', 'cuarto', 'cuarta', 'tambien',
     'and', 'that', 'it', 'other', 'second', 'third', 'fourth', 'more', 'else', 'too']);
 
-  const FOLLOWUP_PHRASES = [
+  const GENERIC_FOLLOWUP_PHRASES = [
     'y el segundo', 'y la segunda', 'y el tercero', 'y la tercera', 'y el cuarto', 'y la cuarta',
     'y el otro', 'y la otra', 'del otro', 'de los otros', 'que hay del otro', 'cuentame mas',
     'dame mas detalles', 'mas detalles', 'y ese', 'y esa', 'y eso', 'what about the other',
@@ -674,18 +674,15 @@
     'and the second', 'and the third', 'and the fourth', 'and that one', 'what about it'
   ].map(normalize);
 
-  function isFollowUp(text) {
+  // Una frase "generica" de seguimiento no tiene contenido propio (nombres, temas) que el
+  // modelo pueda rankear con confianza por si sola, asi que en vez de dejar que el modelo
+  // adivine (puede aterrizar en cualquier tema corto por pura coincidencia de estilo, como
+  // "cuentame mas" pareciendose a un saludo), se usa directo el tema de la pregunta anterior.
+  function isGenericFollowUp(text) {
     const q = normalize(text);
     const tokens = q.split(' ').filter(Boolean);
-    if (tokens.length > 0 && tokens.length <= 3 && tokens.some(t => FOLLOWUP_WORDS.has(t))) return true;
-    return FOLLOWUP_PHRASES.some(p => (' ' + q + ' ').includes(' ' + p + ' '));
-  }
-
-  function buildQuery(text, context) {
-    if (context && context.lastQuestion && isFollowUp(text)) {
-      return context.lastQuestion + ' ' + text;
-    }
-    return text;
+    if (tokens.length > 0 && tokens.length <= 3 && tokens.some(t => GENERIC_FOLLOWUP_WORDS.has(t))) return true;
+    return GENERIC_FOLLOWUP_PHRASES.some(p => (' ' + q + ' ').includes(' ' + p + ' '));
   }
 
   function monthsSince(fromISO) {
@@ -714,14 +711,21 @@
 
   function answer(question, lang, context) {
     const text = String(question || '').trim().slice(0, 500);
-    const followUp = !!(context && context.lastQuestion && isFollowUp(text));
-    const effective = buildQuery(text, context);
-    const L = detectLang(effective, lang === 'en' ? 'en' : 'es');
-    if (!text) return { text: OUT[L], blocked: false, followUp };
-    if (isOffensive(text)) return { text: BLOCK[L], blocked: true, followUp };
+    const L = detectLang(text, lang === 'en' ? 'en' : 'es');
+    if (!text) return { text: OUT[L], blocked: false, topicId: null };
+    if (isOffensive(text)) return { text: BLOCK[L], blocked: true, topicId: null };
 
-    const q = normalize(effective);
+    const q = normalize(text);
     const { known, missing } = missingTech(q);
+    const hasContext = !!(context && context.lastTopicId && BY_ID[context.lastTopicId]);
+
+    if (hasContext && isGenericFollowUp(text)) {
+      const topicId = context.lastTopicId;
+      const parts = [];
+      if (missing.length) parts.push(missingNote(missing, L));
+      parts.push(answerText(BY_ID[topicId], L));
+      return { text: parts.join('\n\n'), blocked: false, topicId };
+    }
 
     const ranked = DATA
       .map(entry => ({ entry, score: scoreEntry(entry, q, known) }))
@@ -729,14 +733,14 @@
       .sort((a, b) => b.score - a.score);
 
     const parts = [];
+    let topicId = null;
     if (missing.length && known === 0) {
       parts.push(missingNote(missing, L));
       parts.push(answerText(BY_ID.skills, L));
-    } else if (ranked.length === 0) {
-      logMiss(text, L);
-      return { text: OUT[L], blocked: false, followUp };
-    } else {
+      topicId = 'skills';
+    } else if (ranked.length > 0) {
       const [first, second] = ranked;
+      topicId = first.entry.id;
       if (missing.length) parts.push(missingNote(missing, L));
       parts.push(answerText(first.entry, L));
       const combine = second
@@ -746,8 +750,14 @@
         && second.entry.id !== 'greeting'
         && !(first.entry.group && first.entry.group === second.entry.group);
       if (combine) parts.push(answerText(second.entry, L));
+    } else if (hasContext) {
+      topicId = context.lastTopicId;
+      parts.push(answerText(BY_ID[topicId], L));
+    } else {
+      logMiss(text, L);
+      return { text: OUT[L], blocked: false, topicId: null };
     }
-    return { text: parts.join('\n\n'), blocked: false, followUp };
+    return { text: parts.join('\n\n'), blocked: false, topicId };
   }
 
   const WORKER_SRC = `
@@ -881,42 +891,59 @@
   async function answerAsync(question, lang, engine, context) {
     if (!engine) return answer(question, lang, context);
     const text = String(question || '').trim().slice(0, 500);
-    const followUp = !!(context && context.lastQuestion && isFollowUp(text));
-    const effective = buildQuery(text, context);
-    const L = detectLang(effective, lang === 'en' ? 'en' : 'es');
-    if (!text) return { text: OUT[L], blocked: false, followUp };
-    if (isOffensive(text)) return { text: BLOCK[L], blocked: true, followUp };
+    const L = detectLang(text, lang === 'en' ? 'en' : 'es');
+    if (!text) return { text: OUT[L], blocked: false, topicId: null };
+    if (isOffensive(text)) return { text: BLOCK[L], blocked: true, topicId: null };
 
-    const { known, missing } = missingTech(normalize(effective));
+    const { known, missing } = missingTech(normalize(text));
     if (missing.length && known === 0) {
-      return { text: [missingNote(missing, L), answerText(BY_ID.skills, L)].join('\n\n'), blocked: false, followUp };
+      return { text: [missingNote(missing, L), answerText(BY_ID.skills, L)].join('\n\n'), blocked: false, topicId: 'skills' };
+    }
+
+    const hasContext = !!(context && context.lastTopicId && BY_ID[context.lastTopicId]);
+
+    if (hasContext && isGenericFollowUp(text)) {
+      const topicId = context.lastTopicId;
+      const parts = [];
+      if (missing.length) parts.push(missingNote(missing, L));
+      parts.push(answerText(BY_ID[topicId], L));
+      return { text: parts.join('\n\n'), blocked: false, topicId };
     }
 
     let ranking;
     try {
-      ranking = await engine.rank(effective);
+      ranking = await engine.rank(text);
     } catch (err) {
       return answer(text, lang, context);
     }
     const { topics, off } = ranking;
     const [first, second] = topics;
-    if (!first || first.score < ACCEPT_MIN || first.score < off + MARGIN) {
+    const standsAlone = !!(first && first.score >= ACCEPT_MIN && first.score >= off + MARGIN);
+
+    let topicId;
+    if (standsAlone) {
+      topicId = first.id;
+    } else if (hasContext) {
+      topicId = context.lastTopicId;
+    } else {
       logMiss(text, L);
-      return { text: OUT[L], blocked: false, followUp };
+      return { text: OUT[L], blocked: false, topicId: null };
     }
 
     const parts = [];
     if (missing.length) parts.push(missingNote(missing, L));
-    const firstEntry = BY_ID[first.id];
+    const firstEntry = BY_ID[topicId];
     parts.push(answerText(firstEntry, L));
-    const secondEntry = second && BY_ID[second.id];
-    const combine = secondEntry
-      && second.score >= COMBINE_MIN
-      && first.id !== 'greeting'
-      && second.id !== 'greeting'
-      && !(firstEntry.group && firstEntry.group === secondEntry.group);
-    if (combine) parts.push(answerText(secondEntry, L));
-    return { text: parts.join('\n\n'), blocked: false, followUp };
+    if (standsAlone) {
+      const secondEntry = second && BY_ID[second.id];
+      const combine = secondEntry
+        && second.score >= COMBINE_MIN
+        && first.id !== 'greeting'
+        && second.id !== 'greeting'
+        && !(firstEntry.group && firstEntry.group === secondEntry.group);
+      if (combine) parts.push(answerText(secondEntry, L));
+    }
+    return { text: parts.join('\n\n'), blocked: false, topicId };
   }
 
   let enginePromise = null;
