@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es" translate="no">
 <head>
   <meta charset="UTF-8" />
@@ -1101,8 +1101,56 @@
   <!-- ══════════════════════════════════════════════════════════
        SCRIPTS
   ══════════════════════════════════════════════════════════ -->
+  <!-- ─── ROBOT ASISTENTE + CHAT ─────────────────────────────── -->
+  <div class="bot" id="bot">
+    <div class="bot-bubble" id="bot-bubble" aria-hidden="true"></div>
+    <span class="bot-tag" id="bot-tag"></span>
+    <div class="bot-stack">
+    <button class="bot-head-btn" id="bot-toggle" type="button" aria-expanded="false" aria-controls="bot-chat" aria-label="Abrir asistente del portafolio">
+      <span class="bot-antenna" aria-hidden="true"><span class="bot-antenna__ball"></span></span>
+      <span class="bot-head" aria-hidden="true">
+        <span class="bot-visor">
+          <span class="bot-eye bot-eye--l"><span class="bot-eye__lid"></span></span>
+          <span class="bot-eye bot-eye--r"><span class="bot-eye__lid"></span></span>
+          <span class="bot-scan"></span>
+        </span>
+        <span class="bot-grille"><i></i><i></i><i></i><i></i></span>
+      </span>
+      <span class="bot-neck" aria-hidden="true"></span>
+    </button>
+    <button class="bot-hide" id="bot-hide" type="button" aria-label="Ocultar asistente">×</button>
+    </div>
+    <div class="bot-shadow" aria-hidden="true"></div>
+    <button class="bot-mini" id="bot-mini" type="button"></button>
+  </div>
+
+  <section class="bot-chat" id="bot-chat" hidden aria-labelledby="bot-title">
+    <header class="bot-chat__head">
+      <span id="bot-title">Asistente del portafolio</span>
+      <button class="bot-chat__close" id="bot-close" type="button" aria-label="Cerrar asistente">×</button>
+    </header>
+    <div class="bot-progress" id="bot-progress" hidden><div class="bot-progress__bar" id="bot-progress-bar"></div></div>
+    <details class="bot-rules" open>
+      <summary id="bot-rules-title">Reglas del asistente</summary>
+      <ol id="bot-rules-list"></ol>
+    </details>
+    <div class="bot-chat__log" id="bot-log" aria-live="polite"></div>
+    <div class="bot-chips" id="bot-chips"></div>
+    <form class="bot-form" id="bot-form">
+      <input id="bot-input" type="text" maxlength="500" autocomplete="off" aria-label="Escribe tu pregunta" />
+      <span class="bot-count" id="bot-count">0/500</span>
+      <button class="bot-send" type="submit"></button>
+    </form>
+  </section>
+
+  <script src="assistant.js"></script>
   <script>
     'use strict';
+
+    /* Gama baja: menos memoria/núcleos de lo normal → se apagan efectos pesados */
+    const LOW_END = (navigator.deviceMemory && navigator.deviceMemory <= 4)
+      || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
+    if (LOW_END) document.documentElement.classList.add('is-low-end');
 
     /* ─────────────────────────────────────────────────────────
        CURSOR PERSONALIZADO
@@ -1158,7 +1206,7 @@
       const ctx = canvas.getContext('2d');
       canvas.style.willChange = 'transform';
       const COLORS = ['#7C3AED','#A855F7','#C084FC','#F8F8FF'];
-      const COUNT = 30;
+      const COUNT = LOW_END ? 14 : 30;
       let W, H, CX, CY;
 
       function resize() {
@@ -2070,6 +2118,540 @@
       }
     })();
 
+    /* ─────────────────────────────────────────────────────────
+       ROBOT ASISTENTE — OJOS, REACCIONES Y CHAT
+    ───────────────────────────────────────────────────────── */
+    (function initBot() {
+      const bot      = document.getElementById('bot');
+      const toggle   = document.getElementById('bot-toggle');
+      const bubble   = document.getElementById('bot-bubble');
+      const chat     = document.getElementById('bot-chat');
+      const closeBtn = document.getElementById('bot-close');
+      const log      = document.getElementById('bot-log');
+      const form     = document.getElementById('bot-form');
+      const input    = document.getElementById('bot-input');
+      const count    = document.getElementById('bot-count');
+      const chips    = document.getElementById('bot-chips');
+      const sendBtn  = form.querySelector('.bot-send');
+      const sectionEls = [...document.querySelectorAll('main section[id]')];
+      if (!bot || !toggle || !chat) return;
+
+      const BOT_T = {
+        es: {
+          title: 'Asistente IA del portafolio',
+          rulesTitle: 'Reglas del asistente',
+          rules: [
+            'Soy una inteligencia artificial (IA), no una persona.',
+            'Solo respondo preguntas sobre el portafolio de Diego Soto García: experiencia, proyectos, estudios, certificados, habilidades, CV y contacto.',
+            'No respondo otros temas (tareas, noticias, opiniones, código ajeno, etc.).',
+            'No acepto ni respondo groserías, insultos ni malas palabras. El chat se mantiene respetuoso.',
+            'Si la información no está en el portafolio, lo indico y sugiero contactar a Diego.',
+            'Mensajes de máximo 500 caracteres.'
+          ],
+          placeholder: 'Escribe tu pregunta…',
+          send: 'Enviar',
+          greeting: '¡Hola! Soy una IA, el asistente del portafolio de Diego. Pregúntame sobre sus proyectos, experiencia, estudios o contacto.',
+          chips: ['¿Qué proyectos tiene?', '¿Qué tecnologías domina?', '¿Cómo lo contacto?'],
+          typing: 'Escribiendo…',
+          loading: 'Cargando la IA (solo la primera vez)…',
+          tag: 'IA · clic para preguntar',
+          open: 'Abrir asistente IA del portafolio',
+          close: 'Cerrar asistente',
+          scanning: 'Escaneando',
+          surprised: '¡Uy, qué rápido!',
+          end: '¿Hablamos? Escríbeme',
+          thinking: 'Pensando…',
+          done: '¡Listo!',
+          oops: 'Ups, algo salió mal',
+          welcome: '¡Hola! Soy una IA que responde sobre el portafolio.',
+          happy: ['¡Hola!', '¿En qué te ayudo?', '¡Qué gusto verte aquí!'],
+          hide: 'Ocultar asistente',
+          show: 'Asistente IA',
+          sections: {
+            inicio: 'Inicio', 'sobre-mi': 'Sobre mí', habilidades: 'Habilidades', experiencia: 'Experiencia',
+            proyectos: 'Proyectos', negocio: 'Negocio', educacion: 'Educación', certificaciones: 'Certificados',
+            cv: 'CV', contacto: 'Contacto'
+          }
+        },
+        en: {
+          title: 'Portfolio AI assistant',
+          rulesTitle: 'Assistant rules',
+          rules: [
+            'I am an artificial intelligence (AI), not a person.',
+            'I only answer questions about Diego Soto García’s portfolio: experience, projects, education, certifications, skills, CV and contact.',
+            'I do not answer other topics (homework, news, opinions, unrelated code, etc.).',
+            'I do not accept or answer insults, profanity or offensive language. The chat stays respectful.',
+            'If the information is not in the portfolio, I say so and suggest contacting Diego.',
+            'Messages of up to 500 characters.'
+          ],
+          placeholder: 'Type your question…',
+          send: 'Send',
+          greeting: 'Hi! I’m Diego’s portfolio assistant. Ask me about his projects, experience, education or contact.',
+          chips: ['What projects has he built?', 'What technologies does he use?', 'How can I contact him?'],
+          typing: 'Typing…',
+          loading: 'Loading AI (first time only)…',
+          tag: 'AI · click to ask',
+          open: 'Open portfolio AI assistant',
+          close: 'Close assistant',
+          scanning: 'Scanning',
+          surprised: 'Whoa, that’s fast!',
+          end: 'Let’s talk! Write me',
+          thinking: 'Thinking…',
+          done: 'Done!',
+          oops: 'Oops, something went wrong',
+          welcome: 'Hi! I’m an AI that answers questions about the portfolio.',
+          happy: ['Hi!', 'How can I help?', 'Glad you stopped by!'],
+          hide: 'Hide assistant',
+          show: 'AI Assistant',
+          sections: {
+            inicio: 'Home', 'sobre-mi': 'About', habilidades: 'Skills', experiencia: 'Experience',
+            proyectos: 'Projects', negocio: 'Business', educacion: 'Education', certificaciones: 'Certifications',
+            cv: 'CV', contacto: 'Contact'
+          }
+        }
+      };
+
+      const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+      const currentLang = () => (document.documentElement.lang === 'en' ? 'en' : 'es');
+
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+      let lookX = 0, lookY = 0, scrollBias = 0;
+      let lastScrollY = window.scrollY, lastSurprise = 0;
+      let overrideText = '', overrideUntil = 0, shownText = null, ticking = false;
+      let lastPointer = -Infinity;
+      let scanTimer = null;
+
+      let sectionTops = [];
+
+      function measureSections() {
+        sectionTops = sectionEls.map(s => {
+          const heading = s.querySelector('h1, h2, .section__title, .hero__name') || s;
+          const r = heading.getBoundingClientRect();
+          return {
+            id: s.id,
+            top: s.getBoundingClientRect().top + window.scrollY,
+            hx: r.left + r.width / 2,
+            hy: r.top + window.scrollY + r.height / 2
+          };
+        });
+      }
+
+      function currentSectionEntry() {
+        const mid = window.scrollY + window.innerHeight * 0.4;
+        let current = sectionTops[0];
+        for (const s of sectionTops) {
+          if (s.top <= mid) current = s;
+        }
+        return current;
+      }
+
+      function sectionLabel() {
+        const T = BOT_T[currentLang()];
+        const current = currentSectionEntry();
+        const name = current && T.sections[current.id];
+        return name ? `${T.scanning}: ${name}` : '';
+      }
+
+      function updateBubble() {
+        const T = BOT_T[currentLang()];
+        let text;
+        if (performance.now() < overrideUntil) text = overrideText;
+        else if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 80) text = T.end;
+        else text = sectionLabel();
+        if (text !== shownText) {
+          bubble.textContent = text;
+          shownText = text;
+        }
+      }
+
+      let nextGlance = performance.now() + 5000 + Math.random() * 6000;
+      let glanceUntil = 0, glanceX = 0, glanceY = 0;
+
+      function frame() {
+        ticking = false;
+        const rect = toggle.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 3;
+        const now = performance.now();
+        let tgtX = mx, tgtY = my;
+        if (!chat.hidden) {
+          const r = document.activeElement === input ? input.getBoundingClientRect() : chat.getBoundingClientRect();
+          tgtX = r.left + r.width / 2;
+          tgtY = r.top + r.height / 2;
+        } else if (now - lastPointer > 2500) {
+          const cur = currentSectionEntry();
+          if (cur && typeof cur.hx === 'number') {
+            tgtX = cur.hx;
+            tgtY = cur.hy - window.scrollY;
+          } else {
+            tgtX = window.innerWidth / 2;
+            tgtY = window.innerHeight * 0.6;
+          }
+        }
+        let tx = clamp((tgtX - cx) / 240, -1, 1);
+        let ty = clamp((tgtY - cy) / 240, -1, 1);
+
+        if (chat.hidden && now > nextGlance) {
+          glanceX = (Math.random() - 0.5) * 1.8;
+          glanceY = (Math.random() - 0.5) * 1.2;
+          glanceUntil = now + 500;
+          nextGlance = now + 6000 + Math.random() * 8000;
+        }
+        if (now < glanceUntil) {
+          tx = clamp(glanceX, -1, 1);
+          ty = clamp(glanceY, -1, 1);
+        }
+
+        scrollBias *= 0.92;
+        const nx = lookX + (tx - lookX) * 0.12;
+        const ny = lookY + (ty + scrollBias - lookY) * 0.12;
+        const moving = Math.abs(nx - lookX) + Math.abs(ny - lookY) > 0.001 || Math.abs(scrollBias) > 0.01 || now < glanceUntil;
+        lookX = nx;
+        lookY = ny;
+        bot.style.setProperty('--lx', lookX.toFixed(3));
+        bot.style.setProperty('--ly', lookY.toFixed(3));
+        updateBubble();
+        if (moving) requestFrame();
+      }
+
+      function requestFrame() {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(frame);
+        }
+      }
+
+      function surprise() {
+        bot.classList.add('is-surprised');
+        overrideText = BOT_T[currentLang()].surprised;
+        overrideUntil = performance.now() + 1600;
+        setTimeout(() => bot.classList.remove('is-surprised'), 1000);
+        setTimeout(requestFrame, 1700);
+        requestFrame();
+      }
+
+      function setState(name) {
+        ['thinking', 'happy', 'confused'].forEach(s => bot.classList.remove('is-' + s));
+        if (name) bot.classList.add('is-' + name);
+      }
+
+      function flash(name, ms) {
+        setState(name);
+        setTimeout(() => {
+          if (bot.classList.contains('is-' + name)) setState(null);
+        }, ms);
+      }
+
+      function showBubble(text, ms) {
+        overrideText = text;
+        overrideUntil = ms === Infinity ? Infinity : performance.now() + ms;
+        if (ms !== Infinity) setTimeout(requestFrame, ms + 50);
+        requestFrame();
+      }
+
+      function clearBubble() {
+        overrideUntil = 0;
+        requestFrame();
+      }
+
+      function react() {
+        const T = BOT_T[currentLang()];
+        flash('happy', 1200);
+        showBubble(T.happy[Math.floor(Math.random() * T.happy.length)], 1600);
+      }
+
+      function readSession(key) {
+        try { return sessionStorage.getItem(key); } catch { return null; }
+      }
+
+      function writeSession(key, value) {
+        try { sessionStorage.setItem(key, value); } catch {}
+      }
+
+      function setMinimized(on) {
+        bot.classList.toggle('is-minimized', on);
+        writeSession('bot-minimized', on ? '1' : '');
+        if (on) setOpen(false);
+        else document.getElementById('bot-mini').classList.remove('has-unread');
+      }
+
+      function notePointer(x, y) {
+        mx = x;
+        my = y;
+        lastPointer = performance.now();
+        requestFrame();
+        setTimeout(requestFrame, 2600);
+      }
+
+      window.addEventListener('mousemove', (e) => notePointer(e.clientX, e.clientY), { passive: true });
+      window.addEventListener('touchstart', (e) => {
+        const t = e.touches[0];
+        if (t) notePointer(t.clientX, t.clientY);
+      }, { passive: true });
+
+      window.addEventListener('scroll', () => {
+        const dy = window.scrollY - lastScrollY;
+        lastScrollY = window.scrollY;
+        scrollBias = clamp(scrollBias + Math.sign(dy) * 0.12, -0.6, 0.6);
+        if (dy > 0) {
+          bot.style.setProperty('--scan-dur', clamp(2.6 - dy / 60, 0.35, 2.6).toFixed(2) + 's');
+          bot.classList.add('is-scanning');
+          clearTimeout(scanTimer);
+          scanTimer = setTimeout(() => bot.classList.remove('is-scanning'), 700);
+        }
+        const now = performance.now();
+        if (Math.abs(dy) > 120 && now - lastSurprise > 4000) {
+          lastSurprise = now;
+          surprise();
+        }
+        requestFrame();
+      }, { passive: true });
+
+      window.addEventListener('resize', () => {
+        measureSections();
+        requestFrame();
+      }, { passive: true });
+      window.addEventListener('load', measureSections);
+      setInterval(requestFrame, 3000);
+
+      document.addEventListener('visibilitychange', () => {
+        document.body.classList.toggle('bot-paused', document.hidden);
+      });
+
+      function loadHistory() {
+        try {
+          const raw = sessionStorage.getItem('bot-history');
+          const arr = raw ? JSON.parse(raw) : [];
+          return Array.isArray(arr)
+            ? arr.filter(m => m && typeof m.content === 'string' && (m.role === 'user' || m.role === 'assistant')).slice(-30)
+            : [];
+        } catch {
+          return [];
+        }
+      }
+
+      function saveHistory() {
+        try {
+          sessionStorage.setItem('bot-history', JSON.stringify(messages.slice(-30)));
+        } catch {}
+      }
+
+      let messages = loadHistory();
+      let busy = false;
+      let typingBubble = null;
+      let progressHooked = false;
+      let lastQuestion = '';
+      /* Frase para ver preguntas sin responder (/missed <frase>). Está en el código fuente,
+         así que no es seguridad real: solo evita que un visitante casual la vea. */
+      const ADMIN_PASS = 'dsg2026';
+
+      const progressBar = document.getElementById('bot-progress');
+      const progressFill = document.getElementById('bot-progress-bar');
+
+      function showProgress(pct) {
+        progressBar.hidden = false;
+        progressFill.style.width = Math.max(4, Math.min(100, pct)) + '%';
+      }
+
+      function hideProgress() {
+        progressBar.hidden = true;
+        progressFill.style.width = '0%';
+      }
+
+      function startEngine() {
+        const PA = window.PortfolioAssistant;
+        if (!PA) return Promise.resolve(null);
+        let p;
+        if (!progressHooked) {
+          progressHooked = true;
+          p = PA.preload((ev) => {
+            if (ev.status !== 'progress') return;
+            showProgress(ev.progress || 0);
+            if (typingBubble) typingBubble.textContent = BOT_T[currentLang()].loading;
+          });
+        } else {
+          p = PA.preload();
+        }
+        return p.then((engine) => { hideProgress(); return engine; });
+      }
+
+      function scrollLog() {
+        log.scrollTop = log.scrollHeight;
+      }
+
+      function appendBubble(role, text) {
+        const el = document.createElement('div');
+        el.className = 'bot-msg ' + (role === 'user' ? 'bot-msg--user' : 'bot-msg--bot');
+        el.textContent = text;
+        log.appendChild(el);
+        return el;
+      }
+
+      function render() {
+        log.textContent = '';
+        if (!messages.length) appendBubble('assistant', BOT_T[currentLang()].greeting);
+        messages.forEach(m => appendBubble(m.role, m.content));
+        chips.hidden = messages.length > 0;
+        scrollLog();
+      }
+
+      function addMessage(role, content) {
+        messages.push({ role, content });
+        saveHistory();
+        appendBubble(role, content);
+        scrollLog();
+        if (role === 'assistant' && bot.classList.contains('is-minimized')) {
+          document.getElementById('bot-mini').classList.add('has-unread');
+        }
+      }
+
+      function renderChips() {
+        chips.textContent = '';
+        BOT_T[currentLang()].chips.forEach(q => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'bot-chip';
+          b.textContent = q;
+          b.addEventListener('click', () => send(q));
+          chips.appendChild(b);
+        });
+      }
+
+      function applyLang() {
+        const T = BOT_T[currentLang()];
+        toggle.setAttribute('aria-label', T.open);
+        closeBtn.setAttribute('aria-label', T.close);
+        document.getElementById('bot-title').textContent = T.title;
+        document.getElementById('bot-rules-title').textContent = T.rulesTitle;
+        document.getElementById('bot-tag').textContent = T.tag;
+        const list = document.getElementById('bot-rules-list');
+        list.textContent = '';
+        T.rules.forEach(r => {
+          const li = document.createElement('li');
+          li.textContent = r;
+          list.appendChild(li);
+        });
+        input.placeholder = T.placeholder;
+        sendBtn.textContent = T.send;
+        document.getElementById('bot-mini').textContent = T.show;
+        document.getElementById('bot-hide').setAttribute('aria-label', T.hide);
+        renderChips();
+        if (!messages.length) render();
+        shownText = null;
+        requestFrame();
+      }
+
+      async function send(text) {
+        const clean = text.trim().slice(0, 500);
+        if (!clean || busy) return;
+
+        const admin = clean.match(/^\/(missed|clearmissed)\s+(\S+)$/i);
+        if (admin) {
+          const [, cmd, pass] = admin;
+          addMessage('user', clean);
+          chips.hidden = true;
+          if (pass !== ADMIN_PASS) {
+            addMessage('assistant', currentLang() === 'en' ? 'Wrong passphrase.' : 'Frase incorrecta.');
+          } else if (cmd.toLowerCase() === 'clearmissed') {
+            window.PortfolioAssistant.clearMissedQuestions();
+            addMessage('assistant', currentLang() === 'en' ? 'Missed-question log cleared.' : 'Registro de preguntas sin responder borrado.');
+          } else {
+            const list = window.PortfolioAssistant.getMissedQuestions();
+            const last = list.slice(-10).map(m => `- (${m.lang}) ${m.q}`).join('\n');
+            addMessage('assistant', (currentLang() === 'en'
+              ? `Unanswered questions logged: ${list.length}.`
+              : `Preguntas sin responder registradas: ${list.length}.`) + (last ? '\n' + last : ''));
+          }
+          return;
+        }
+
+        busy = true;
+        sendBtn.disabled = true;
+        setState('thinking');
+        showBubble(BOT_T[currentLang()].thinking, Infinity);
+        addMessage('user', clean);
+        chips.hidden = true;
+        const typing = appendBubble('assistant', BOT_T[currentLang()].typing);
+        typing.classList.add('bot-typing');
+        scrollLog();
+
+        typingBubble = typing;
+        const engine = await startEngine();
+        typingBubble = null;
+        const result = await window.PortfolioAssistant.answerAsync(clean, currentLang(), engine, { lastQuestion });
+        lastQuestion = clean;
+        const reply = result.text;
+        const ok = !result.blocked;
+
+        typing.remove();
+        addMessage('assistant', reply);
+        busy = false;
+        sendBtn.disabled = false;
+        const T = BOT_T[currentLang()];
+        if (ok) {
+          flash('happy', 1200);
+          showBubble(T.done, 1500);
+        } else {
+          flash('confused', 2000);
+          showBubble(T.oops, 2000);
+        }
+        input.focus();
+      }
+
+      function setOpen(open) {
+        chat.hidden = !open;
+        bot.classList.toggle('is-chatting', open);
+        toggle.setAttribute('aria-expanded', String(open));
+        if (open) {
+          input.focus();
+          startEngine();
+        }
+      }
+
+      toggle.addEventListener('click', () => {
+        react();
+        setOpen(chat.hidden);
+      });
+      document.getElementById('bot-hide').addEventListener('click', () => setMinimized(true));
+      document.getElementById('bot-mini').addEventListener('click', () => {
+        setMinimized(false);
+        setOpen(true);
+      });
+      input.addEventListener('focus', requestFrame);
+      input.addEventListener('blur', requestFrame);
+      closeBtn.addEventListener('click', () => { setOpen(false); toggle.focus(); });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !chat.hidden) {
+          setOpen(false);
+          toggle.focus();
+        }
+      });
+
+      input.addEventListener('input', () => {
+        count.textContent = `${input.value.length}/500`;
+      });
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (busy) return;
+        const value = input.value;
+        input.value = '';
+        count.textContent = '0/500';
+        send(value);
+      });
+
+      new MutationObserver(applyLang).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+
+      measureSections();
+      applyLang();
+      render();
+      setMinimized(readSession('bot-minimized') === '1');
+      if (!readSession('bot-greeted')) {
+        writeSession('bot-greeted', '1');
+        setTimeout(() => showBubble(BOT_T[currentLang()].welcome, 4500), 900);
+      }
+      requestFrame();
+    })();
   </script>
 </body>
 </html>
