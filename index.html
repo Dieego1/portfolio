@@ -13,6 +13,8 @@
   <meta name="author"      content="Diego Soto García" />
   <meta name="robots"      content="index, follow" />
   <meta name="theme-color" content="#05050F" />
+  <!-- Favicon vacío inline: evita el 404 automático de /favicon.ico en consola -->
+  <link rel="icon" href="data:," />
 
   <!-- Open Graph (LinkedIn, Facebook, WhatsApp) -->
   <meta property="og:type"        content="website" />
@@ -1130,7 +1132,7 @@
       <button class="bot-chat__close" id="bot-close" type="button" aria-label="Cerrar asistente">×</button>
     </header>
     <div class="bot-progress" id="bot-progress" hidden><div class="bot-progress__bar" id="bot-progress-bar"></div></div>
-    <details class="bot-rules" open>
+    <details class="bot-rules" id="bot-rules" open>
       <summary id="bot-rules-title">Reglas del asistente</summary>
       <ol id="bot-rules-list"></ol>
     </details>
@@ -2102,6 +2104,7 @@
       const input    = document.getElementById('bot-input');
       const count    = document.getElementById('bot-count');
       const chips    = document.getElementById('bot-chips');
+      const rules    = document.getElementById('bot-rules');
       const sendBtn  = form.querySelector('.bot-send');
       const sectionEls = [...document.querySelectorAll('main section[id]')];
       if (!bot || !toggle || !chat) return;
@@ -2123,7 +2126,6 @@
           greeting: '¡Hola! Soy una IA, el asistente del portafolio de Diego. Pregúntame sobre sus proyectos, experiencia, estudios o contacto.',
           chips: ['¿Qué proyectos tiene?', '¿Qué tecnologías domina?', '¿Cómo lo contacto?'],
           typing: 'Escribiendo…',
-          loading: 'Cargando la IA (solo la primera vez)…',
           tag: 'IA · clic para preguntar',
           open: 'Abrir asistente IA del portafolio',
           close: 'Cerrar asistente',
@@ -2159,7 +2161,6 @@
           greeting: 'Hi! I’m Diego’s portfolio assistant. Ask me about his projects, experience, education or contact.',
           chips: ['What projects has he built?', 'What technologies does he use?', 'How can I contact him?'],
           typing: 'Typing…',
-          loading: 'Loading AI (first time only)…',
           tag: 'AI · click to ask',
           open: 'Open portfolio AI assistant',
           close: 'Close assistant',
@@ -2429,6 +2430,7 @@
       }
 
       let lastProgressPaint = 0;
+      let currentEngine = null;
 
       function startEngine() {
         const PA = window.PortfolioAssistant;
@@ -2442,12 +2444,11 @@
             if (now - lastProgressPaint < 100) return;
             lastProgressPaint = now;
             showProgress(ev.progress || 0);
-            if (typingBubble) typingBubble.textContent = BOT_T[currentLang()].loading;
           });
         } else {
           p = PA.preload();
         }
-        return p.then((engine) => { hideProgress(); return engine; });
+        return p.then((engine) => { currentEngine = engine; hideProgress(); return engine; });
       }
 
       function scrollLog() {
@@ -2546,14 +2547,15 @@
         showBubble(BOT_T[currentLang()].thinking, Infinity);
         addMessage('user', clean);
         chips.hidden = true;
+        if (rules) rules.open = false;
         const typing = appendBubble('assistant', BOT_T[currentLang()].typing);
         typing.classList.add('bot-typing');
         scrollLog();
 
         typingBubble = typing;
-        const engine = await startEngine();
+        startEngine();
+        const result = await window.PortfolioAssistant.answerAsync(clean, currentLang(), currentEngine, { lastTopicId });
         typingBubble = null;
-        const result = await window.PortfolioAssistant.answerAsync(clean, currentLang(), engine, { lastTopicId });
         if (result.topicId) lastTopicId = result.topicId;
         const reply = result.text;
         const ok = !result.blocked;
@@ -2636,12 +2638,28 @@
       measureSections();
       applyLang();
       render();
+      if (rules && messages.length) rules.open = false;
       setMinimized(readSession('bot-minimized') === '1');
       if (!readSession('bot-greeted')) {
         writeSession('bot-greeted', '1');
         setTimeout(() => showBubble(BOT_T[currentLang()].welcome, 4500), 900);
       }
       requestFrame();
+
+      /* Precarga silenciosa: arranca la IA en cuanto hay una señal de que la
+         persona sigue en la página, para que ya este lista (o casi) cuando
+         de verdad abra el chat. El panel sigue cerrado, asi que nada de esto
+         se ve. */
+      let earlyPreloadStarted = false;
+      function earlyPreload() {
+        if (earlyPreloadStarted) return;
+        earlyPreloadStarted = true;
+        startEngine();
+      }
+      setTimeout(earlyPreload, 1800);
+      window.addEventListener('pointermove', earlyPreload, { once: true, passive: true });
+      window.addEventListener('scroll', earlyPreload, { once: true, passive: true });
+      window.addEventListener('touchstart', earlyPreload, { once: true, passive: true });
     })();
   </script>
 </body>

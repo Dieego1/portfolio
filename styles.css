@@ -3323,10 +3323,12 @@
       position: absolute;
       left: 0;
       right: 0;
+      top: -6px;
       height: 3px;
       background: linear-gradient(90deg, transparent, var(--accent), transparent);
       box-shadow: 0 0 8px var(--accent);
       animation: bot-scan 2.6s linear infinite;
+      will-change: transform;
     }
 
     .bot-grille {
@@ -3615,10 +3617,10 @@
     }
 
     @keyframes bot-scan {
-      0%   { top: -6px; opacity: 0; }
+      0%   { transform: translateY(0); opacity: 0; }
       10%  { opacity: 1; }
       90%  { opacity: 1; }
-      100% { top: 36px; opacity: 0; }
+      100% { transform: translateY(42px); opacity: 0; }
     }
 
     @keyframes bot-shake {
@@ -3915,11 +3917,15 @@
       flex: 0 0 auto;
       max-height: 300px;
       overflow-y: auto;
+      contain: layout paint;
+      will-change: scroll-position;
     }
 
     .bot-chat__log {
       flex: 1 1 auto;
       min-height: 0;
+      contain: layout paint;
+      will-change: scroll-position;
     }
 
     @media (max-width: 600px) {

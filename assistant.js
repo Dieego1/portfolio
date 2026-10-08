@@ -94,7 +94,9 @@
     ['test driven development', 'Test Driven Development'], ['desarrollo guiado por pruebas', 'desarrollo guiado por pruebas'],
     ['pruebas unitarias', 'pruebas unitarias'], ['unit testing', 'unit testing'],
     ['arquitectura limpia', 'arquitectura limpia'], ['clean architecture', 'Clean Architecture'],
-    ['clean code', 'Clean Code'], ['experiencia de usuario', 'diseño UX'], ['user experience', 'UX design']
+    ['clean code', 'Clean Code'], ['experiencia de usuario', 'diseño UX'], ['user experience', 'UX design'],
+    ['nextjs', 'Next.js'], ['next js', 'Next.js'], ['wordpress', 'WordPress'], ['figma', 'Figma'],
+    ['webpack', 'Webpack'], ['nestjs', 'NestJS'], ['nest js', 'NestJS'], ['spring boot', 'Spring Boot']
   ].map(([k, name]) => [normalize(k), name]);
 
   const OFF_TOPIC_BANK = [
@@ -120,8 +122,8 @@
         '¿Este chat es de una persona real?', 'Is this a real person?', '¿Eres un chatbot?', 'Is this a chatbot?'
       ],
       kw: {
-        es: ['eres una ia', 'eres ia', 'eres humano', 'eres persona', 'eres un robot', 'eres un bot', 'quien eres', 'que eres', 'eres inteligencia artificial'],
-        en: ['are you ai', 'are you an ai', 'are you human', 'are you a person', 'are you a robot', 'are you a bot', 'who are you', 'what are you']
+        es: ['eres una ia', 'eres ia', 'eres humano', 'eres persona', 'eres un robot', 'eres un bot', 'quien eres', 'que eres', 'eres inteligencia artificial', 'persona real', 'con quien estoy hablando', 'con quien hablo'],
+        en: ['are you ai', 'are you an ai', 'are you human', 'are you a person', 'are you a robot', 'are you a bot', 'who are you', 'what are you', 'real person', 'who am i talking to', 'who am i speaking with', 'who am i speaking to']
       },
       answer: {
         es: 'Soy una inteligencia artificial (IA) que responde preguntas sobre el portafolio de Diego Soto García. No soy una persona.',
@@ -138,7 +140,7 @@
       ],
       kw: {
         es: ['que puedo preguntar', 'que temas', 'como funciona este asistente', 'para que sirve', 'como usar', 'en que me ayudas'],
-        en: ['what can i ask', 'what topics', 'how does this work', 'what is this for', 'how do i use', 'what can you help']
+        en: ['what can i ask', 'what topics', 'how does this work', 'what is this for', 'how do i use', 'what can you help', 'things can i ask']
       },
       answer: {
         es: 'Soy una IA que responde preguntas sobre el portafolio de Diego en español e inglés. Puedes preguntarme por sus proyectos, experiencia, estudios, certificados, habilidades, tecnologías, CV, contacto o su negocio DSG Developer.',
@@ -204,7 +206,8 @@
         '¿Qué certificados tiene?', '¿Tiene certificación de AWS?', '¿Tiene cursos de Cisco?', 'Does he have certifications?', 'What courses has he completed?',
         '¿Tiene algún certificado de Anthropic?', 'Tell me about the Cisco certification', '¿Qué cursos de programación tiene?',
         '¿Tiene el curso de APIs de freeCodeCamp?', 'Did he finish any AWS course?', '¿Qué certificaciones tiene en redes?',
-        '¿Tiene certificado de ciberseguridad?', 'What certificates does he hold?', '¿Cuáles son sus certificaciones?', 'Does he have a cloud certificate?'
+        '¿Tiene certificado de ciberseguridad?', 'What certificates does he hold?', '¿Cuáles son sus certificaciones?', 'Does he have a cloud certificate?',
+        'Did he complete the Cisco course?', '¿Terminó el curso de Cisco?'
       ],
       kw: {
         es: ['certificado', 'certificados', 'certificacion', 'certificaciones', 'cursos', 'curso', 'ccna', 'cisco', 'aws', 'freecodecamp', 'anthropic', 'acreditacion'],
@@ -246,8 +249,8 @@
         '¿Cuál fue el sistema que usó la escuela?', 'Tell me about the institutional project'
       ],
       kw: {
-        es: ['flotilla', 'vehicular', 'vehiculos', 'viajes', 'recursos materiales', 'calendario'],
-        en: ['fleet', 'vehicle', 'vehicles', 'trips', 'materials department', 'calendar']
+        es: ['flotilla', 'vehicular', 'vehiculos', 'viajes', 'recursos materiales', 'calendario', 'para el tesci', 'proyecto institucional'],
+        en: ['fleet', 'vehicle', 'vehicles', 'trips', 'materials department', 'calendar', 'for the tesci', 'institutional project']
       },
       answer: {
         es: 'Plataforma de Gestión de Flotilla Vehicular para el TESCI (mar – jun 2025).\nFue adoptada oficialmente por el Departamento de Recursos Materiales para el control de viajes institucionales. Tiene un calendario interactivo con seguimiento de estados en tiempo real, que reemplazó el seguimiento en papel. Diego fue el único desarrollador y la entregó en plazo.\nStack: PHP, MySQL, JavaScript, HTML5, CSS3.',
@@ -283,8 +286,8 @@
         '¿Qué hace la app de cortes y citas?', 'Did he build an app for haircuts?', '¿Qué sistema hizo para una barbería?', 'Háblame de la barbería'
       ],
       kw: {
-        es: ['barber', 'barberia', 'barberapp', 'pwa', 'barbero'],
-        en: ['barber', 'barbershop', 'barberapp', 'pwa']
+        es: ['barber', 'barberia', 'barberapp', 'pwa', 'barbero', 'cortes de pelo', 'cortes'],
+        en: ['barber', 'barbershop', 'barberapp', 'pwa', 'haircut', 'haircuts']
       },
       answer: {
         es: 'BarberApp es una PWA (aplicación web progresiva) para gestionar una barbería: citas, cortes, gastos, propinas y reparto de ganancias entre barbero y dueño. Funciona sin servidor ni hosting mensual y se instala en cualquier celular o computadora. Es un proyecto freelance que ya fue vendido. El portafolio no detalla su stack tecnológico.',
@@ -299,11 +302,12 @@
         '¿Qué tecnologías usó en sus proyectos?', '¿Con qué stack hizo las apps?', 'What stack did he use?', '¿Con qué lenguajes hizo los sistemas?',
         'What technologies did he use in his projects?', '¿Qué usó para hacer el sitio de nutrición?', '¿Qué tecnologías tiene la plataforma de flotilla?',
         '¿Qué tecnologías usó en el sistema de Garza Gas?', 'Which stack is used in his projects?', '¿Qué base de datos usó en sus proyectos?',
-        'En general, ¿con qué herramientas construyó sus sistemas?', 'Overall, what tools did he use to build his systems?'
+        'En general, ¿con qué herramientas construyó sus sistemas?', 'Overall, what tools did he use to build his systems?',
+        '¿Cuál usa más tecnología?', '¿Cuál de sus proyectos usa más tecnología?', 'Which project uses more technology?', 'Which one uses more technology?'
       ],
       kw: {
-        es: ['stack', 'tecnologias de sus proyectos', 'con que hizo', 'que uso en sus proyectos'],
-        en: ['stack', 'what did he use', 'which stack', 'technologies used']
+        es: ['stack', 'tecnologias de sus proyectos', 'con que hizo', 'que uso en sus proyectos', 'tecnologias uso', 'tecnologia uso', 'tecnologias usadas', 'tecnologias utilizadas', 'mas tecnologia', 'mas tecnologias'],
+        en: ['stack', 'what did he use', 'which stack', 'technologies used', 'more technology', 'most technology', 'uses more technology']
       },
       answer: {
         es: 'Stack de sus proyectos:\n- Sistema de gestión de clientes (Garza Gas): PHP, MySQL, JavaScript, HTML5, CSS3.\n- Plataforma de flotilla vehicular (TESCI): PHP, MySQL, JavaScript, HTML5, CSS3.\n- Sitio con panel administrativo (Nutrición Inteligente): PHP, MySQL, JavaScript, HTML5, CSS3.\n- BarberApp: el portafolio no detalla su stack.',
@@ -356,8 +360,8 @@
         '¿Hay una liga de su GitHub?', 'Where can I see his projects live?', '¿Me das la URL del sitio?', 'Is there a demo I can open?'
       ],
       kw: {
-        es: ['sitio web', 'link', 'liga', 'url', 'en vivo', 'pagina'],
-        en: ['website', 'link', 'url', 'live', 'demo']
+        es: ['sitio web', 'link', 'liga', 'url', 'en vivo', 'pagina', 'en linea'],
+        en: ['website', 'link', 'url', 'live', 'demo', 'online']
       },
       answer: {
         es: 'Enlaces:\n- Sitio de Nutrición Inteligente: ognutricionentrenamientointeligente.com.mx\n- DSG Developer: dsg-developer-mx.netlify.app\n- GitHub: github.com/Dieego1\n- LinkedIn: linkedin.com/in/diegosotogarciaia',
@@ -408,7 +412,7 @@
       ],
       kw: {
         es: ['experiencia', 'trabajo', 'trabajos', 'empleo', 'laboral', 'freelance', 'trabajado', 'historial'],
-        en: ['experience', 'work', 'job', 'employment', 'freelance', 'worked', 'career']
+        en: ['experience', 'work', 'job', 'employment', 'freelance', 'worked for', 'career']
       },
       answer: {
         es: 'Desarrollador Full Stack Jr. freelance desde septiembre de 2025, a través de DSG Developer. Ha desarrollado sistemas y apps web (backend, frontend, base de datos y despliegue) para empresas, instituciones y clientes freelance.\nProyectos en producción:\n- Sistema de gestión de clientes para Garza Gas (sep 2025 – ene 2026).\n- Plataforma de flotilla vehicular para el TESCI (mar – jun 2025).\n- Sitio con panel administrativo para Nutrición Inteligente (feb 2026).',
@@ -573,8 +577,8 @@
         'Give me a summary of him', 'Dame un resumen de él', '¿Cómo se describe?', 'Who is this developer?', '¿Qué tipo de persona es?', 'Introduce him to me'
       ],
       kw: {
-        es: ['quien es diego', 'quien es', 'sobre diego', 'perfil', 'presentate', 'cuentame de diego'],
-        en: ['who is diego', 'who is he', 'about diego', 'profile', 'tell me about diego', 'introduce']
+        es: ['quien es diego', 'quien es', 'sobre diego', 'perfil', 'presentate', 'cuentame de diego', 'resumen', 'dame un resumen'],
+        en: ['who is diego', 'who is he', 'about diego', 'profile', 'tell me about diego', 'introduce', 'summary', 'give me a summary']
       },
       answer: {
         es: 'Diego Soto García es Desarrollador Full Stack Jr. e Ingeniero en Sistemas Computacionales. Egresado del TESCI en enero de 2026 y titulado. Tiene proyectos en producción para una empresa privada, una institución y un cliente freelance, y dirige su marca DSG Developer. Vive en Estado de México / CDMX y tiene disponibilidad inmediata.',
@@ -589,7 +593,8 @@
         '¿Qué proyectos tiene?', '¿Qué ha construido?', 'Show me his projects', 'What has he built?', 'What projects has he built?', 'What projects has he done?', 'Which projects has he worked on?', '¿Cuáles son sus proyectos en producción?',
         '¿Qué sistemas ha desarrollado?', '¿Qué ha hecho?', 'What projects does he have?', '¿Qué apps ha hecho?', 'List his projects',
         '¿Cuántos proyectos tiene?', 'How many projects does he have?', '¿Qué trabajos ha entregado?', 'Which systems has he delivered?',
-        '¿Qué cosas ha desarrollado en total?', 'What has he developed in total overall?'
+        '¿Qué cosas ha desarrollado en total?', 'What has he developed in total overall?',
+        '¿Qué proyectos ha hecho Diego?', 'What projects has Diego built?'
       ],
       kw: {
         es: ['proyecto', 'proyectos', 'sistemas', 'apps', 'aplicaciones', 'que ha hecho', 'que ha construido', 'portafolio'],
@@ -605,7 +610,7 @@
       weight: 0.5,
       examples: ['Hola', 'Buenas tardes', 'Hi', 'Hello there', 'Buenos días', 'Hola, ¿qué tal?', 'Hey', 'Good morning', 'Qué onda', 'Buenas noches'],
       kw: {
-        es: ['hola', 'buenas', 'buenos dias', 'buenas tardes', 'buenas noches', 'que tal'],
+        es: ['hola', 'buenas', 'buenos dias', 'buenas tardes', 'buenas noches', 'que tal', 'que onda'],
         en: ['hi', 'hello', 'hey', 'good morning', 'good afternoon', 'good evening']
       },
       answer: {
@@ -674,6 +679,13 @@
     'and the second', 'and the third', 'and the fourth', 'and that one', 'what about it'
   ].map(normalize);
 
+  // Mismo motivo que arriba: si la frase de seguimiento, aunque tenga una muletilla generica
+  // como "tell me more"/"cuentame mas", tambien menciona una de estas palabras que ya resuelven
+  // bien solas (p.ej. "tell me more about the first one"), se deja que el ranking normal gane
+  // en vez de taparlo con el tema anterior.
+  const STRONG_FOLLOWUP_OVERRIDES = new Set(['first', 'earliest', 'recent', 'latest', 'newest',
+    'primero', 'primera', 'ultimo', 'ultima', 'reciente']);
+
   // Una frase "generica" de seguimiento no tiene contenido propio (nombres, temas) que el
   // modelo pueda rankear con confianza por si sola, asi que en vez de dejar que el modelo
   // adivine (puede aterrizar en cualquier tema corto por pura coincidencia de estilo, como
@@ -681,6 +693,7 @@
   function isGenericFollowUp(text) {
     const q = normalize(text);
     const tokens = q.split(' ').filter(Boolean);
+    if (tokens.some(t => STRONG_FOLLOWUP_OVERRIDES.has(t))) return false;
     if (tokens.length > 0 && tokens.length <= 3 && tokens.some(t => GENERIC_FOLLOWUP_WORDS.has(t))) return true;
     return GENERIC_FOLLOWUP_PHRASES.some(p => (' ' + q + ' ').includes(' ' + p + ' '));
   }
