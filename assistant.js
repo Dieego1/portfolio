@@ -714,10 +714,11 @@
 
   function answer(question, lang, context) {
     const text = String(question || '').trim().slice(0, 500);
+    const followUp = !!(context && context.lastQuestion && isFollowUp(text));
     const effective = buildQuery(text, context);
     const L = detectLang(effective, lang === 'en' ? 'en' : 'es');
-    if (!text) return { text: OUT[L], blocked: false };
-    if (isOffensive(text)) return { text: BLOCK[L], blocked: true };
+    if (!text) return { text: OUT[L], blocked: false, followUp };
+    if (isOffensive(text)) return { text: BLOCK[L], blocked: true, followUp };
 
     const q = normalize(effective);
     const { known, missing } = missingTech(q);
@@ -733,7 +734,7 @@
       parts.push(answerText(BY_ID.skills, L));
     } else if (ranked.length === 0) {
       logMiss(text, L);
-      return { text: OUT[L], blocked: false };
+      return { text: OUT[L], blocked: false, followUp };
     } else {
       const [first, second] = ranked;
       if (missing.length) parts.push(missingNote(missing, L));
@@ -746,7 +747,7 @@
         && !(first.entry.group && first.entry.group === second.entry.group);
       if (combine) parts.push(answerText(second.entry, L));
     }
-    return { text: parts.join('\n\n'), blocked: false };
+    return { text: parts.join('\n\n'), blocked: false, followUp };
   }
 
   const WORKER_SRC = `
@@ -880,14 +881,15 @@
   async function answerAsync(question, lang, engine, context) {
     if (!engine) return answer(question, lang, context);
     const text = String(question || '').trim().slice(0, 500);
+    const followUp = !!(context && context.lastQuestion && isFollowUp(text));
     const effective = buildQuery(text, context);
     const L = detectLang(effective, lang === 'en' ? 'en' : 'es');
-    if (!text) return { text: OUT[L], blocked: false };
-    if (isOffensive(text)) return { text: BLOCK[L], blocked: true };
+    if (!text) return { text: OUT[L], blocked: false, followUp };
+    if (isOffensive(text)) return { text: BLOCK[L], blocked: true, followUp };
 
     const { known, missing } = missingTech(normalize(effective));
     if (missing.length && known === 0) {
-      return { text: [missingNote(missing, L), answerText(BY_ID.skills, L)].join('\n\n'), blocked: false };
+      return { text: [missingNote(missing, L), answerText(BY_ID.skills, L)].join('\n\n'), blocked: false, followUp };
     }
 
     let ranking;
@@ -900,7 +902,7 @@
     const [first, second] = topics;
     if (!first || first.score < ACCEPT_MIN || first.score < off + MARGIN) {
       logMiss(text, L);
-      return { text: OUT[L], blocked: false };
+      return { text: OUT[L], blocked: false, followUp };
     }
 
     const parts = [];
@@ -914,7 +916,7 @@
       && second.id !== 'greeting'
       && !(firstEntry.group && firstEntry.group === secondEntry.group);
     if (combine) parts.push(answerText(secondEntry, L));
-    return { text: parts.join('\n\n'), blocked: false };
+    return { text: parts.join('\n\n'), blocked: false, followUp };
   }
 
   let enginePromise = null;
