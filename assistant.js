@@ -279,7 +279,8 @@
       examples: [
         '¿Qué tecnologías usó en sus proyectos?', '¿Con qué stack hizo las apps?', 'What stack did he use?', '¿Con qué lenguajes hizo los sistemas?',
         'What technologies did he use in his projects?', '¿Qué usó para hacer el sitio de nutrición?', '¿Qué tecnologías tiene la plataforma de flotilla?',
-        '¿Qué tecnologías usó en el sistema de Garza Gas?', 'Which stack is used in his projects?', '¿Qué base de datos usó en sus proyectos?'
+        '¿Qué tecnologías usó en el sistema de Garza Gas?', 'Which stack is used in his projects?', '¿Qué base de datos usó en sus proyectos?',
+        'En general, ¿con qué herramientas construyó sus sistemas?', 'Overall, what tools did he use to build his systems?'
       ],
       kw: {
         es: ['stack', 'tecnologias de sus proyectos', 'con que hizo', 'que uso en sus proyectos'],
@@ -564,7 +565,8 @@
       examples: [
         '¿Qué proyectos tiene?', '¿Qué ha construido?', 'Show me his projects', 'What has he built?', 'What projects has he built?', 'What projects has he done?', 'Which projects has he worked on?', '¿Cuáles son sus proyectos en producción?',
         '¿Qué sistemas ha desarrollado?', '¿Qué ha hecho?', 'What projects does he have?', '¿Qué apps ha hecho?', 'List his projects',
-        '¿Cuántos proyectos tiene?', 'How many projects does he have?', '¿Qué trabajos ha entregado?', 'Which systems has he delivered?'
+        '¿Cuántos proyectos tiene?', 'How many projects does he have?', '¿Qué trabajos ha entregado?', 'Which systems has he delivered?',
+        '¿Qué cosas ha desarrollado en total?', 'What has he developed in total overall?'
       ],
       kw: {
         es: ['proyecto', 'proyectos', 'sistemas', 'apps', 'aplicaciones', 'que ha hecho', 'que ha construido', 'portafolio'],
