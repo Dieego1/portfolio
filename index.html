@@ -1093,7 +1093,7 @@
         <span class="site-footer__badge">JavaScript</span>
         <span class="site-footer__badge">CSS3</span>
         <span class="site-footer__badge">HTML5</span>
-        <span class="site-footer__badge">Sin frameworks</span>
+        <span class="site-footer__badge" data-i18n="footer.noFrameworks">Sin frameworks</span>
       </div>
     </div>
   </footer>
@@ -1731,7 +1731,7 @@
        NAV ACTIVO SEGÚN SECCIÓN VISIBLE
     ───────────────────────────────────────────────────────── */
     (function initNavActive() {
-      const sections  = document.querySelectorAll('section[id]');
+      const sections  = document.querySelectorAll('main section[id]');
       const navLinks  = document.querySelectorAll('.nav__link[data-nav]');
 
       function setActive() {
@@ -1891,6 +1891,7 @@
 
           /* Footer */
           'footer.meta': '<span>Full Stack Developer</span><span class="site-footer__sep" aria-hidden="true">·</span><span>Ingeniero en Sistemas Computacionales</span><span class="site-footer__sep" aria-hidden="true">·</span><span>2026</span><span class="site-footer__sep" aria-hidden="true">·</span><span>Hecho con código real</span>',
+          'footer.noFrameworks': 'Sin frameworks',
 
           /* Aria labels */
           'aria.progress':    'Progreso de lectura',
@@ -2038,6 +2039,7 @@
 
           /* Footer */
           'footer.meta': '<span>Full Stack Developer</span><span class="site-footer__sep" aria-hidden="true">·</span><span>Computer Systems Engineer</span><span class="site-footer__sep" aria-hidden="true">·</span><span>2026</span><span class="site-footer__sep" aria-hidden="true">·</span><span>Built with real code</span>',
+          'footer.noFrameworks': 'No frameworks',
 
           /* Aria labels */
           'aria.progress':    'Reading progress',

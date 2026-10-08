@@ -41,7 +41,21 @@
 
   function isOffensive(text) {
     const leeted = String(text).toLowerCase().replace(/[43107@$5]/g, ch => LEET[ch]);
-    return normalize(leeted).split(' ').some(w => BAD_WORDS.has(w));
+    const squashed = leeted.replace(/(.)\1{2,}/g, '$1');
+    const tokens = normalize(squashed).split(' ');
+    if (tokens.some(w => BAD_WORDS.has(w))) return true;
+    // detecta evasion por espaciado de letras, ej. "p u t o": une corridas de tokens de 1 char
+    const merged = [];
+    let buf = '';
+    for (const t of tokens) {
+      if (t.length === 1) {
+        buf += t;
+      } else {
+        if (buf) { merged.push(buf); buf = ''; }
+      }
+    }
+    if (buf) merged.push(buf);
+    return merged.some(w => BAD_WORDS.has(w));
   }
 
   const EN_HINT = new Set(['what', 'who', 'how', 'where', 'which', 'does', 'do', 'is', 'are', 'can', 'could',
@@ -75,7 +89,12 @@
     ['typescript', 'TypeScript'], ['postgresql', 'PostgreSQL'], ['postgres', 'PostgreSQL'],
     ['redis', 'Redis'], ['firebase', 'Firebase'], ['tailwind', 'Tailwind'], ['linux', 'Linux'],
     ['jenkins', 'Jenkins'], ['terraform', 'Terraform'], ['azure', 'Azure'], ['unity', 'Unity'],
-    ['golang', 'Go']
+    ['golang', 'Go'], ['microservicios', 'microservicios'], ['microservices', 'microservices'],
+    ['graphql', 'GraphQL'], ['devops', 'DevOps'], ['ci cd', 'CI/CD'], ['tdd', 'TDD'],
+    ['test driven development', 'Test Driven Development'], ['desarrollo guiado por pruebas', 'desarrollo guiado por pruebas'],
+    ['pruebas unitarias', 'pruebas unitarias'], ['unit testing', 'unit testing'],
+    ['arquitectura limpia', 'arquitectura limpia'], ['clean architecture', 'Clean Architecture'],
+    ['clean code', 'Clean Code'], ['experiencia de usuario', 'diseño UX'], ['user experience', 'UX design']
   ].map(([k, name]) => [normalize(k), name]);
 
   const OFF_TOPIC_BANK = [
@@ -403,11 +422,14 @@
         '¿Cuánto tiempo lleva programando?', '¿Cuántos meses lleva como desarrollador?', '¿Cuánto tiempo tiene de experiencia?',
         '¿Cuánto tiempo lleva en esto?', '¿Hace cuántos meses empezó?', 'How long has he been coding?',
         'How long has he been freelancing?', 'How much experience does he have in months?', 'How long has he been a developer?',
-        'How long has he worked as a developer?', 'For how long has he been programming?'
+        'How long has he worked as a developer?', 'For how long has he been programming?', '¿Cuánto lleva programando?',
+        '¿Hace cuánto empezó a programar?', '¿Desde cuándo empezó a desarrollar?', 'Since when has he been developing?',
+        'How long ago did he start programming?', '¿Hace cuánto empezó en esto de desarrollar?', '¿Hace cuánto que se dedica a esto?'
       ],
       kw: {
-        es: ['cuanto tiempo lleva', 'cuantos meses lleva', 'hace cuantos meses'],
-        en: ['how long has he', 'how many months has he', 'for how long']
+        es: ['cuanto tiempo lleva', 'cuantos meses lleva', 'hace cuantos meses', 'cuanto lleva programando', 'cuanto lleva desarrollando',
+          'hace cuanto empezo', 'desde cuando empezo'],
+        en: ['how long has he', 'how many months has he', 'for how long', 'how long ago did he start']
       },
       answer: {
         es: 'Lleva programando profesionalmente como freelance desde septiembre de 2025.',
@@ -531,11 +553,12 @@
       examples: [
         '¿Dónde vive?', '¿En qué ciudad está?', 'Where is he located?', '¿Vive en CDMX?', '¿En qué estado vive?', 'Where does he live?',
         '¿Es de la Ciudad de México?', 'Is he from Mexico City?', '¿Vive cerca de Cuautitlán?', '¿Trabaja presencial o remoto?', 'Does he work remotely?',
-        '¿De dónde es?', 'Where is he from?'
+        '¿De dónde es?', 'Where is he from?', '¿En qué parte de la república vive?', '¿En qué parte de México radica?',
+        'Which part of Mexico does he live in?', 'Where in the country is he based?'
       ],
       kw: {
-        es: ['ubicacion', 'donde vive', 'donde esta', 'de donde', 'ciudad'],
-        en: ['location', 'where is he', 'where does he live', 'city', 'based']
+        es: ['ubicacion', 'donde vive', 'donde esta', 'de donde', 'ciudad', 'radica', 'radicando', 'parte de la republica', 'parte de mexico'],
+        en: ['location', 'where is he', 'where does he live', 'city', 'based', 'part of mexico', 'part of the country']
       },
       answer: {
         es: 'Diego vive en Estado de México / CDMX, México.',
@@ -636,13 +659,19 @@
     return entry.dynamic ? entry.dynamic(L) : entry.answer[L];
   }
 
-  const FOLLOWUP_WORDS = new Set(['eso', 'esa', 'ese', 'otro', 'otra', 'segundo', 'segunda', 'tambien',
-    'and', 'that', 'it', 'other', 'second', 'more', 'else', 'too']);
+  // nota: "primero/primera/ultimo/ultima" NO se incluyen aqui a proposito: esas palabras ya
+  // resuelven bien solas (coinciden de forma directa con los temas "first"/"recent"), y tratarlas
+  // como seguimiento las obliga a combinarse con la pregunta anterior y pierden esa precision.
+  const FOLLOWUP_WORDS = new Set(['eso', 'esa', 'ese', 'otro', 'otra', 'segundo', 'segunda', 'tercero', 'tercera',
+    'cuarto', 'cuarta', 'tambien',
+    'and', 'that', 'it', 'other', 'second', 'third', 'fourth', 'more', 'else', 'too']);
 
   const FOLLOWUP_PHRASES = [
-    'y el segundo', 'y la segunda', 'y el otro', 'y la otra', 'cuentame mas', 'dame mas detalles', 'mas detalles',
-    'y ese', 'y esa', 'y eso', 'what about the other', 'what about that', 'tell me more', 'more details',
-    'and the second', 'and that one', 'what about it'
+    'y el segundo', 'y la segunda', 'y el tercero', 'y la tercera', 'y el cuarto', 'y la cuarta',
+    'y el otro', 'y la otra', 'del otro', 'de los otros', 'que hay del otro', 'cuentame mas',
+    'dame mas detalles', 'mas detalles', 'y ese', 'y esa', 'y eso', 'what about the other',
+    'what about that', 'what about the third', 'what about the fourth', 'tell me more', 'more details',
+    'and the second', 'and the third', 'and the fourth', 'and that one', 'what about it'
   ].map(normalize);
 
   function isFollowUp(text) {

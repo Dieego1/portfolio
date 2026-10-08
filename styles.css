@@ -233,14 +233,20 @@
       left: 50%;
       transform: translateX(-50%);
       z-index: 1000;
+      max-width: calc(100vw - 32px);
       perspective: var(--perspective-nav);
     }
 
     .nav__inner {
       display: flex;
       align-items: center;
+      justify-content: flex-start;
       gap: 4px;
       padding: 10px 22px;
+      max-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
       border-radius: 50px;
@@ -253,6 +259,15 @@
       transition: transform var(--trans-mid), box-shadow var(--trans-mid);
     }
 
+    /* El pill de navegación no muestra su propia scrollbar: el borde
+       redondeado la corta a la mitad y se ve rota. Sigue siendo
+       desplazable con touch/trackpad/shift+rueda. */
+    .nav__inner::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+
     .nav__inner:hover {
       transform: rotateX(6deg) translateZ(8px);
       box-shadow:
@@ -262,6 +277,8 @@
 
     .nav__link {
       position: relative;
+      flex-shrink: 0;
+      white-space: nowrap;
       font-family: var(--font-display);
       font-size: 0.62rem;
       font-weight: 700;
