@@ -1620,6 +1620,7 @@
         (entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
+              root.classList.add('is-revealed');
               window.dispatchEvent(new CustomEvent('stackmap:reveal'));
               observer.unobserve(entry.target);
             }
