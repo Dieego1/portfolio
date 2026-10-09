@@ -1923,14 +1923,6 @@
       animation: none;
     }
 
-    .stack-node__nodata {
-      font-size: 0.6rem;
-      font-weight: 400;
-      text-transform: none;
-      letter-spacing: 0;
-      color: rgba(248, 248, 255, 0.45);
-    }
-
     @keyframes stack-pulse {
       0%, 100% { opacity: 1; }
       50%      { opacity: 0.72; }
@@ -1953,13 +1945,6 @@
       font-size: 0.82rem;
       color: var(--accent);
       margin: 0 0 10px;
-    }
-
-    .stackmap-fallback__nodata {
-      font-family: var(--font-code);
-      font-size: 0.76rem;
-      color: rgba(248, 248, 255, 0.45);
-      margin: 0;
     }
 
     @media (max-width: 700px) {

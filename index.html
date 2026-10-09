@@ -734,7 +734,7 @@
           <button type="button" class="stack-node stack-node--project" data-id="garza" style="left:67.67%; top:22.11%; --sd:0s">Garza Gas</button>
           <button type="button" class="stack-node stack-node--project" data-id="tesci" style="left:67.67%; top:77.89%; --sd:0.15s">TESCI</button>
           <button type="button" class="stack-node stack-node--project" data-id="nutricion" style="left:32.33%; top:77.89%; --sd:0.3s">Nutrición Inteligente</button>
-          <button type="button" class="stack-node stack-node--project stack-node--nodata" data-id="barber" style="left:32.33%; top:22.11%; --sd:0.45s" aria-label="BarberApp">BarberApp<span class="stack-node__nodata" aria-hidden="true" data-i18n="stackmap.nodata">Stack no documentado</span></button>
+          <button type="button" class="stack-node stack-node--project" data-id="barber" style="left:32.33%; top:22.11%; --sd:0.45s">BarberApp</button>
 
           <button type="button" class="stack-node stack-node--tech" data-id="php" style="left:50%; top:31.58%; --sd:0.05s" aria-label="PHP"><span class="stack-node__label">PHP</span></button>
           <button type="button" class="stack-node stack-node--tech" data-id="mysql" style="left:61.08%; top:44.34%; --sd:0.1s" aria-label="MySQL"><span class="stack-node__label">MySQL</span></button>
@@ -777,7 +777,6 @@
           </div>
           <div class="stackmap-fallback__card">
             <h3>BarberApp</h3>
-            <p class="stackmap-fallback__nodata" data-i18n="stackmap.nodata">Stack no documentado</p>
           </div>
         </div>
       </div>
@@ -1614,6 +1613,15 @@
         n.addEventListener('focus', enter);
         n.addEventListener('mouseleave', clear);
         n.addEventListener('blur', clear);
+        /* Tocar un nodo en pantallas táctiles sin mouse (ej. tablets) también
+           lo resalta, ya que ahí nunca llega un mouseenter real. */
+        n.addEventListener('click', enter);
+      });
+
+      /* Tocar fuera de un nodo (en una pantalla táctil) limpia el resaltado,
+         ya que ahí tampoco llega un mouseleave real. */
+      root.addEventListener('click', (e) => {
+        if (!e.target.closest('.stack-node')) clear();
       });
 
       const observer = new IntersectionObserver(
@@ -1983,7 +1991,6 @@
           /* Mapa de stack */
           'section.stackmap':      'Mapa de <em>Stack</em>',
           'stackmap.subtitle':     'Pasa el cursor (o el foco del teclado) sobre un proyecto o una tecnología para ver cómo se conectan.',
-          'stackmap.nodata':       'Stack no documentado',
           'aria.stackmap.diagram': 'Diagrama interactivo de tecnologías por proyecto',
 
           /* Negocio */
@@ -2121,7 +2128,6 @@
           /* Stack map */
           'section.stackmap':      'Stack <em>Map</em>',
           'stackmap.subtitle':     'Hover or focus a project or a technology to see how they connect.',
-          'stackmap.nodata':       'Stack not documented',
           'aria.stackmap.diagram': 'Interactive diagram of technologies per project',
 
           /* Business */
