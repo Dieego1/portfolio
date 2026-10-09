@@ -704,6 +704,89 @@
       <span class="cyber-divider__dot"></span>
     </div>
 
+    <!-- ══════════════ MAPA DE STACK ══════════════ -->
+    <section id="mapa-stack" class="section" aria-labelledby="title-stackmap">
+      <div class="section__inner">
+        <span class="section__tag">// 03.1 — stack_map.js</span>
+        <h2 class="section__title" id="title-stackmap" data-i18n-html="section.stackmap">Mapa de <em>Stack</em></h2>
+        <p class="stackmap-subtitle" data-i18n="stackmap.subtitle">Pasa el cursor (o el foco del teclado) sobre un proyecto o una tecnología para ver cómo se conectan.</p>
+
+        <!-- Escritorio / tablet: diagrama interactivo -->
+        <div class="stackmap-diagram js-stackmap" role="group" aria-label="Diagrama interactivo de tecnologías por proyecto" data-i18n-aria-label="aria.stackmap.diagram">
+          <svg class="stackmap-svg" viewBox="0 0 1200 760" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <line class="stack-line" data-from="garza" data-to="php" x1="812" y1="168" x2="600" y2="240"></line>
+            <line class="stack-line" data-from="garza" data-to="mysql" x1="812" y1="168" x2="733" y2="337"></line>
+            <line class="stack-line" data-from="garza" data-to="js" x1="812" y1="168" x2="682" y2="493"></line>
+            <line class="stack-line" data-from="garza" data-to="html" x1="812" y1="168" x2="518" y2="493"></line>
+            <line class="stack-line" data-from="garza" data-to="css" x1="812" y1="168" x2="467" y2="337"></line>
+            <line class="stack-line" data-from="tesci" data-to="php" x1="812" y1="592" x2="600" y2="240"></line>
+            <line class="stack-line" data-from="tesci" data-to="mysql" x1="812" y1="592" x2="733" y2="337"></line>
+            <line class="stack-line" data-from="tesci" data-to="js" x1="812" y1="592" x2="682" y2="493"></line>
+            <line class="stack-line" data-from="tesci" data-to="html" x1="812" y1="592" x2="518" y2="493"></line>
+            <line class="stack-line" data-from="tesci" data-to="css" x1="812" y1="592" x2="467" y2="337"></line>
+            <line class="stack-line" data-from="nutricion" data-to="php" x1="388" y1="592" x2="600" y2="240"></line>
+            <line class="stack-line" data-from="nutricion" data-to="mysql" x1="388" y1="592" x2="733" y2="337"></line>
+            <line class="stack-line" data-from="nutricion" data-to="js" x1="388" y1="592" x2="682" y2="493"></line>
+            <line class="stack-line" data-from="nutricion" data-to="html" x1="388" y1="592" x2="518" y2="493"></line>
+            <line class="stack-line" data-from="nutricion" data-to="css" x1="388" y1="592" x2="467" y2="337"></line>
+          </svg>
+
+          <button type="button" class="stack-node stack-node--project" data-id="garza" style="left:67.67%; top:22.11%; --sd:0s">Garza Gas</button>
+          <button type="button" class="stack-node stack-node--project" data-id="tesci" style="left:67.67%; top:77.89%; --sd:0.15s">TESCI</button>
+          <button type="button" class="stack-node stack-node--project" data-id="nutricion" style="left:32.33%; top:77.89%; --sd:0.3s">Nutrición Inteligente</button>
+          <button type="button" class="stack-node stack-node--project stack-node--nodata" data-id="barber" style="left:32.33%; top:22.11%; --sd:0.45s" aria-label="BarberApp">BarberApp<span class="stack-node__nodata" aria-hidden="true" data-i18n="stackmap.nodata">Stack no documentado</span></button>
+
+          <button type="button" class="stack-node stack-node--tech" data-id="php" style="left:50%; top:31.58%; --sd:0.05s" aria-label="PHP"><span class="stack-node__label">PHP</span></button>
+          <button type="button" class="stack-node stack-node--tech" data-id="mysql" style="left:61.08%; top:44.34%; --sd:0.1s" aria-label="MySQL"><span class="stack-node__label">MySQL</span></button>
+          <button type="button" class="stack-node stack-node--tech" data-id="js" style="left:56.83%; top:64.87%; --sd:0.15s" aria-label="JavaScript"><span class="stack-node__label">JavaScript</span></button>
+          <button type="button" class="stack-node stack-node--tech" data-id="html" style="left:43.17%; top:64.87%; --sd:0.2s" aria-label="HTML5"><span class="stack-node__label">HTML5</span></button>
+          <button type="button" class="stack-node stack-node--tech" data-id="css" style="left:38.92%; top:44.34%; --sd:0.25s" aria-label="CSS3"><span class="stack-node__label">CSS3</span></button>
+        </div>
+
+        <!-- Móvil: lista por proyecto, reutilizando el componente de chips de Habilidades -->
+        <div class="stackmap-fallback">
+          <div class="stackmap-fallback__card">
+            <h3>Garza Gas</h3>
+            <div class="skill-chips">
+              <span class="skill-chip skill-chip--c">PHP</span>
+              <span class="skill-chip skill-chip--m">MySQL</span>
+              <span class="skill-chip skill-chip--g">JavaScript</span>
+              <span class="skill-chip skill-chip--c">HTML5</span>
+              <span class="skill-chip skill-chip--m">CSS3</span>
+            </div>
+          </div>
+          <div class="stackmap-fallback__card">
+            <h3>TESCI</h3>
+            <div class="skill-chips">
+              <span class="skill-chip skill-chip--c">PHP</span>
+              <span class="skill-chip skill-chip--m">MySQL</span>
+              <span class="skill-chip skill-chip--g">JavaScript</span>
+              <span class="skill-chip skill-chip--c">HTML5</span>
+              <span class="skill-chip skill-chip--m">CSS3</span>
+            </div>
+          </div>
+          <div class="stackmap-fallback__card">
+            <h3>Nutrición Inteligente</h3>
+            <div class="skill-chips">
+              <span class="skill-chip skill-chip--c">PHP</span>
+              <span class="skill-chip skill-chip--m">MySQL</span>
+              <span class="skill-chip skill-chip--g">JavaScript</span>
+              <span class="skill-chip skill-chip--c">HTML5</span>
+              <span class="skill-chip skill-chip--m">CSS3</span>
+            </div>
+          </div>
+          <div class="stackmap-fallback__card">
+            <h3>BarberApp</h3>
+            <p class="stackmap-fallback__nodata" data-i18n="stackmap.nodata">Stack no documentado</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="cyber-divider" aria-hidden="true">
+      <span class="cyber-divider__dot"></span>
+    </div>
+
     <!-- ══════════════ NEGOCIO ACTIVO ══════════════ -->
     <section id="negocio" class="section negocio-section" aria-labelledby="title-negocio">
       <div class="section__inner">
@@ -1486,6 +1569,68 @@
     })();
 
     /* ─────────────────────────────────────────────────────────
+       MAPA DE STACK — resaltado de conexiones + reveal
+    ───────────────────────────────────────────────────────── */
+    (function initStackMap() {
+      const root = document.querySelector('.js-stackmap');
+      if (!root) return;
+
+      const nodes = [...root.querySelectorAll('.stack-node')];
+      const lines = [...root.querySelectorAll('.stack-line')];
+
+      function clear() {
+        nodes.forEach(n => n.classList.remove('is-active', 'is-dim'));
+        lines.forEach(l => l.classList.remove('is-active', 'is-dim'));
+      }
+
+      function highlight(id) {
+        const connected = new Set([id]);
+        lines.forEach(l => {
+          const from = l.dataset.from, to = l.dataset.to;
+          if (from === id) connected.add(to);
+          if (to === id) connected.add(from);
+        });
+        nodes.forEach(n => {
+          const active = connected.has(n.dataset.id);
+          n.classList.toggle('is-active', active);
+          n.classList.toggle('is-dim', !active);
+        });
+        lines.forEach(l => {
+          const active = l.dataset.from === id || l.dataset.to === id;
+          l.classList.toggle('is-active', active);
+          l.classList.toggle('is-dim', !active);
+        });
+      }
+
+      nodes.forEach(n => {
+        const id = n.dataset.id;
+        const label = n.dataset.id === 'barber' ? 'BarberApp'
+          : n.classList.contains('stack-node--project') ? n.textContent.trim() : n.getAttribute('aria-label');
+        const enter = () => {
+          highlight(id);
+          window.dispatchEvent(new CustomEvent('stackmap:hover', { detail: { label } }));
+        };
+        n.addEventListener('mouseenter', enter);
+        n.addEventListener('focus', enter);
+        n.addEventListener('mouseleave', clear);
+        n.addEventListener('blur', clear);
+      });
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              window.dispatchEvent(new CustomEvent('stackmap:reveal'));
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.25 }
+      );
+      observer.observe(root);
+    })();
+
+    /* ─────────────────────────────────────────────────────────
        NEGOCIO — SCROLL REVEAL + TILT 3D
     ───────────────────────────────────────────────────────── */
     (function initNegocio() {
@@ -1834,6 +1979,12 @@
           'proj4.desc':  'Aplicación web progresiva (PWA) desarrollada para un barbero independiente. Permite gestionar citas, registrar cortes, controlar gastos, calcular propinas y dividir ganancias entre barbero y dueño. Funciona sin servidor ni hosting mensual, instalable en cualquier dispositivo móvil o computadora.',
           'proj4.badge': 'FREELANCE · VENDIDO ✓',
 
+          /* Mapa de stack */
+          'section.stackmap':      'Mapa de <em>Stack</em>',
+          'stackmap.subtitle':     'Pasa el cursor (o el foco del teclado) sobre un proyecto o una tecnología para ver cómo se conectan.',
+          'stackmap.nodata':       'Stack no documentado',
+          'aria.stackmap.diagram': 'Diagrama interactivo de tecnologías por proyecto',
+
           /* Negocio */
           'section.negocio':       'Mi <em>Negocio</em>',
           'negocio.subtitle':      'Más allá de los proyectos — ofrezco servicios profesionales activamente',
@@ -1965,6 +2116,12 @@
           'proj4.name':  'BarberApp — Barbershop Management PWA',
           'proj4.desc':  'Progressive Web App (PWA) built for an independent barber. Manages appointments, haircut records, expenses, tip calculation, and profit-splitting between barber and owner. Runs with no server or monthly hosting, installable on any mobile or desktop device.',
           'proj4.badge': 'FREELANCE · SOLD ✓',
+
+          /* Stack map */
+          'section.stackmap':      'Stack <em>Map</em>',
+          'stackmap.subtitle':     'Hover or focus a project or a technology to see how they connect.',
+          'stackmap.nodata':       'Stack not documented',
+          'aria.stackmap.diagram': 'Interactive diagram of technologies per project',
 
           /* Business */
           'section.negocio':       'My Active <em>Business</em>',
@@ -2141,9 +2298,10 @@
           show: 'Asistente IA',
           sections: {
             inicio: 'Inicio', 'sobre-mi': 'Sobre mí', habilidades: 'Habilidades', experiencia: 'Experiencia',
-            proyectos: 'Proyectos', negocio: 'Negocio', educacion: 'Educación', certificaciones: 'Certificados',
-            cv: 'CV', contacto: 'Contacto'
-          }
+            proyectos: 'Proyectos', 'mapa-stack': 'Mapa de stack', negocio: 'Negocio', educacion: 'Educación',
+            certificaciones: 'Certificados', cv: 'CV', contacto: 'Contacto'
+          },
+          stackReveal: '¡Mira cómo se conecta todo!'
         },
         en: {
           title: 'Portfolio AI assistant',
@@ -2176,9 +2334,10 @@
           show: 'AI Assistant',
           sections: {
             inicio: 'Home', 'sobre-mi': 'About', habilidades: 'Skills', experiencia: 'Experience',
-            proyectos: 'Projects', negocio: 'Business', educacion: 'Education', certificaciones: 'Certifications',
-            cv: 'CV', contacto: 'Contact'
-          }
+            proyectos: 'Projects', 'mapa-stack': 'Stack map', negocio: 'Business', educacion: 'Education',
+            certificaciones: 'Certifications', cv: 'CV', contacto: 'Contact'
+          },
+          stackReveal: 'Look how it all connects!'
         }
       };
 
@@ -2670,6 +2829,16 @@
       window.addEventListener('pointermove', earlyPreload, { once: true, passive: true });
       window.addEventListener('scroll', earlyPreload, { once: true, passive: true });
       window.addEventListener('touchstart', earlyPreload, { once: true, passive: true });
+
+      /* Reacciones del robot al mapa de stack (sección #mapa-stack). Se conecta
+         por eventos para no acoplar esa sección con el estado interno del bot. */
+      window.addEventListener('stackmap:reveal', () => {
+        flash('happy', 1200);
+        showBubble(BOT_T[currentLang()].stackReveal, 1800);
+      });
+      window.addEventListener('stackmap:hover', (e) => {
+        if (e.detail && e.detail.label) showBubble(e.detail.label, 900);
+      });
     })();
   </script>
 </body>
