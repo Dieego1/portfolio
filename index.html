@@ -2409,7 +2409,6 @@
 
       let messages = loadHistory();
       let busy = false;
-      let typingBubble = null;
       let progressHooked = false;
       let lastTopicId = '';
       /* Frase para ver preguntas sin responder (/missed <frase>). Está en el código fuente,
@@ -2459,6 +2458,16 @@
         const el = document.createElement('div');
         el.className = 'bot-msg ' + (role === 'user' ? 'bot-msg--user' : 'bot-msg--bot');
         el.textContent = text;
+        log.appendChild(el);
+        return el;
+      }
+
+      function appendTypingBubble() {
+        const el = document.createElement('div');
+        el.className = 'bot-msg bot-msg--bot bot-typing';
+        el.setAttribute('role', 'status');
+        el.setAttribute('aria-label', BOT_T[currentLang()].typing);
+        el.innerHTML = '<span class="bot-typing__dot"></span><span class="bot-typing__dot"></span><span class="bot-typing__dot"></span>';
         log.appendChild(el);
         return el;
       }
@@ -2548,14 +2557,15 @@
         addMessage('user', clean);
         chips.hidden = true;
         if (rules) rules.open = false;
-        const typing = appendBubble('assistant', BOT_T[currentLang()].typing);
-        typing.classList.add('bot-typing');
+        const typing = appendTypingBubble();
         scrollLog();
 
-        typingBubble = typing;
         startEngine();
-        const result = await window.PortfolioAssistant.answerAsync(clean, currentLang(), currentEngine, { lastTopicId });
-        typingBubble = null;
+        const minThinkTime = new Promise((r) => setTimeout(r, 700));
+        const [result] = await Promise.all([
+          window.PortfolioAssistant.answerAsync(clean, currentLang(), currentEngine, { lastTopicId }),
+          minThinkTime
+        ]);
         if (result.topicId) lastTopicId = result.topicId;
         const reply = result.text;
         const ok = !result.blocked;
