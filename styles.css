@@ -1896,8 +1896,16 @@
       min-height: 58px;
       padding: 8px 10px;
       border-radius: 12px;
-      background: rgba(124, 58, 237, 0.08);
-      border: 1px solid rgba(124, 58, 237, 0.3);
+      background: linear-gradient(145deg, rgba(124, 58, 237, 0.16), rgba(4, 4, 10, 0.95));
+      /* Mismo bisel 3D que .proj-card: claro arriba/izquierda, oscuro abajo/derecha */
+      border-top:    1.5px solid rgba(255, 255, 255, 0.10);
+      border-left:   1.5px solid rgba(124, 58, 237, 0.22);
+      border-right:  1.5px solid rgba(0, 0, 0, 0.55);
+      border-bottom: 1.5px solid rgba(0, 0, 0, 0.65);
+      box-shadow:
+        0 3px 0 rgba(0, 0, 0, 0.6),
+        0 6px 16px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
       color: var(--white);
       font-size: 0.76rem;
       font-weight: 700;
@@ -1912,9 +1920,12 @@
     }
 
     .stack-node--project.is-active {
-      background: rgba(124, 58, 237, 0.24);
-      border-color: var(--accent);
-      box-shadow: var(--glow-primary);
+      background: linear-gradient(145deg, rgba(124, 58, 237, 0.32), rgba(4, 4, 10, 0.95));
+      border-top-color: rgba(255, 255, 255, 0.16);
+      border-left-color: var(--accent);
+      border-right-color: var(--accent);
+      border-bottom-color: var(--accent);
+      box-shadow: var(--glow-primary), inset 0 1px 0 rgba(255, 255, 255, 0.08);
       animation: none;
     }
 
