@@ -3561,7 +3561,9 @@
       position: fixed;
       left: 22px;
       bottom: 150px;
-      z-index: 950;
+      /* Por encima de .nav (1000): en pantallas bajas el panel puede llegar
+         a la altura del nav, y al estar abierto debe ganar los clics. */
+      z-index: 1001;
       width: 340px;
       max-width: calc(100vw - 44px);
       max-height: 68vh;
@@ -4123,7 +4125,11 @@
     }
 
     .bot-chat {
-      max-height: min(640px, 80vh);
+      /* El panel nunca debe crecer más allá del espacio real entre su borde
+         inferior fijo y la parte de arriba de la pantalla: en celulares con
+         la barra de direcciones visible, 80vh/640px podía empujar el header
+         (y el botón de cerrar) fuera de la pantalla por arriba. */
+      max-height: min(640px, 80vh, calc(100vh - 166px));
     }
 
     .bot-chat__head,
@@ -4133,7 +4139,11 @@
     }
 
     .bot-rules {
-      flex: 0 0 auto;
+      /* flex-shrink:1 (no 0): si el contenido no cabe, las reglas se achican
+         antes que empujar el header fuera de la vista — siguen siendo
+         desplazables (overflow-y:auto) aunque queden chicas. */
+      flex: 0 1 auto;
+      min-height: 0;
       max-height: 300px;
       overflow-y: auto;
       contain: layout paint;
@@ -4149,12 +4159,12 @@
 
     @media (max-width: 600px) {
       .bot-chat {
-        max-height: 72vh;
+        max-height: min(72vh, calc(100vh - 136px));
       }
       .bot-rules {
         max-height: 170px;
       }
       .bot-chat__log {
-        min-height: 150px;
+        min-height: 90px;
       }
     }
