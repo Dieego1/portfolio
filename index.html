@@ -1603,11 +1603,13 @@
 
       nodes.forEach(n => {
         const id = n.dataset.id;
-        const label = n.dataset.id === 'barber' ? 'BarberApp'
-          : n.classList.contains('stack-node--project') ? n.textContent.trim() : n.getAttribute('aria-label');
+        const isProject = n.classList.contains('stack-node--project');
+        const label = id === 'barber' ? 'BarberApp'
+          : isProject ? n.textContent.trim() : n.getAttribute('aria-label');
+        const noStack = isProject && !lines.some(l => l.dataset.from === id);
         const enter = () => {
           highlight(id);
-          window.dispatchEvent(new CustomEvent('stackmap:hover', { detail: { label } }));
+          window.dispatchEvent(new CustomEvent('stackmap:hover', { detail: { label, noStack } }));
         };
         n.addEventListener('mouseenter', enter);
         n.addEventListener('focus', enter);
@@ -2308,7 +2310,8 @@
             proyectos: 'Proyectos', 'mapa-stack': 'Mapa de stack', negocio: 'Negocio', educacion: 'Educación',
             certificaciones: 'Certificados', cv: 'CV', contacto: 'Contacto'
           },
-          stackReveal: '¡Mira cómo se conecta todo!'
+          stackReveal: '¡Mira cómo se conecta todo!',
+          stackNoData: 'sin stack documentado'
         },
         en: {
           title: 'Portfolio AI assistant',
@@ -2344,7 +2347,8 @@
             proyectos: 'Projects', 'mapa-stack': 'Stack map', negocio: 'Business', educacion: 'Education',
             certificaciones: 'Certifications', cv: 'CV', contacto: 'Contact'
           },
-          stackReveal: 'Look how it all connects!'
+          stackReveal: 'Look how it all connects!',
+          stackNoData: 'stack not documented'
         }
       };
 
@@ -2844,7 +2848,13 @@
         showBubble(BOT_T[currentLang()].stackReveal, 1800);
       });
       window.addEventListener('stackmap:hover', (e) => {
-        if (e.detail && e.detail.label) showBubble(e.detail.label, 900);
+        if (!e.detail || !e.detail.label) return;
+        if (e.detail.noStack) {
+          const text = `${e.detail.label} — ${BOT_T[currentLang()].stackNoData}`;
+          showBubble(text, 1700);
+        } else {
+          showBubble(e.detail.label, 900);
+        }
       });
     })();
   </script>
