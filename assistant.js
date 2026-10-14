@@ -290,8 +290,8 @@
         en: ['barber', 'barbershop', 'barberapp', 'pwa', 'haircut', 'haircuts']
       },
       answer: {
-        es: 'BarberApp es una PWA (aplicación web progresiva) para gestionar una barbería: citas, cortes, gastos, propinas y reparto de ganancias entre barbero y dueño. Funciona sin servidor ni hosting mensual y se instala en cualquier celular o computadora. Es un proyecto freelance que ya fue vendido. El portafolio no detalla su stack tecnológico.',
-        en: 'BarberApp is a PWA (progressive web app) for managing a barbershop: appointments, haircuts, expenses, tips and profit-splitting between barber and owner. It runs without a server or monthly hosting and can be installed on any phone or computer. It is a freelance project that has already been sold. The portfolio does not detail its tech stack.'
+        es: 'BarberApp es una PWA (aplicación web progresiva) para gestionar una barbería: citas, cortes, gastos, propinas y reparto de ganancias entre barbero y dueño. Funciona sin servidor ni hosting mensual, guardando los datos con LocalStorage, y se instala en cualquier celular o computadora. Stack: JavaScript, HTML5, CSS3. Es un proyecto freelance que ya fue vendido.',
+        en: 'BarberApp is a PWA (progressive web app) for managing a barbershop: appointments, haircuts, expenses, tips and profit-splitting between barber and owner. It runs without a server or monthly hosting, storing data with LocalStorage, and can be installed on any phone or computer. Stack: JavaScript, HTML5, CSS3. It is a freelance project that has already been sold.'
       }
     },
     {
@@ -310,8 +310,8 @@
         en: ['stack', 'what did he use', 'which stack', 'technologies used', 'more technology', 'most technology', 'uses more technology']
       },
       answer: {
-        es: 'Stack de sus proyectos:\n- Sistema de gestión de clientes (Garza Gas): PHP, MySQL, JavaScript, HTML5, CSS3.\n- Plataforma de flotilla vehicular (TESCI): PHP, MySQL, JavaScript, HTML5, CSS3.\n- Sitio con panel administrativo (Nutrición Inteligente): PHP, MySQL, JavaScript, HTML5, CSS3.\n- BarberApp: el portafolio no detalla su stack.',
-        en: 'Stack of his projects:\n- Client management system (Garza Gas): PHP, MySQL, JavaScript, HTML5, CSS3.\n- Vehicle fleet platform (TESCI): PHP, MySQL, JavaScript, HTML5, CSS3.\n- Website with admin panel (Nutrición Inteligente): PHP, MySQL, JavaScript, HTML5, CSS3.\n- BarberApp: the portfolio does not detail its stack.'
+        es: 'Stack de sus proyectos:\n- Sistema de gestión de clientes (Garza Gas): PHP, MySQL, JavaScript, HTML5, CSS3.\n- Plataforma de flotilla vehicular (TESCI): PHP, MySQL, JavaScript, HTML5, CSS3.\n- Sitio con panel administrativo (Nutrición Inteligente): PHP, MySQL, JavaScript, HTML5, CSS3.\n- BarberApp: JavaScript, HTML5, CSS3 (sin servidor, con LocalStorage).',
+        en: 'Stack of his projects:\n- Client management system (Garza Gas): PHP, MySQL, JavaScript, HTML5, CSS3.\n- Vehicle fleet platform (TESCI): PHP, MySQL, JavaScript, HTML5, CSS3.\n- Website with admin panel (Nutrición Inteligente): PHP, MySQL, JavaScript, HTML5, CSS3.\n- BarberApp: JavaScript, HTML5, CSS3 (no server, uses LocalStorage).'
       }
     },
     {
