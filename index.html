@@ -39,6 +39,37 @@
 
 <body>
 
+  <!-- ─── INTRO CINEMATOGRÁFICA ──────────────────────────────── -->
+  <div class="intro" id="js-intro" aria-hidden="true">
+    <div class="intro__bg-grid"></div>
+    <div class="intro__bg-glow"></div>
+
+    <div class="intro__terminal">
+      <div class="intro__term-bar">
+        <span class="intro__term-dot intro__term-dot--red"></span>
+        <span class="intro__term-dot intro__term-dot--yellow"></span>
+        <span class="intro__term-dot intro__term-dot--green"></span>
+        <span class="intro__term-file">diego_soto_garcia.portfolio</span>
+      </div>
+      <div class="intro__term-body">
+        <div class="intro__line intro__line--1">&gt; booting diego_soto_garcia.portfolio</div>
+        <div class="intro__line intro__line--2">&gt; stack: PHP &middot; JS &middot; HTML5 &middot; CSS3</div>
+        <div class="intro__line intro__line--3">&gt; connecting AI assistant...</div>
+        <div class="intro__line intro__line--4">&gt; rendering interface...</div>
+        <div class="intro__done">&gt; done.<span class="intro__cursor">&#9612;</span></div>
+      </div>
+      <div class="intro__progress"><div class="intro__progress-fill"></div></div>
+    </div>
+
+    <div class="intro__hero">
+      <div class="intro__hero-tag">// portfolio.init('DSG') &mdash; 2026</div>
+      <div class="intro__hero-name">DIEGO SOTO<br><span>GARC&Iacute;A</span></div>
+      <div class="intro__hero-role">Full Stack Developer Jr.</div>
+    </div>
+
+    <div class="intro__skip-hint">Click or press any key to skip</div>
+  </div>
+
   <!-- ─── SCROLL PROGRESS ────────────────────────────────────── -->
   <div class="scroll-progress" id="js-scroll-progress" role="progressbar"
        aria-label="Progreso de lectura" data-i18n-aria-label="aria.progress"
@@ -1243,6 +1274,44 @@
     const LOW_END = (navigator.deviceMemory && navigator.deviceMemory <= 4)
       || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
     if (LOW_END) document.documentElement.classList.add('is-low-end');
+
+    /* ─────────────────────────────────────────────────────────
+       INTRO CINEMATOGRÁFICA — una vez por sesión, se puede
+       saltar con clic/tap/cualquier tecla, y se salta sola si
+       el visitante tiene activado "reducir movimiento".
+    ───────────────────────────────────────────────────────── */
+    (function initIntro() {
+      const intro = document.getElementById('js-intro');
+      if (!intro) return;
+
+      let alreadyShown = false;
+      try { alreadyShown = sessionStorage.getItem('intro-shown') === '1'; } catch {}
+      if (alreadyShown) { intro.hidden = true; return; }
+      try { sessionStorage.setItem('intro-shown', '1'); } catch {}
+
+      const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced) { intro.hidden = true; return; }
+
+      document.body.classList.add('intro-active');
+      /* setTimeout(…, 0): deja que termine de correr el resto del script
+         (incluyendo el bot, que es quien escucha este evento) antes de
+         dispararlo. */
+      setTimeout(() => window.dispatchEvent(new CustomEvent('intro:showing')), 0);
+
+      let closed = false;
+      function close() {
+        if (closed) return;
+        closed = true;
+        intro.classList.add('is-closing');
+        document.body.classList.remove('intro-active');
+        window.removeEventListener('keydown', close);
+        setTimeout(() => { intro.hidden = true; }, 320);
+      }
+
+      intro.addEventListener('click', close, { once: true });
+      window.addEventListener('keydown', close, { once: true });
+      setTimeout(close, 3300);
+    })();
 
     /* ─────────────────────────────────────────────────────────
        CURSOR PERSONALIZADO
@@ -2848,6 +2917,10 @@
       window.addEventListener('pointermove', earlyPreload, { once: true, passive: true });
       window.addEventListener('scroll', earlyPreload, { once: true, passive: true });
       window.addEventListener('touchstart', earlyPreload, { once: true, passive: true });
+      /* La intro (si se está mostrando) también cuenta como señal de que
+         alguien está aquí: que arranque la IA desde ya, sin esperar el
+         timer de respaldo. */
+      window.addEventListener('intro:showing', earlyPreload, { once: true });
 
       /* Reacciones del robot al mapa de stack (sección #mapa-stack). Se conecta
          por eventos para no acoplar esa sección con el estado interno del bot. */
