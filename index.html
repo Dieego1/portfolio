@@ -1276,18 +1276,14 @@
     if (LOW_END) document.documentElement.classList.add('is-low-end');
 
     /* ─────────────────────────────────────────────────────────
-       INTRO CINEMATOGRÁFICA — una vez por sesión, se puede
-       saltar con clic/tap/cualquier tecla, y se salta sola si
-       el visitante tiene activado "reducir movimiento".
+       INTRO CINEMATOGRÁFICA — se reproduce en cada carga de la
+       página (siempre, sin guardar nada), se puede saltar con
+       clic/tap/cualquier tecla, y se salta sola si el visitante
+       tiene activado "reducir movimiento".
     ───────────────────────────────────────────────────────── */
     (function initIntro() {
       const intro = document.getElementById('js-intro');
       if (!intro) return;
-
-      let alreadyShown = false;
-      try { alreadyShown = sessionStorage.getItem('intro-shown') === '1'; } catch {}
-      if (alreadyShown) { intro.hidden = true; return; }
-      try { sessionStorage.setItem('intro-shown', '1'); } catch {}
 
       const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reduced) { intro.hidden = true; return; }
