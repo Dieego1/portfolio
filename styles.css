@@ -1808,21 +1808,26 @@
       stroke-width: 1.5;
       stroke-linecap: round;
       opacity: 0;
-      transition: opacity 0.6s 0.2s ease, stroke-width 0.25s ease, stroke 0.25s ease;
+      /* Mismo tiempo para la entrada y para resaltar/atenuar al interactuar:
+         un delay aparte aquí haría lento el hover/click, no solo la entrada. */
+      transition: opacity 0.35s ease, stroke-width 0.25s ease, stroke 0.25s ease;
     }
 
     .js-stackmap.is-revealed .stack-line {
       opacity: 1;
     }
 
-    .stack-line.is-active {
+    /* Mismo nivel de especificidad que ".js-stackmap.is-revealed .stack-line"
+       de arriba (3 clases): sin esto, esa regla de la entrada ganaba siempre
+       y el atenuado/resaltado al interactuar nunca se veía. */
+    .js-stackmap .stack-line.is-active {
       stroke: var(--accent);
       stroke-width: 2.5;
       opacity: 1;
       filter: drop-shadow(0 0 4px var(--accent));
     }
 
-    .stack-line.is-dim {
+    .js-stackmap .stack-line.is-dim {
       opacity: 0.08;
     }
 
