@@ -4295,10 +4295,10 @@
       to   { clip-path: inset(0 0 0 0); }
     }
 
-    .intro__line--1 { animation: intro-reveal 1.8s steps(37, end) 0.4s forwards; }
-    .intro__line--2 { animation: intro-reveal 1.6s steps(32, end) 2.3s forwards; }
-    .intro__line--3 { animation: intro-reveal 1.4s steps(28, end) 4.0s forwards; }
-    .intro__line--4 { animation: intro-reveal 1.2s steps(24, end) 5.5s forwards; }
+    .intro__line--1 { animation: intro-reveal 1.8s linear 0.4s forwards; }
+    .intro__line--2 { animation: intro-reveal 1.6s linear 2.3s forwards; }
+    .intro__line--3 { animation: intro-reveal 1.4s linear 4.0s forwards; }
+    .intro__line--4 { animation: intro-reveal 1.2s linear 5.5s forwards; }
 
     .intro__done {
       opacity: 0;
